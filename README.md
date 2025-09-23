@@ -1,27 +1,30 @@
-# Architectures de projet
+# Site Web N0Realis
 
-3 projets sont développés séparément sous ce même dépôt, ces derniers étant complémentaires et disponibles sous BlogVacare.com
-- Blog Vacare : Page de blogs multi-utilisateurs, divisée en un projet back-end et un projet front-end
-- Wiki : À venir
-- CR : À venir
+Résonance après résonance, le secret de Vince sera dévoilé.
+Pourquoi il a aimé, pourquoi il a haï.
+Pourquoi il a créé, pourquoi il a détruit.
 
-## Blog Vacare
+Le dernier pardon, le renoncement originel.
 
-__**Back-end**__ (API REST, servant à la logique de l'application)
-- **app** : Routing de l'API
-- **middlewares** : Traitements complémentaires de l'application (authentification, erreurs, ...)
-- **utils** : Helpers réutilisables
-- **services** : Interactions avec les données du projet
-- **content** : données statiques (fichiers JSON demandés, ...)
+## Spécifications
 
-__**Front-end**__ (Visuels du site récupérant les données de l'API) 
-- **app** : Pages et routes Next.js (assemblage UI à partir des components)
-- **components** : Composants UI purement visuels récupérant éventuellement des données
-- **hooks** : permet d'appeler des données à récupérer depuis des services et de les mettre en forme ou de les réarranger pour une utilisation en components
-- **services** : Interactions avec un back permettant de récupérer les données demandées par le front (appels API, appels du back-end,...)
+- Next.js 15.5.3
+- React 19.1.0
+- TypeScript 5.x
+- Tailwind CSS 4.x
 
-__**Shared**__ 
-- **model** : Objets utilisés aussi bien par le front que le back
+## Description du Projet
 
-**public/assets** : Images, sons, vidéos, ... contenu statique du site
-**src/styles** : CSS, XCSS, ...
+Ce projet Next.js en comprend 3 différents regroupés sous le même nom de domaine (https://BlogVacare.com) : 
+* [Blog Vacare](./Documentation/BlogVacare/Architecture.md) : Page de blogs multi-utilisateurs, divisée en un [projet back-end](./src/BlogVacare/backend/) et un [projet front-end](./src/BlogVacare/frontend/)
+* Wiki : À venir
+* CR : À venir
+
+
+
+# Index de documentation
+
+- [Guide d'installation et de commandes de lancement](./Documentation/GuideInstallation.md)
+
+Documentation des projets :
+- [Architecture Blog Vacare](./Documentation/BlogVacare/Architecture.md)

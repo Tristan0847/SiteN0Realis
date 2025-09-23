@@ -21,6 +21,18 @@
     "build:Blog": "npm run build --workspace src/BlogVacare/backend && npm run build --workspace src/BlogVacare/frontend",
     "export:Blog": "npm run export --workspace src/BlogVacare/backend && npm run export --workspace src/BlogVacare/frontend",
 
+    "build:BlogVacare" : "npm run build --workspace src/BlogVacare/backend && npm run build --workspace src/BlogVacare/frontend",
+    "start:BlogVacare" : "npm run start --workspace src/BlogVacare/frontend & npm run start --workspace src/BlogVacare/backend",
+    "buildAndStart:BlogVacare" : "npm run build --workspace src/BlogVacare/backend && npm run build --workspace src/BlogVacare/frontend && npm run start --workspace src/BlogVacare/frontend & npm run start --workspace src/BlogVacare/backend",
+
+    "build:Wiki": "npm run build --workspace src/Wiki",
+    "start:Wiki": "npm run start --workspace src/Wiki",
+    "buildAndStart:Wiki": "npm run build --workspace src/Wiki && npm run start --workspace src/Wiki",
+
+    "build:CR": "npm run build --workspace src/CR",
+    "start:CR": "npm run start --workspace src/CR",
+    "buildAndStart:CR": "npm run build --workspace src/CR && npm run start --workspace src/CR",
+
     "start:all": "npm run start --workspace src/BlogVacare/frontend & npm run start --workspace src/BlogVacare/backend & npm run start --workspace src/CR & npm run start --workspace src/Wiki",
     "dev:all": "npm run dev --workspace src/BlogVacare/backend & npm run dev --workspace src/BlogVacare/frontend & npm run dev --workspace src/CR & npm run dev --workspace src/Wiki",
     "build:all": "npm run build --workspace src/BlogVacare/backend && npm run build --workspace src/BlogVacare/frontend && npm run build --workspace src/CR && npm run build --workspace src/Wiki",
