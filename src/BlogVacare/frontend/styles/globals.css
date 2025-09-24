@@ -1,3 +1,11 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+
+@theme {
+  --color-primary-light: #45bd71;
+  --color-primary: #4ade80;
+  --color-primary-dark: #166534;
+  --color-neutral-light: #f3f4f6;
+  --color-neutral: #6b7280;
+  --color-neutral-dark: #374151;
+}

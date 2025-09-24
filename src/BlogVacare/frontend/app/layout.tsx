@@ -1,4 +1,20 @@
+import { Footer } from '@BlogsFront/components/Footer';
+import { Header } from '@BlogsFront/components/Header';
 import '@BlogsFront/styles/globals.css';
+import { Metadata } from 'next';
+
+/**
+ * Composant pour gérer les balises meta du site
+ * @returns Objet Metadata contenant les balises meta
+ */
+export function generateMetadata(): Metadata {
+  return {
+    description: 'Blog de Vacare',
+    keywords: 'Blog, Vacare, Tristan D., N0Realis, TristanRC',
+    authors: [{ name: 'Tristan D. - 2025, Dr Owl - 2003' }],
+    icons: '/assets/BlogVacare/0.ico',
+  };
+}
 
 /**
  * Layout racine : commun à tout le site
@@ -7,23 +23,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     return (
         <html lang="fr">
 
-        <head>
-            <title>Blog Vacare</title>
-            <meta name="author" content="Tristan D. - 2025, Dr Owl - 2003" />
-        </head>
-
         <body className="bg-neutral-light text-neutral-dark font-sans">
-            <header className="bg-primary p-4 text-white shadow-md">
-            <h1 className="text-2xl font-bold">Blog Vacare</h1>
-            </header>
+            <Header/>
 
             <main className="min-h-[70vh] p-6">
                 {children}
             </main>
 
-            <footer className="bg-neutral p-4 text-center text-sm text-neutral-light">
-                © 2025 N0Realis - Tous droits réservés
-            </footer>
+            <Footer/>
         </body>
 
         </html>

@@ -1,10 +1,17 @@
 import PageBlogsClient from '@BlogsFront/app/blogs/[idDossier]/pageClient';
+import { Metadata } from 'next';
 
 /**
  * Props pour la page des blogs
  */
 interface PageProps {
   params: { idDossier: string };
+}
+
+export function generateMetadata({ params } : PageProps): Metadata {
+  return {
+    title: `${params.idDossier} - Blog de Vacare`,
+  };
 }
 
 /**

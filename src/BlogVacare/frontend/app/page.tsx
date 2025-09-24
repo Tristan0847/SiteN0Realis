@@ -1,23 +1,18 @@
-'use client';
+import { Metadata } from 'next';
+import PageDossiersClient from './pageClient';
 
-import { DossierList } from '@BlogsFront/components/dossier/DossierList';
-import { useDossiers } from '@BlogsFront/hooks/useDossiers';
+export function generateMetadata(): Metadata {
+  return {
+    title: 'Accueil - Blog de Vacare',
+  };
+}
 
 /**
- * Page d'accueil affichant la liste des dossiers
+ * Page d'accueil du site
  * @returns {JSX.Element} Composant React pour la page d'accueil
  */
-export default function Accueil() {
-
-    const {dossiers, loading, error} = useDossiers();
-
-    if (loading) return <p>Chargement des dossiers...</p>;
-    if (error) return <p>Erreur : {error.message}</p>;
-
-    return (
-        <main>
-            <h1>Liste des dossiers</h1>
-            <DossierList dossiers={dossiers} />
-        </main>
+export default function Page() {
+    return(
+        <PageDossiersClient />
     );
 }
