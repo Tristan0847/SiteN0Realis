@@ -17,7 +17,7 @@ type DossierListProps = {
  */
 export function DossierList({ dossiers }: DossierListProps) {
     return (
-        <ul className="dossier-list">
+        <ul className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
         {dossiers.map(d => (
             <li key={d.getId()}>
                 <DossierItem dossier={d}/>

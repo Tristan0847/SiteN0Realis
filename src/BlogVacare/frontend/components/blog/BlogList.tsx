@@ -17,7 +17,7 @@ type BlogListProps = {
  */
 export function BlogList({ blogs }: BlogListProps) {
     return (
-        <div className="dossier-list">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4">
             {blogs.map(b => (
                 <BlogItem key={b.getId()} blog={b} />
             ))}

@@ -21,15 +21,17 @@ export function MessageItem({ message }: MessageItemProps) {
     const dateString = message.getDate().toLocaleString('fr-FR');
 
     return (
-        <div className="message">
-            <div className="message-avatar">
-                <img src={avatarSrc} alt={`Avatar de ${message.getUtilisateur()}`} />
-            </div>
-            <div className="message-body">
-                <div className="message-user">{message.getUtilisateur()}</div>
-                <div className="message-content">{message.getContenu()}</div>
-                <div className="message-date">Posté le {dateString}</div>
-            </div>
+        <div className="flex gap-4 p-4 rounded-lg bg-neutral-light shadow-sm">
+        <img
+            className="w-12 h-12 rounded-full object-cover"
+            src={avatarSrc}
+            alt={`Avatar de ${message.getUtilisateur()}`}
+        />
+        <div className="flex flex-col">
+            <span className="font-semibold text-primary-dark">{message.getUtilisateur()}</span>
+            <p className="bg-neutral-light p-2 rounded-md text-neutral-dark max-w-md">{message.getContenu()}</p>
+            <span className="text-xs text-neutral dark:text-neutral-dark mt-1">Posté le {dateString}</span>
+        </div>
         </div>
     );
 }

@@ -17,13 +17,14 @@ type DossierItemProps = {
  */
 export function DossierItem({ dossier }: DossierItemProps) {
     return (
-        <div className="dossier">
-            <div className="dossier-title">
-                <Link href={`/blogs/${dossier.getId()}`}>
-                {dossier.getTitre()}
-                </Link>
-            </div>
-            <div className="dossier-desc">{dossier.getDescription()}</div>
+    <div className="p-4 border border-neutral-light rounded-md shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white max-w-md">
+        <div className="text-xl font-bold text-primary-dark mb-1">
+            <Link href={`/blogs/${dossier.getId()}`} className="hover:underline">
+            {dossier.getTitre()}
+            </Link>
         </div>
-    );
+        
+        <div className="text-neutral-dark">{dossier.getDescription()}</div>
+    </div>
+  );
 }

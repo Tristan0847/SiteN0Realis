@@ -17,11 +17,13 @@ type BlogItemProps = {
  */
 export function BlogItem({ blog }: BlogItemProps) {
     const dateString = blog.getDateCreation().toLocaleDateString('fr-FR');
-    return(
-        <div className="dossier">
-            <div className="dossier-title">
-                <Link href={`/messages/${blog.getDossier().getId()}/${blog.getId()}`}>{blog.getNom()}</Link>
-                <span className="dossier-date"> - Créé le {dateString}</span>
+    return (
+        <div className="p-4 border border-neutral-light rounded-md shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white max-w-md">
+            <div className="flex items-baseline gap-2">
+                <Link href={`/messages/${blog.getDossier().getId()}/${blog.getId()}`} className="text-lg font-semibold text-primary-dark hover:underline">
+                {blog.getNom()}
+                </Link>
+                <span className="text-sm text-neutral-dark">- Créé le {dateString}</span>
             </div>
         </div>
     );
