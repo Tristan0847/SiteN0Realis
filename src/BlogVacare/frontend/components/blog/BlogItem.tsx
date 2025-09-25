@@ -19,12 +19,21 @@ export function BlogItem({ blog }: BlogItemProps) {
     const dateString = blog.getDateCreation().toLocaleDateString('fr-FR');
     return (
         <div className="p-4 border border-neutral-light rounded-md shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white max-w-md">
-            <div className="flex items-baseline gap-2">
-                <Link href={`/messages/${blog.getDossier().getId()}/${blog.getId()}`} className="text-lg font-semibold text-primary-dark hover:underline">
-                {blog.getNom()}
-                </Link>
-                <span className="text-sm text-neutral-dark">- Créé le {dateString}</span>
-            </div>
+        <div className="flex flex-col gap-1">
+            <Link 
+            href={`/messages/${blog.getDossier().getId()}/${blog.getId()}`}
+            className="text-lg font-semibold text-primary-dark hover:underline border-b-2 border-primary-dark/50 pb-1"
+            aria-label={`Voir le blog ${blog.getNom()}`}
+            >
+            {blog.getNom()}
+            </Link>
+
+            <span className="text-sm text-neutral-dark italic">Créé le {dateString} par <strong>Robert C.</strong></span>
+
+            <p className="text-neutral-700 mt-2 line-clamp-4">
+             Blablablablabalalalabalabalbalablablaaablabalabalabalabal
+            </p>
+        </div>
         </div>
     );
 }

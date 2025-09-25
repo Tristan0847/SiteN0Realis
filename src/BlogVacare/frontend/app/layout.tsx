@@ -20,19 +20,19 @@ export function generateMetadata(): Metadata {
  * Layout racine : commun à tout le site
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-    return (
-        <html lang="fr">
+  return (
+      <html lang="fr">
+        
+      <body className="bg-neutral-light text-neutral-dark font-sans flex flex-col min-h-screen">
+          <Header/>
 
-        <body className="bg-neutral-light text-neutral-dark font-sans">
-            <Header/>
+          <main className="min-h-[70vh] p-6 mx-auto w-full max-w-4xl flex-grow">
+              {children}
+          </main>
 
-            <main className="min-h-[70vh] p-6">
-                {children}
-            </main>
+          <Footer/>
+      </body>
 
-            <Footer/>
-        </body>
-
-        </html>
-    );
+      </html>
+  );
 }

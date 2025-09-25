@@ -8,10 +8,10 @@ import Link from "next/link";
  */
 export function Header() {
     return (
-            <header className="bg-primary p-4 text-white shadow-md">
-                <h1 className="text-2xl font-bold">Blog Vacare</h1>
+            <header className="bg-gradient-to-b from-primary to-green-700 shadow-lg rounded-b-xl p-4 text-white text-center">
+                <h1 className="text-3xl font-bold">Blog De Vacare</h1>
                 <nav>
-                    <ul className="flex space-x-4 mt-2">
+                    <ul className="flex items-center justify-center space-x-4 mt-2 text-2xl">
                         <li><Link href="/" className="hover:underline">Accueil</Link></li>
                     </ul>
                 </nav>

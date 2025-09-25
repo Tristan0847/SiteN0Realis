@@ -17,8 +17,8 @@ type DossierItemProps = {
  */
 export function DossierItem({ dossier }: DossierItemProps) {
     return (
-    <div className="p-4 border border-neutral-light rounded-md shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white max-w-md">
-        <div className="text-xl font-bold text-primary-dark mb-1">
+    <div className="text-left p-4 w-full hover:bg-gray-600/10 rounded-lg transition-colors duration-300">
+        <div className="text-xl font-bold text-primary-dark mb-2 border-b-2 border-stone-500/50 pb-2">
             <Link href={`/blogs/${dossier.getId()}`} className="hover:underline">
             {dossier.getTitre()}
             </Link>

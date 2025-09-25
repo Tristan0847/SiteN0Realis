@@ -21,17 +21,20 @@ export function MessageItem({ message }: MessageItemProps) {
     const dateString = message.getDate().toLocaleString('fr-FR');
 
     return (
-        <div className="flex gap-4 p-4 rounded-lg bg-neutral-light shadow-sm">
-        <img
-            className="w-12 h-12 rounded-full object-cover"
-            src={avatarSrc}
-            alt={`Avatar de ${message.getUtilisateur()}`}
-        />
-        <div className="flex flex-col">
-            <span className="font-semibold text-primary-dark">{message.getUtilisateur()}</span>
-            <p className="bg-neutral-light p-2 rounded-md text-neutral-dark max-w-md">{message.getContenu()}</p>
-            <span className="text-xs text-neutral dark:text-neutral-dark mt-1">Posté le {dateString}</span>
-        </div>
+        <div className="flex gap-4 rounded-lg bg-white shadow-sm">
+            <div className="flex-none w-2/12 bg-gradient-to-r from-gray-300/50 to-white flex justify-center p-1">
+                <img
+                    className="w-24 h-24 rounded-full object-cover p-4"
+                    src={avatarSrc}
+                    alt={`Avatar de ${message.getUtilisateur()}`}
+                />
+            </div>
+
+            <div className="flex-1 flex flex-col pr-2 p-4">
+                <span className="font-semibold text-primary-dark col border-b-2 border-gray-400/15">{message.getUtilisateur()}</span>
+                <p className="bg-white p-2 rounded-md text-neutral-dark pr-5 whitespace-pre-line">{message.getContenu()}</p>
+                <span className="text-xs text-neutral dark:text-neutral-dark mt-1 pl-2">Posté le {dateString}</span>
+            </div>
         </div>
     );
 }
