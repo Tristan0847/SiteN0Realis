@@ -2,6 +2,7 @@
 
 import { useBlogs } from '@BlogsFront/hooks/useBlogs';
 import { BlogList } from '@BlogsFront/components/blog/BlogList';
+import MessageBox from '@BlogsFront/components/MessageBox';
 
 /**
  * Props pour le composant PageBlogsClient
@@ -18,8 +19,8 @@ interface PageBlogsClientProps {
 export default function PageBlogsClient({ idDossier }: PageBlogsClientProps) {
   const { blogs, loading, error } = useBlogs(idDossier);
 
-  if (loading) return <p>Chargement des blogs...</p>;
-  if (error) return <p>Erreur : {error.message}</p>;
+  if (loading) return <MessageBox message="Chargement des blogs..." type="loading" />;
+  if (error) return <MessageBox message={`Erreur : ${error.message}`} type="error" />;
 
   return <BlogList blogs={blogs} />;
 }

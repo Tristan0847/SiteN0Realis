@@ -1,6 +1,7 @@
 "use client";
 
 import { DossierList } from "@BlogsFront/components/dossier/DossierList";
+import MessageBox from "@BlogsFront/components/MessageBox";
 import { useDossiers } from "@BlogsFront/hooks/useDossiers";
 
 /**
@@ -10,8 +11,8 @@ import { useDossiers } from "@BlogsFront/hooks/useDossiers";
 export default function PageDossiersClient() {
     const { dossiers, loading, error } = useDossiers();
 
-    if (loading) return <p>Chargement des dossiers...</p>;
-    if (error) return <p>Erreur : {error.message}</p>;
+    if (loading) return <MessageBox message="Chargement des dossiers..." type="loading" />;
+    if (error) return <MessageBox message={`Erreur : ${error.message}`} type="error" />;
 
     return (
         <DossierList dossiers={dossiers} />

@@ -19,7 +19,7 @@ export function DossierList({ dossiers }: DossierListProps) {
     return (
         // Affichage ligne par ligne des dossiers
         <section>
-            <div className="mb-4 rounded-lg shadow-md text-center border-4 border-stone-700">
+            <div className="mb-4 rounded-lg shadow-md text-center border-4 border-stone-700 bg-white">
                 <div className="border-b-2 border-stone-700 bg-gradient-to-b from-gray-300/50 to-white">
                     <div className="p-4">
                         <h2 className="text-2xl font-bold mb-2">Bienvenue sur le Blog de Vacare</h2>
