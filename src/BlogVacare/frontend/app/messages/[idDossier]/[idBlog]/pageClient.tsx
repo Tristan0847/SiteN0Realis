@@ -22,8 +22,6 @@ export default function PageMessagesClient({idDossier, idBlog}: PageBlogsClientP
     if (error) return <p>Erreur : {error.message}</p>;
 
     return (
-        <main>
-            <MessageList messages={messages} />
-        </main>
+        <MessageList messages={messages} />
     );
 }

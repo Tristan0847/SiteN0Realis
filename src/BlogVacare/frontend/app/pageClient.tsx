@@ -14,9 +14,6 @@ export default function PageDossiersClient() {
     if (error) return <p>Erreur : {error.message}</p>;
 
     return (
-        <main>
-            <h1>Liste des dossiers</h1>
-            <DossierList dossiers={dossiers} />
-        </main>
+        <DossierList dossiers={dossiers} />
     );
 }

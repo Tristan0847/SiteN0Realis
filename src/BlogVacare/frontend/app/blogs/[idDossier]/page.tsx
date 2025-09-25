@@ -8,9 +8,12 @@ interface PageProps {
   params: { idDossier: string };
 }
 
-export function generateMetadata({ params } : PageProps): Metadata {
+export async function generateMetadata({ params } : PageProps): Promise<Metadata> {
+
+  const parametres = await params;
+
   return {
-    title: `${params.idDossier} - Blog de Vacare`,
+    title: `${parametres.idDossier} - Blog de Vacare`,
   };
 }
 
@@ -19,8 +22,10 @@ export function generateMetadata({ params } : PageProps): Metadata {
  * @param params Paramètres de la route, incluant l'ID du dossier
  * @returns {JSX.Element} Composant React pour la page des blogs d'un dossier
  */
-export default function Page({ params }: PageProps) {
-  const { idDossier } = params;
+export default async function Page({ params }: PageProps) {
+  
+  const { idDossier } = await params;
+
   // La page transmet l'idDossier au composant client (vue)
   return <PageBlogsClient idDossier={idDossier} />;
 }
