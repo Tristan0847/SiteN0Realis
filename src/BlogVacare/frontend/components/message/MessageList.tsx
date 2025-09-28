@@ -17,7 +17,7 @@ type MessageListProps = {
  */
 export function MessageList({ messages }: MessageListProps) {
     return (
-        <div className="flex flex-col gap-3 p-4 mx-auto">
+        <div className="flex flex-col gap-3 p-4 mx-auto max-w-4xl">
             {messages.map((m) => (
                 <MessageItem key={m.getDate().toISOString() + m.getUtilisateur()} message={m} />
             ))}

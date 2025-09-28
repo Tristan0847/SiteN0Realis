@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <FondResonanceClient/>
 
-          <main className="min-h-[70vh] p-6 mx-auto w-full max-w-4xl flex-grow">
+          <main className="min-h-[70vh] p-6 mx-auto w-full max-w-8xl flex-grow">
               {children}
           </main>
 

@@ -16,32 +16,29 @@ type DossierListProps = {
  * @returns Composant React contenant la liste de Dossiers
  */
 export function DossierList({ dossiers }: DossierListProps) {
-    return (
-        // Affichage ligne par ligne des dossiers
-        <section>
-            <div className="mb-4 rounded-lg shadow-md text-center border-4 border-stone-700 bg-white">
-                <div className="border-b-2 border-stone-700 bg-gradient-to-b from-gray-300/50 to-white">
-                    <div className="p-4">
-                        <h2 className="text-2xl font-bold mb-2">Bienvenue sur le Blog de Vacare</h2>
-                        <p className="text-black pb-2">
-                            Anciennement blog de Vince et de son meilleur ami, ce forum est aujourd'hui celui de Vacare et, par conséquent, de <strong>N0Realis</strong>.<br/>
-                            Espace réservé aux employés autorisés, ne contactez Vacare qu'en cas de nécessité absolue.<br/>
-                            <strong>Nos rêves deviendront réalité.</strong>
-                        </p>
-                    </div>
-                </div>
+  return (
+    <section className="mx-auto px-4">
+      <div className="text-center mb-10">
+        <h1 className="text-6xl font-extrabold text-primary-dark drop-shadow-md leading-tight">
+          Bienvenue sur le Blog de Vacare
+        </h1>
+        <p className="mt-4 max-w-xl mx-auto text-lg text-neutral-700 leading-relaxed px-2">
+          Anciennement blog de Vince et de son meilleur ami, ce forum est aujourd'hui celui de Vacare et, par conséquent, de <strong>N0Realis</strong>.<br/>
+          Espace réservé aux employés autorisés, ne contactez Vacare qu'en cas de nécessité absolue.<br/>
+          <strong>Nos rêves deviendront réalité.</strong>
+        </p>
+      </div>
 
-                <div className="border-b-2 pt-2 pb-1"/>
-
-                <ul className="space-y-4 divide-y-2 divide-stone-800 pl-4 pr-4">
-                {dossiers.map(d => (
-                    <li key={d.getId()} className="last:divide-y-0">
-                        <DossierItem dossier={d}/>
-                    </li>
-                ))}
-                </ul>
-            </div>
-        </section>
-
-    );
+      <div className="bg-white/70 backdrop-blur-md rounded-xl shadow-lg p-6 max-w-4xl mx-auto">
+        <ul className="divide-y divide-stone-200">
+          {dossiers.map(d => (
+            <li key={d.getId()} className="py-5 hover:bg-stone-50 transition px-4 rounded-md">
+              <DossierItem dossier={d} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
 }
+
