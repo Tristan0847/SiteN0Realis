@@ -1,23 +1,13 @@
+import { Utilisateur } from "./Utilisateur";
+
 /**
  * Classe représentant un message dans le blog.
  */
 export class Message {
 
-    private contenu: string;
-    private date: Date;
-    private utilisateur: string;
-
-    /**
-     * Constructeur de la classe Message.
-     * @param contenu Contenu du message.
-     * @param date Date du message.
-     * @param utilisateur Utilisateur ayant posté le message.
-     */
-    constructor(contenu?: string, date?: string | Date, utilisateur?: string) {
-        this.contenu = contenu || '';
-        this.date = date ? (typeof date === 'string' ? new Date(date) : date) : new Date();
-        this.utilisateur = utilisateur || '';
-    }
+    private contenu: string = "";
+    private date: Date = new Date();
+    private utilisateur: Utilisateur = new Utilisateur();
 
     /**
      * Getter du contenu du message.
@@ -55,7 +45,7 @@ export class Message {
      * Getter de l'utilisateur ayant posté le message
      * @returns 
      */
-    getUtilisateur(): string {
+    getUtilisateur(): Utilisateur {
         return this.utilisateur;
     }
 
@@ -63,7 +53,7 @@ export class Message {
      * Setter de l'utilisateur ayant posté le message
      * @param utilisateur 
      */
-    setUtilisateur(utilisateur: string): void {
+    setUtilisateur(utilisateur: Utilisateur): void {
         this.utilisateur = utilisateur;
     }
 }

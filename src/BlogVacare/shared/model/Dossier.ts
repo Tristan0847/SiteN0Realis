@@ -1,23 +1,14 @@
+import { Utilisateur } from "./Utilisateur";
+
 /**
  * Classe représentant un dossier de blogs
  */
 export class Dossier {
 
-    private id: string;
-    private titre: string;
-    private description: string;
-
-    /**
-     * Constructeur de la classe
-     * @param id Identifiant du dossier
-     * @param titre Titre du dossier
-     * @param description Description du dossier
-     */
-    constructor(id?: string, titre?: string, description?: string) {
-        this.id = id || '';
-        this.titre = titre || '';
-        this.description = description || '';
-    }
+    private id: string = "";
+    private titre: string = "";
+    private description: string = "";
+    private utilisateur: Utilisateur = new Utilisateur();
 
     /**
      * Getter de l'identifiant
@@ -65,5 +56,21 @@ export class Dossier {
      */
     setDescription(description: string): void {
         this.description = description;
+    }
+    
+    /**
+     * Getter de l'utilisateur ayant posté le message
+     * @returns 
+     */
+    getUtilisateur(): Utilisateur {
+        return this.utilisateur;
+    }
+
+    /**
+     * Setter de l'utilisateur ayant posté le message
+     * @param utilisateur 
+     */
+    setUtilisateur(utilisateur: Utilisateur): void {
+        this.utilisateur = utilisateur;
     }
 }

@@ -1,32 +1,17 @@
 import { Message } from '@BlogsShared/model/Message';
-import { Dossier } from '@BlogsShared/model/Dossier';
+import { Utilisateur } from '@BlogsShared/model/Utilisateur';
 
 /**
  * Classe représentant un blog du site
  */
 export class Blog {
         
-    private id: string;
-    private nom: string;
-    private dateCreation: Date;
-    private messages: Message[];
-    private dossier: Dossier;
-
-    /**
-     * Constructeur de la classe
-     * @param id Identifiant du blog
-     * @param nom Nom du blog
-     * @param dateCreation Date de création du blog
-     * @param messages Messages du blog
-     * @param dossier Dossier contenant le blog
-     */
-    constructor (id?: string, nom?: string, dateCreation?: string | Date, messages?: Message[], dossier?: Dossier) {
-        this.id = id || '';
-        this.nom = nom || '';
-        this.dateCreation = dateCreation ? (typeof dateCreation === 'string' ? new Date(dateCreation) : dateCreation) : new Date();
-        this.messages = messages || [];
-        this.dossier = dossier || new Dossier();
-    }
+    private id: string = "";
+    private nom: string = "";
+    private dateCreation: Date = new Date();
+    private messages: Message[] = [];
+    private utilisateur: Utilisateur = new Utilisateur();
+    private idDossier: string = "";
 
     /**
      * Getter de l'identifiant du blog
@@ -93,18 +78,35 @@ export class Blog {
     }
 
     /**
-     * Getter du dossier contenant le blog
+     * Getter de l'utilisateur créateur du blog
      * @returns 
      */
-    getDossier(): Dossier {
-        return this.dossier;
+    getUtilisateur(): Utilisateur {
+        return this.utilisateur;
     }
 
     /**
-     * Getter du dossier contenant le blog
-     * @param dossier 
+     * Setter de l'utilisateur créateur du blog
+     * @param utilisateur 
      */
-    setDossier(dossier: Dossier): void {
-        this.dossier = dossier;
+    setUtilisateur(utilisateur : Utilisateur) : void {
+        this.utilisateur = utilisateur;
     }
+
+    /**
+     * Getter de l'identifiant du dossier contenant le blog actuel
+     * @returns 
+     */
+    getIdDossier(): string {
+        return this.idDossier;
+    }
+
+    /**
+     * Setter de l'identifiant du dossier contenant le blog actuel
+     * @param idDossier 
+     */
+    setIdDossier(idDossier: string): void {
+        this.idDossier = idDossier;
+    }
+
 }

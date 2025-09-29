@@ -34,6 +34,8 @@
     "export:all": "npm run export --workspace src/BlogVacare/backend && npm run export --workspace src/BlogVacare/frontend && npm run export --workspace src/CR && npm run export --workspace src/Wiki"
   },
   "dependencies": {
+    "dotenv": "^17.2.2",
+    "mysql2": "^3.15.1",
     "next": "15.5.3",
     "react": "19.1.0",
     "react-dom": "19.1.0"

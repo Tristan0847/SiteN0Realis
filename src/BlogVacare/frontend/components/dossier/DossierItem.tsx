@@ -28,6 +28,9 @@ export function DossierItem({ dossier }: DossierItemProps) {
       <div className="text-neutral-dark text-base leading-relaxed">
         {dossier.getDescription()}
       </div>
+      <div className="text-neutral-dark text-base leading-relaxed">
+        Créé par {dossier.getUtilisateur().getUsername()}
+      </div>
     </div>
   );
 }

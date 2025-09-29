@@ -21,17 +21,17 @@ export function BlogItem({ blog }: BlogItemProps) {
         <div className="p-4 border border-neutral-light rounded-md shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white max-w-md">
         <div className="flex flex-col gap-1">
             <Link 
-            href={`/messages/${blog.getDossier().getId()}/${blog.getId()}`}
+            href={`/messages/${blog.getIdDossier()}/${blog.getId()}`}
             className="text-lg font-semibold text-primary-dark hover:underline border-b-2 border-primary-dark/50 pb-1"
             aria-label={`Voir le blog ${blog.getNom()}`}
             >
             {blog.getNom()}
             </Link>
 
-            <span className="text-sm text-neutral-dark italic">Créé le {dateString} par <strong>Robert C.</strong></span>
+            <span className="text-sm text-neutral-dark italic">Créé le {dateString} par <strong>{blog.getUtilisateur().getUsername()}</strong></span>
 
             <p className="text-neutral-700 mt-2 line-clamp-4">
-             Blablablablabalalalabalabalbalablablaaablabalabalabalabal
+                {blog.getMessages()[0].getContenu()}
             </p>
         </div>
         </div>

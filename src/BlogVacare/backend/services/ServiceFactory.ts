@@ -1,5 +1,6 @@
 import path from 'path';
 import { BlogServiceJson } from '@BlogsBack/services/Implementation/BlogServiceJson';
+import { BlogServiceMySQL } from './Implementation/BlogServiceMySQL';
 
 /**
  * Création de symboles pour les interfaces (clé unique)
@@ -36,8 +37,11 @@ export class ServiceFactory {
     private static createInstance(interfaceKey: symbol): any {
         switch (interfaceKey) {
             case INTERFACES.I_BlogService:
-                const contentPath = path.join(process.cwd(), 'content');
-                return new BlogServiceJson(contentPath);
+                
+                // const contentPath = path.join(process.cwd(), 'content');
+                // return new BlogServiceJson(contentPath);
+
+                return new BlogServiceMySQL();
             default:
                 throw new Error('Interface inconnue pour factory : ' + interfaceKey.toString());
         }

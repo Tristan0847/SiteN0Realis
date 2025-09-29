@@ -16,7 +16,7 @@ type MessageItemProps = {
  */
 export function MessageItem({ message }: MessageItemProps) {
     // Chemin vers l'avatar
-    const avatarSrc = `/assets/BlogVacare/Icones/${message.getUtilisateur()}.jpg`;
+    const avatarSrc = `/assets/BlogVacare/Icones/${message.getUtilisateur().getUsername()}.jpg`;
     // Formatage de la date
     const dateString = message.getDate().toLocaleString('fr-FR');
 
@@ -26,12 +26,12 @@ export function MessageItem({ message }: MessageItemProps) {
                 <img
                     className="w-24 h-24 rounded-full object-cover p-4"
                     src={avatarSrc}
-                    alt={`Avatar de ${message.getUtilisateur()}`}
+                    alt={`Avatar de ${message.getUtilisateur().getUsername()}`}
                 />
             </div>
 
             <div className="flex-1 flex flex-col pr-2 p-4">
-                <span className="font-semibold text-primary-dark col border-b-2 border-gray-400/15">{message.getUtilisateur()}</span>
+                <span className="font-semibold text-primary-dark col border-b-2 border-gray-400/15">{message.getUtilisateur().getUsername()}</span>
                 <p className="bg-white p-2 rounded-md text-neutral-dark pr-5 whitespace-pre-line">{message.getContenu()}</p>
                 <span className="text-xs text-neutral dark:text-neutral-dark mt-1 pl-2">Posté le {dateString}</span>
             </div>
