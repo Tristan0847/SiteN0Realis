@@ -23,8 +23,8 @@ export function DossierList({ dossiers }: DossierListProps) {
           Bienvenue sur le Blog de Vacare
         </h1>
         <p className="mt-4 max-w-xl mx-auto text-lg text-neutral-700 leading-relaxed px-2">
-          Anciennement blog de Vince et de son meilleur ami, ce forum est aujourd'hui celui de Vacare et, par conséquent, de <strong>N0Realis</strong>.<br/>
-          Espace réservé aux employés autorisés, ne contactez Vacare qu'en cas de nécessité absolue.<br/>
+          Anciennement blog de Vince et de son meilleur ami, ce forum est aujourd&apos;hui celui de Vacare et, par conséquent, de <strong>N0Realis</strong>.<br/>
+          Espace réservé aux employés autorisés, ne contactez Vacare qu&apos;en cas de nécessité absolue.<br/>
           <strong>Nos rêves deviendront réalité.</strong>
         </p>
       </div>

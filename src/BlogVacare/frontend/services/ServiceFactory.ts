@@ -1,5 +1,4 @@
-import path from 'path';
-import { BlogServiceJson } from '@BlogsFront/services/Implementation/BlogServiceJson';
+import { BlogServiceApi } from '@BlogsFront/services/Implementation/BlogServiceApi';
 
 /**
  * Création de symboles pour les interfaces (clé unique)
@@ -36,7 +35,7 @@ export class ServiceFactory {
     private static createInstance(interfaceKey: symbol): any {
         switch (interfaceKey) {
             case INTERFACES.I_BlogService:
-                return new BlogServiceJson("http://localhost:3001/api"); // URL de base de l'API
+                return new BlogServiceApi("http://localhost:3001/api"); // URL de base de l'API
             default:
                 throw new Error('Interface inconnue pour factory : ' + interfaceKey.toString());
         }

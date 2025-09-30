@@ -22,5 +22,5 @@ export default function PageBlogsClient({ idDossier }: PageBlogsClientProps) {
   if (loading) return <MessageBox message="Chargement des blogs..." type="loading" />;
   if (error) return <MessageBox message={`Erreur : ${error.message}`} type="error" />;
 
-  return <BlogList blogs={blogs} />;
+  return <BlogList blogs={blogs} idDossier={idDossier} />;
 }
