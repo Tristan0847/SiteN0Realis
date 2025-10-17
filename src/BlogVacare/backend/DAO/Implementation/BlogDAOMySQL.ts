@@ -2,7 +2,7 @@ import mysql, { RowDataPacket } from 'mysql2/promise';
 import { Dossier } from '@BlogsShared/model/Dossier';
 import { Blog } from '@BlogsShared/model/Blog';
 import { Message } from '@BlogsShared/model/Message';
-import { I_BlogService } from '@BlogsBack/services/Interface/I_BlogService';
+import { I_BlogDAO } from '@BlogsBack/DAO/Interface/I_BlogDAO';
 import { Utilisateur } from '@BlogsShared/model/Utilisateur';
 import { getDbPool } from '@BlogsBack/config/MySQL/dbPoolMySql';
 
@@ -43,9 +43,9 @@ interface MessageRow extends RowDataPacket {
 //#endregion
 
 /**
- * Classe d'interaction de Blogs avec MySQL
+ * Classe de DAO de Blogs avec MySQL
  */
-export class BlogServiceMySQL implements I_BlogService {
+export class BlogDAOMySQL implements I_BlogDAO {
     private pool: mysql.Pool;
 
     constructor() {

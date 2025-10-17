@@ -1,6 +1,6 @@
 import { ResonanceManager } from "@BlogsFront/utils/Resonances/ResonanceManager";
-import { DOMService } from "./DOMService";
-import { GradientService } from "./GradientService";
+import { DOMService } from "@BlogsFront/utils/Resonances/DOMService";
+import { GradientService } from "@BlogsFront/utils/Resonances/GradientService";
 
 /**
  * Moteur gérant le système d'animation des ondes

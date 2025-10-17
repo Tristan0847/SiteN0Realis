@@ -3,10 +3,11 @@
 ## Back-end
 __**[Back-end](../../src/BlogVacare/backend/)**__ (API REST, servant à la logique de l'application)
 - **[app](../../src/BlogVacare/backend/app/)** : Routing de l'API
+- **[middleware.ts](../../src/BlogVacare/backend/middleware.ts)** : Middleware d'authentification du projet
 - **[middlewares](../../src/BlogVacare/backend/middlewares/)** : Traitements complémentaires de l'application (authentification, erreurs, ...)
-- **[utils](../../src/BlogVacare/backend/utils/)** : Helpers réutilisables
-- **[services](../../src/BlogVacare/backend/services/)** : Interactions avec les données du projet
-- **[content](../../src/BlogVacare/backend/content/)** : données statiques (fichiers JSON demandés, ...)
+- **[services](../../src/BlogVacare/backend/services/)** : Package de services rendus à l'application (appelé par les routes, interagissant avec DAO et Utils)
+- **[utils](../../src/BlogVacare/backend/utils/)** : Helpers réutilisables (hachage de mot de passe, JWT, ...)
+- **[DAO](../../src/BlogVacare/backend/DAO/)** : Package d'interaction avec la base de données du projet
 
 ## Front-end
 

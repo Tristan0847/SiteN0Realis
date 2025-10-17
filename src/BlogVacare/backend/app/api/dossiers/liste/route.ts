@@ -1,25 +1,25 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { LoggerMiddleware } from "@BlogsBack/middlewares/LoggerMiddleware";
 import { CorsMiddleware } from "@BlogsBack/middlewares/CorsMiddleware";
-import { ServiceFactory, INTERFACES } from "@BlogsBack/services/ServiceFactory";
-import type { I_BlogService } from "@BlogsBack/services/Interface/I_BlogService";
+import { I_BlogService } from "@BlogsBack/service/interface/I_BlogService";
+import { INTERFACESSERVICE, ServiceFactory } from "@BlogsBack/service/ServiceFactory";
 
 const logger = new LoggerMiddleware();
-const blogService: I_BlogService = ServiceFactory.get<I_BlogService>(INTERFACES.I_BlogService);
+const service : I_BlogService = ServiceFactory.get<I_BlogService>(INTERFACESSERVICE.I_BlogService);
 
 /**
  * Route pour récupérer tous les dossiers
  * @param request Requête entrante
  * @returns Réponse HTTP avec la liste des dossiers ou une erreur
  */
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) {
         
     try {
         // On log la requête
         await logger.run(request);
 
         // On récupère tous les dossiers
-        const dossiers = await blogService.getAllDossiers();
+        const dossiers = await service.getDossiers();
 
         // On crée la réponse JSON avec les dossiers et on ajoute les en-têtes CORS
         let response = NextResponse.json(dossiers);

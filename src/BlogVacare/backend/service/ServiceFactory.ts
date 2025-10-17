@@ -1,15 +1,15 @@
 import path from 'path';
-import { BlogServiceJson } from '@BlogsBack/services/Implementation/BlogServiceJson';
-import { BlogServiceMySQL } from './Implementation/BlogServiceMySQL';
+import { AuthService } from './implementation/AuthService';
+import { BlogService } from './implementation/BlogService';
 
 /**
  * Création de symboles pour les interfaces (clé unique)
  * Permet d'éviter les erreurs de chaînes de caractères
  * et de s'assurer qu'une interface n'a qu'une seule instance
- * @see https://www.typescriptlang.org/docs/handbook/symbols.html
  */
-export const INTERFACES = {
-  I_BlogService: Symbol.for('I_BlogService'),
+export const INTERFACESSERVICE = {
+    I_AuthService: Symbol.for("I_AuthService"),
+    I_BlogService: Symbol.for("I_BlogService")
 };
 
 /**
@@ -36,12 +36,10 @@ export class ServiceFactory {
     // Méthode privée de création d'instances 
     private static createInstance(interfaceKey: symbol): any {
         switch (interfaceKey) {
-            case INTERFACES.I_BlogService:
-                
-                // const contentPath = path.join(process.cwd(), 'content');
-                // return new BlogServiceJson(contentPath);
-
-                return new BlogServiceMySQL();
+            case INTERFACESSERVICE.I_AuthService:
+                return new AuthService();
+            case INTERFACESSERVICE.I_BlogService:
+                return new BlogService();
             default:
                 throw new Error('Interface inconnue pour factory : ' + interfaceKey.toString());
         }

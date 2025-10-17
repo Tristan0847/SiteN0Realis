@@ -1,13 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { LoggerMiddleware } from "@BlogsBack/middlewares/LoggerMiddleware";
 import { CorsMiddleware } from "@BlogsBack/middlewares/CorsMiddleware";
 import { ParametersMiddleware } from "@BlogsBack/middlewares/ParametersMiddleware";
-import { ServiceFactory, INTERFACES } from "@BlogsBack/services/ServiceFactory";
-import type { I_BlogService } from "@BlogsBack/services/Interface/I_BlogService";
+import { I_BlogService } from "@BlogsBack/service/interface/I_BlogService";
+import { INTERFACESSERVICE, ServiceFactory } from "@BlogsBack/service/ServiceFactory";
 
 const logger = new LoggerMiddleware();
 const validator = new ParametersMiddleware();
-const blogService: I_BlogService = ServiceFactory.get<I_BlogService>(INTERFACES.I_BlogService);
+const service : I_BlogService = ServiceFactory.get<I_BlogService>(INTERFACESSERVICE.I_BlogService);
 
 /**
  * Route pour récupérer les messages d'un blog dans un dossier
@@ -15,7 +15,7 @@ const blogService: I_BlogService = ServiceFactory.get<I_BlogService>(INTERFACES.
  * @param param Objet contenant les paramètres de la route
  * @returns Réponse HTTP avec la liste des messages ou une erreur
  */
-export async function GET(request: Request, { params }: { params: Promise<{ idDossier: string; idBlog: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ idDossier: string; idBlog: string }> }) {
   try {
     // On log la requête et on valide les paramètres
     await logger.run(request);
@@ -23,7 +23,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ idDo
 
     // On récupère les messages pour le blog et le dossier spécifiés
     const { idDossier, idBlog } = await params;
-    const messages = await blogService.getMessagesForBlog(idBlog, idDossier);
+    const messages = await service.getMessagesDeBlog(idBlog, idDossier);
 
     // On crée la réponse JSON avec les messages et on ajoute les en-têtes CORS
     let response = NextResponse.json(messages);

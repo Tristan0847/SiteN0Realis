@@ -22,7 +22,7 @@ export class BlogServiceApi implements I_BlogService {
 
     async getAllDossiers(): Promise<Dossier[]> {
 
-        const url = `${this.apiBaseUrl}/dossiers`;
+        const url = `${this.apiBaseUrl}/dossiers/liste`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Erreur lors de la récupération des dossiers : ${response.statusText}`);
@@ -39,7 +39,7 @@ export class BlogServiceApi implements I_BlogService {
 
     async getBlogsForDossier(dossierId: string): Promise<Blog[]> {
 
-        const url = `${this.apiBaseUrl}/blogs/${dossierId}`;
+        const url = `${this.apiBaseUrl}/blogs/liste/${dossierId}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Erreur lors de la récupération des blogs pour le dossier ${dossierId} : ${response.statusText}`);
@@ -57,7 +57,7 @@ export class BlogServiceApi implements I_BlogService {
 
     async getMessagesForBlog(blogId: string, dossierId : string): Promise<Message[]> {
     
-        const url = `${this.apiBaseUrl}/messages/${dossierId}/${blogId}`;
+        const url = `${this.apiBaseUrl}/messages/liste/${dossierId}/${blogId}`;
         const response = await fetch(url);
         if (!response.ok) {
             throw new Error(`Erreur lors de la récupération des messages pour le blog ${blogId} dans le dossier ${dossierId} : ${response.statusText}`);

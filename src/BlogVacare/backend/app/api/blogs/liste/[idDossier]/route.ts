@@ -1,13 +1,13 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { LoggerMiddleware } from "@BlogsBack/middlewares/LoggerMiddleware";
 import { CorsMiddleware } from "@BlogsBack/middlewares/CorsMiddleware";
 import { ParametersMiddleware } from "@BlogsBack/middlewares/ParametersMiddleware";
-import { ServiceFactory, INTERFACES } from "@BlogsBack/services/ServiceFactory";
-import type { I_BlogService } from "@BlogsBack/services/Interface/I_BlogService";
+import { I_BlogService } from "@BlogsBack/service/interface/I_BlogService";
+import { INTERFACESSERVICE, ServiceFactory } from "@BlogsBack/service/ServiceFactory";
 
 const logger = new LoggerMiddleware();
 const validator = new ParametersMiddleware();
-const blogService: I_BlogService = ServiceFactory.get<I_BlogService>(INTERFACES.I_BlogService);
+const service : I_BlogService = ServiceFactory.get<I_BlogService>(INTERFACESSERVICE.I_BlogService);
 
 /**
  * Route pour récupérer les blogs d'un dossier
@@ -15,7 +15,7 @@ const blogService: I_BlogService = ServiceFactory.get<I_BlogService>(INTERFACES.
  * @param param Objet contenant les paramètres de la route 
  * @returns Réponse HTTP avec la liste des blogs ou une erreur
  */
-export async function GET(request: Request, { params }: { params: Promise<{ idDossier: string }> }) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ idDossier: string }> }) {
     
     try {
         // On log la requête et on valide les paramètres
@@ -24,7 +24,7 @@ export async function GET(request: Request, { params }: { params: Promise<{ idDo
 
         // On récupère les blogs pour le dossier spécifié
         const { idDossier } = await params;
-        const blogs = await blogService.getBlogsForDossier(idDossier);
+        const blogs = await service.getBlogsDeDossier(idDossier);
 
         // On crée la réponse JSON avec les blogs et on ajoute les en-têtes CORS
         let response = NextResponse.json(blogs);

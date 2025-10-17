@@ -1,4 +1,4 @@
-import { Utilisateur } from "./Utilisateur";
+import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 
 /**
  * Classe représentant un dossier de blogs

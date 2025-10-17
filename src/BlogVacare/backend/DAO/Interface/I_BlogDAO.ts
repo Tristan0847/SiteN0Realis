@@ -5,7 +5,7 @@ import { Message } from '@BlogsShared/model/Message';
 /**
  * Interface de gestion de services de blogs
  */
-export interface I_BlogService {
+export interface I_BlogDAO {
 
     /**
      * Méthode permettant de récupérer tous les dossiers du projet
