@@ -5,7 +5,7 @@ import { Metadata } from 'next';
  * Props pour la page des blogs
  */
 interface PageProps {
-    params: { idDossier: string; idBlog: string };
+    params: Promise<{ idDossier: string; idBlog: string }>;
 }
 
 export async function generateMetadata({ params } : PageProps): Promise<Metadata> {
