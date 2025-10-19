@@ -1,9 +1,8 @@
-    import { I_BlogService } from '@BlogsFront/services/Interface/I_BlogService';
-    import { Dossier } from '@BlogsShared/model/Dossier';
-    import { Blog } from '@BlogsShared/model/Blog';
-    import { Message } from '@BlogsShared/model/Message';
-    import { jsonMapping } from '@BlogsShared/utils/jsonMapping';
-
+import { I_BlogService } from '@BlogsFront/services/Interface/I_BlogService';
+import { Dossier } from '@BlogsShared/model/Dossier';
+import { Blog } from '@BlogsShared/model/Blog';
+import { Message } from '@BlogsShared/model/Message';
+import { jsonMapping } from '@BlogsShared/utils/jsonMapping';
 
 /**
  * Service de gestion de blogs (réception par API)
@@ -14,10 +13,9 @@ export class BlogServiceApi implements I_BlogService {
 
     /**
      * Constructeur du service de blog API
-     * @param apiBaseUrl URL de base de l'API
      */
-    constructor(apiBaseUrl: string) {
-        this.apiBaseUrl = apiBaseUrl;
+    constructor() {
+        this.apiBaseUrl = process.env.NEXT_PUBLIC_LIEN_API_BACKEND ?? "http://localhost:3000/api";
     }
 
     async getAllDossiers(): Promise<Dossier[]> {

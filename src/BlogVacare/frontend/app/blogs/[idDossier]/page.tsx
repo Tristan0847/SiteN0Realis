@@ -1,4 +1,6 @@
 import PageBlogsClient from '@BlogsFront/app/blogs/[idDossier]/pageClient';
+import { getDossierBlogsParams, getRouteBlogsForDossier } from '@BlogsFront/lib/routes-config';
+import { BlogJSON } from '@BlogsShared/model/Blog';
 import { Metadata } from 'next';
 
 /**
@@ -26,6 +28,23 @@ export default async function Page({ params }: PageProps) {
   
   const { idDossier } = await params;
 
+  let blogsSerialises : BlogJSON[] = [];
+  const mode = process.env.NEXT_PUBLIC_NEXT_ENV;
+  if (mode == 'export') {
+    const blogsPrecharges = await getRouteBlogsForDossier(idDossier);
+    blogsSerialises = blogsPrecharges.map(blog => blog.toJSON());
+  }
+  
   // La page transmet l'idDossier au composant client (vue)
-  return <PageBlogsClient idDossier={idDossier} />;
+  return <PageBlogsClient idDossier={idDossier} blogsPrecharges={ mode == "export" ? blogsSerialises : undefined } />;
 }
+
+/**
+ * Génère les paramètres de génération de pages statiques du projet (ici, chaque dossier de blogs)
+ * @returns Liste de paramètres pour la génération statique
+ */
+export async function generateStaticParams() {
+  return await getDossierBlogsParams();
+}
+// Désactive les paramètres dynamiques
+export const dynamicParams = false;

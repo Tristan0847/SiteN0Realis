@@ -80,7 +80,7 @@ export class BlogDAOMySQL implements I_BlogDAO {
     async getBlogsForDossier(dossierId: string): Promise<Blog[]> {
         try {
                 
-            const [rows] = await this.pool.query<BlogRow[]>('SELECT b.id, b.titre, b.dateCreation, b.nomUtilisateur, m.contenu FROM Blog b JOIN Message m ON b.id = m.idBlog WHERE idDossier = ? AND m.id = 1', [dossierId]);
+            const [rows] = await this.pool.query<BlogRow[]>('SELECT b.id, b.titre, b.dateCreation, b.nomUtilisateur, m.contenu FROM Blog b JOIN Message m ON b.id = m.idBlog WHERE idDossier = ? AND m.id = 1 ORDER BY dateCreation ASC', [dossierId]);
 
             const blogs : Blog[] = rows.map((row) => {
                 const blog = new Blog();

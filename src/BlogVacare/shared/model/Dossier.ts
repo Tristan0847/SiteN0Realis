@@ -1,6 +1,11 @@
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 
 /**
+ * Type pour les dossiers sérialisés
+ */
+export type DossierJSON = ReturnType<Dossier['toJSON']>;
+
+/**
  * Classe représentant un dossier de blogs
  */
 export class Dossier {
@@ -72,5 +77,33 @@ export class Dossier {
      */
     setUtilisateur(utilisateur: Utilisateur): void {
         this.utilisateur = utilisateur;
+    }
+
+    
+    /**
+     * Méthode de génération d'un objet JSON à partir de l'objet actuel
+     * @returns JSON généré
+     */
+    toJSON() {
+        return {
+            id: this.id,
+            titre: this.titre,
+            description: this.description,
+            utilisateur: this.utilisateur.toJSON(),
+        };
+    }
+
+    /**
+     * Méthode de création d'un objet dossier à partir d'un JSON
+     * @param json JSON du dossier
+     * @returns Dossier créé
+     */
+    static fromJSON(json: any): Dossier {
+        let dossier = new Dossier();
+        dossier.setId(json.id);
+        dossier.setTitre(json.titre);
+        dossier.setDescription(json.description);
+        dossier.setUtilisateur(Utilisateur.fromJSON(json.utilisateur));
+        return dossier;
     }
 }

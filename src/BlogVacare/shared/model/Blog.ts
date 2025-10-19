@@ -1,6 +1,8 @@
 import { Message } from '@BlogsShared/model/Message';
 import { Utilisateur } from '@BlogsShared/model/Utilisateur';
 
+export type BlogJSON = ReturnType<Blog['toJSON']>;
+
 /**
  * Classe représentant un blog du site
  */
@@ -109,4 +111,34 @@ export class Blog {
         this.idDossier = idDossier;
     }
 
+    /**
+     * Méthode de génération d'un objet JSON à partir de l'objet actuel
+     * @returns JSON généré
+     */
+    toJSON() {
+        return {
+            id: this.id,
+            nom: this.nom,
+            dateCreation: this.dateCreation.toISOString(),
+            messages: this.messages.map(m => m.toJSON()),
+            utilisateur: this.utilisateur.toJSON(),
+            idDossier: this.idDossier,
+        };
+    }
+
+    /**
+     * Méthode de création d'un objet blog à partir d'un JSON
+     * @param json JSON du blog
+     * @returns Blog créé
+     */
+    static fromJSON(json: any): Blog {
+        let blog = new Blog();
+        blog.setId(json.id);
+        blog.setNom(json.nom);
+        blog.setDateCreation(new Date(json.dateCreation));
+        blog.setIdDossier(json.idDossier);
+        blog.setMessages(json.messages.map((msgJson: any) => Message.fromJSON(msgJson)));
+        blog.setUtilisateur(Utilisateur.fromJSON(json.utilisateur));
+        return blog;
+    }
 }

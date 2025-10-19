@@ -56,4 +56,29 @@ export class Utilisateur {
         this.estAdmin = estAdmin;
     }
 
+
+    /**
+     * Méthode de génération d'un objet JSON à partir de l'objet actuel
+     * @returns JSON généré
+     */
+    toJSON() {
+        return {
+            username: this.username,
+            motDePasse: this.motDePasse,
+            estAdmin: this.estAdmin,
+        };
+    }
+
+    /**
+     * Méthode de création d'un objet utilisateur à partir d'un JSON
+     * @param json JSON de l'utilisateur
+     * @returns Utilisateur créé
+     */
+    static fromJSON(json: any): Utilisateur {
+        let utilisateur = new Utilisateur();
+        utilisateur.setUsername(json.username);
+        utilisateur.setMotDePasse(json.motDePasse);
+        utilisateur.setEstAdmin(json.estAdmin);
+        return utilisateur;
+    }
 }

@@ -35,7 +35,7 @@ export class ServiceFactory {
     private static createInstance(interfaceKey: symbol): any {
         switch (interfaceKey) {
             case INTERFACES.I_BlogService:
-                return new BlogServiceApi("http://localhost:3001/api"); // URL de base de l'API
+                return new BlogServiceApi();
             default:
                 throw new Error('Interface inconnue pour factory : ' + interfaceKey.toString());
         }

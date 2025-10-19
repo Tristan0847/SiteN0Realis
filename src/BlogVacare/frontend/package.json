@@ -12,7 +12,8 @@
   "dependencies": {
     "react": "*",
     "react-dom": "*",
-    "next": "*"
+    "next": "*",
+    "dotenv": "*"
   },
   "devDependencies": {
     "typescript": "*",

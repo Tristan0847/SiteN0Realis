@@ -1,4 +1,6 @@
 import PageMessagesClient from '@BlogsFront/app/messages/[idDossier]/[idBlog]/pageClient';
+import { getMessagesParams, getRouteMessages } from '@BlogsFront/lib/routes-config';
+import { MessageJSON } from '@BlogsShared/model/Message';
 import { Metadata } from 'next';
 
 /**
@@ -23,7 +25,26 @@ export async function generateMetadata({ params } : PageProps): Promise<Metadata
  * @returns {JSX.Element} Composant React pour la page des blogs d'un dossier
  */
 export default async function Page({ params }: PageProps) {
+
   const { idDossier, idBlog } = await params;
+
+  let messagesSerialises : MessageJSON[] = [];
+  const mode = process.env.NEXT_PUBLIC_NEXT_ENV;
+  if (mode == 'export') {
+    const messagesPrecharges = await getRouteMessages(idDossier, idBlog);
+    messagesSerialises = messagesPrecharges.map(message => message.toJSON());
+  }
   
-  return <PageMessagesClient idDossier={idDossier} idBlog={idBlog} />;
+  return <PageMessagesClient idDossier={idDossier} idBlog={idBlog} messagesPrecharges={ mode == "export" ? messagesSerialises : undefined } />;
 }
+
+
+/**
+ * Génère les paramètres de génération de pages statiques du projet (ici, chaque blog de chaque dossier)
+ * @returns Liste de paramètres pour la génération statique
+ */
+export async function generateStaticParams() {
+  return await getMessagesParams();
+}
+// Désactive les paramètres dynamiques
+export const dynamicParams = false;

@@ -1,6 +1,11 @@
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 
 /**
+ * Type de props pour les messages JSON préchargés
+ */
+export type MessageJSON = ReturnType<Message['toJSON']>;
+
+/**
  * Classe représentant un message dans le blog.
  */
 export class Message {
@@ -55,5 +60,30 @@ export class Message {
      */
     setUtilisateur(utilisateur: Utilisateur): void {
         this.utilisateur = utilisateur;
+    }
+
+    /**
+     * Méthode de génération d'un objet JSON à partir de l'objet actuel
+     * @returns JSON généré
+     */
+    toJSON() {
+        return {
+            contenu: this.contenu,
+            date: this.date.toISOString(),
+            utilisateur: this.utilisateur.toJSON(),
+        };
+    }
+
+    /**
+     * Méthode de création d'un objet message à partir d'un JSON
+     * @param json JSON du messa
+     * @returns Message créé
+     */
+    static fromJSON(json: any): Message {
+        let message = new Message();
+        message.setContenu(json.contenu);
+        message.setDate(new Date(json.date));
+        message.setUtilisateur(Utilisateur.fromJSON(json.utilisateur));
+        return message;
     }
 }
