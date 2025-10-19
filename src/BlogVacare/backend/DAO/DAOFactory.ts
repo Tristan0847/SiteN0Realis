@@ -1,5 +1,9 @@
 import path from 'path';
 import { BlogDAOMySQL } from '@BlogsBack/DAO/Implementation/BlogDAOMySQL';
+import { DossierDAOMySQL } from '@BlogsBack/DAO/Implementation/DossierDAOMySQL';
+import { MessageDAOMySQL } from '@BlogsBack/DAO/Implementation/MessageDAOMySQL';
+import { UtilisateurDAOMySQL } from '@BlogsBack/DAO/Implementation/UtilisateurDAOMySQL';
+import { ElementSupprimeDAOMySQL } from '@BlogsBack/DAO/Implementation/ElementSupprimeDAOMySQL';
 
 /**
  * Création de symboles pour les interfaces (clé unique)
@@ -8,6 +12,10 @@ import { BlogDAOMySQL } from '@BlogsBack/DAO/Implementation/BlogDAOMySQL';
  */
 export const INTERFACESDAO = {
   I_BlogDAO: Symbol.for('I_BlogDAO'),
+  I_DossierDAO: Symbol.for('I_DossierDAO'),
+  I_MessageDAO: Symbol.for('I_MessageDAO'),
+  I_ElementSupprimeDAO: Symbol.for('I_ElementSupprimeDAO'),
+  I_UtilisateurDAO: Symbol.for('I_UtilisateurDAO')
 };
 
 /**
@@ -34,8 +42,20 @@ export class DAOFactory {
     // Méthode privée de création d'instances 
     private static createInstance(interfaceKey: symbol): any {
         switch (interfaceKey) {
+
+            case INTERFACESDAO.I_DossierDAO:
+                return new DossierDAOMySQL();
             case INTERFACESDAO.I_BlogDAO:
                 return new BlogDAOMySQL();
+            case INTERFACESDAO.I_MessageDAO:
+                return new MessageDAOMySQL();
+                
+            case INTERFACESDAO.I_UtilisateurDAO:
+                return new UtilisateurDAOMySQL();
+
+            case INTERFACESDAO.I_ElementSupprimeDAO:
+                return new ElementSupprimeDAOMySQL();            
+            
             default:
                 throw new Error('Interface inconnue pour factory : ' + interfaceKey.toString());
         }

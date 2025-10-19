@@ -1,4 +1,5 @@
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
+import { ElementSupprime } from "@BlogsShared/model/ElementSupprime";
 
 /**
  * Type de props pour les messages JSON préchargés
@@ -10,9 +11,27 @@ export type MessageJSON = ReturnType<Message['toJSON']>;
  */
 export class Message {
 
+    private id : number = -1;
     private contenu: string = "";
     private date: Date = new Date();
     private utilisateur: Utilisateur = new Utilisateur();
+    private elementSupprime : ElementSupprime|null = null;
+
+    /**
+     * Getter de l'identifiant
+     * @returns 
+     */
+    getId(): number {
+        return this.id;
+    }
+
+    /**
+     * Setter de l'identifiant
+     * @param id Identifiant du dossier
+     */
+    setId(id: number): void {
+        this.id = id;
+    }
 
     /**
      * Getter du contenu du message.
@@ -63,6 +82,23 @@ export class Message {
     }
 
     /**
+     * Getter de si l'élément est supprimé
+     * @returns 
+     */    
+    public getElementSupprime(): ElementSupprime | null {
+        return this.elementSupprime;
+    }
+
+    /**
+     * Setter de si l'élément est supprimé
+     * @param value 
+     */
+    public setElementSupprime(value: ElementSupprime | null) {
+        this.elementSupprime = value;
+    }
+    
+
+    /**
      * Méthode de génération d'un objet JSON à partir de l'objet actuel
      * @returns JSON généré
      */
@@ -71,6 +107,7 @@ export class Message {
             contenu: this.contenu,
             date: this.date.toISOString(),
             utilisateur: this.utilisateur.toJSON(),
+            elementSupprime: this.elementSupprime?.toJSON() ?? null
         };
     }
 
@@ -84,6 +121,9 @@ export class Message {
         message.setContenu(json.contenu);
         message.setDate(new Date(json.date));
         message.setUtilisateur(Utilisateur.fromJSON(json.utilisateur));
+        if (json.elementSupprime) {
+            message.setElementSupprime(ElementSupprime.fromJSON(json.elementSupprime));
+        }
         return message;
     }
 }

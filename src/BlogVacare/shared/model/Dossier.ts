@@ -1,4 +1,5 @@
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
+import { ElementSupprime } from "@BlogsShared/model/ElementSupprime";
 
 /**
  * Type pour les dossiers sérialisés
@@ -12,8 +13,10 @@ export class Dossier {
 
     private id: string = "";
     private titre: string = "";
+    private slug : string = "";
     private description: string = "";
     private utilisateur: Utilisateur = new Utilisateur();
+    private elementSupprime: ElementSupprime | null = null;
 
     /**
      * Getter de l'identifiant
@@ -48,6 +51,22 @@ export class Dossier {
     }
 
     /**
+     * Getter du slug du dossier
+     * @returns 
+     */
+    getSlug(): string {
+        return this.slug;
+    }
+
+    /**
+     * Setter du slug du dossier
+     * @param titre slug du dossier
+     */
+    setSlug(slug: string): void {
+        this.slug = slug;
+    }
+
+    /**
      * Getter de la description du dossier
      * @returns 
      */
@@ -79,6 +98,21 @@ export class Dossier {
         this.utilisateur = utilisateur;
     }
 
+    /**
+     * Getter de si l'élément est supprimé
+     * @returns 
+     */    
+    public getElementSupprime(): ElementSupprime | null {
+        return this.elementSupprime;
+    }
+
+    /**
+     * Setter de si l'élément est supprimé
+     * @param value 
+     */
+    public setElementSupprime(value: ElementSupprime | null) {
+        this.elementSupprime = value;
+    }
     
     /**
      * Méthode de génération d'un objet JSON à partir de l'objet actuel
@@ -88,8 +122,10 @@ export class Dossier {
         return {
             id: this.id,
             titre: this.titre,
+            slug: this.slug,
             description: this.description,
             utilisateur: this.utilisateur.toJSON(),
+            elementSupprime: this.elementSupprime?.toJSON() ?? null
         };
     }
 
@@ -102,8 +138,12 @@ export class Dossier {
         let dossier = new Dossier();
         dossier.setId(json.id);
         dossier.setTitre(json.titre);
+        dossier.setSlug(json.slug);
         dossier.setDescription(json.description);
         dossier.setUtilisateur(Utilisateur.fromJSON(json.utilisateur));
+        if (json.elementSupprime) {
+            dossier.setElementSupprime(ElementSupprime.fromJSON(json.elementSupprime));
+        }
         return dossier;
     }
 }

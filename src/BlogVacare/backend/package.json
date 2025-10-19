@@ -16,7 +16,8 @@
     "bcrypt": "*",
     "jsonwebtoken": "*",
     "mysql2": "*",
-    "dotenv": "*"
+    "dotenv": "*",
+    "uuid": "*"
   },
   "devDependencies": {
     "typescript": "*",

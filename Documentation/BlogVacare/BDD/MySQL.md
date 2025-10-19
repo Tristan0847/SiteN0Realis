@@ -35,35 +35,54 @@ CREATE TABLE Utilisateur(
    PRIMARY KEY(nomUtilisateur)
 );
 
+CREATE TABLE ElementSupprime(
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nomUtilisateur VARCHAR(50) NOT NULL,
+  raisonSuppression VARCHAR(500), 
+  datesuppression DATETIME DEFAULT CURRENT_TIMESTAMP,
+  cache BOOLEAN DEFAULT FALSE,
+  FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur) ON DELETE CASCADE
+)
+
 CREATE TABLE Dossier(
-   id VARCHAR(150),
-   titre VARCHAR(550) NOT NULL,
-   description VARCHAR(2500),
-   nomUtilisateur VARCHAR(50),
-   PRIMARY KEY(id),
-   FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur)
+   id VARCHAR(36) PRIMARY KEY,
+   titre VARCHAR(255) NOT NULL,
+   slug VARCHAR(255) NOT NULL UNIQUE,
+   description TEXT,
+   nomUtilisateur VARCHAR(50) NOT NULL,
+   idSuppression INT,
+   FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur) ON DELETE CASCADE,
+   FOREIGN KEY(idSuppression) REFERENCES ElementSupprime(id) ON DELETE CASCADE,
+   INDEX idx_slug (slug)
 );
 
 CREATE TABLE Blog(
-   id VARCHAR(150),
-   titre VARCHAR(550) NOT NULL,
-   dateCreation DATETIME NOT NULL,
-   idDossier VARCHAR(150),
-   nomUtilisateur VARCHAR(50),
-   PRIMARY KEY(id),
-   FOREIGN KEY(idDossier) REFERENCES Dossier(id),
-   FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur)
+   id VARCHAR(36) PRIMARY KEY,
+   titre VARCHAR(255) NOT NULL,
+   slug VARCHAR(255) NOT NULL,
+   idDossier VARCHAR(36) NOT NULL,
+   nomUtilisateur VARCHAR(50) NOT NULL,
+   dateCreation DATETIME DEFAULT CURRENT_TIMESTAMP,
+   idSuppression INT,
+   UNIQUE KEY unique_slug_par_dossier (slug, idDossier),
+   FOREIGN KEY(idDossier) REFERENCES Dossier(id) ON DELETE CASCADE,
+   FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur) ON DELETE CASCADE,
+   FOREIGN KEY(idSuppression) REFERENCES ElementSupprime(id) ON DELETE CASCADE,
+   INDEX idx_dossier (idDossier),
+   INDEX idx_slug (slug)
 );
 
 CREATE TABLE Message(
-   idBlog VARCHAR(150),
-   id INT,
-   datePublication DATETIME NOT NULL,
-   contenu VARCHAR(5000) NOT NULL,
-   nomUtilisateur VARCHAR(50),
-   PRIMARY KEY(idBlog, id),
-   FOREIGN KEY(idBlog) REFERENCES Blog(id),
-   FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur)
+   id INT AUTO_INCREMENT PRIMARY KEY,
+   idBlog VARCHAR(36) NOT NULL,
+   contenu TEXT NOT NULL,
+   nomUtilisateur VARCHAR(50) NOT NULL,
+   datePublication DATETIME DEFAULT CURRENT_TIMESTAMP,
+   idSuppression INT,
+   FOREIGN KEY(idBlog) REFERENCES Blog(id) ON DELETE CASCADE,
+   FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur) ON DELETE CASCADE,
+   FOREIGN KEY(idSuppression) REFERENCES ElementSupprime(id) ON DELETE CASCADE,
+   INDEX idx_blog (idBlog)
 );
 ```
 

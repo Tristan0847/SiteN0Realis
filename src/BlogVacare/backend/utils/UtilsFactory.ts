@@ -1,7 +1,7 @@
 import path from 'path';
 import { I_PasswordHashUtil } from "@BlogsBack/utils/Interface/I_PasswordHashUtil";
-import { PasswordHashUtil } from './Implementation/PasswordHashUtil';
-import { JWTUtil } from './Implementation/JWTUtil';
+import { PasswordHashUtil } from '@BlogsBack/utils/Implementation/PasswordHashUtil';
+import { JWTUtil } from '@BlogsBack/utils/Implementation/JWTUtil';
 
 /**
  * Création de symboles pour les interfaces (clé unique)

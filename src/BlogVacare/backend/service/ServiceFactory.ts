@@ -1,6 +1,8 @@
 import path from 'path';
-import { AuthService } from './implementation/AuthService';
-import { BlogService } from './implementation/BlogService';
+import { AuthService } from '@BlogsBack/service/implementation/AuthService';
+import { BlogService } from '@BlogsBack/service/implementation/BlogService';
+import { MessageService } from './implementation/MessageService';
+import { DossierService } from './implementation/DossierService';
 
 /**
  * Création de symboles pour les interfaces (clé unique)
@@ -9,7 +11,9 @@ import { BlogService } from './implementation/BlogService';
  */
 export const INTERFACESSERVICE = {
     I_AuthService: Symbol.for("I_AuthService"),
-    I_BlogService: Symbol.for("I_BlogService")
+    I_DossierService: Symbol.for("I_DossierService"),
+    I_BlogService: Symbol.for("I_BlogService"),
+    I_MessageService: Symbol.for("I_MessageService")
 };
 
 /**
@@ -38,8 +42,12 @@ export class ServiceFactory {
         switch (interfaceKey) {
             case INTERFACESSERVICE.I_AuthService:
                 return new AuthService();
+            case INTERFACESSERVICE.I_DossierService:
+                return new DossierService();
             case INTERFACESSERVICE.I_BlogService:
                 return new BlogService();
+            case INTERFACESSERVICE.I_MessageService:
+                return new MessageService();
             default:
                 throw new Error('Interface inconnue pour factory : ' + interfaceKey.toString());
         }

@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
-import { LoggerMiddleware } from "@BlogsBack/middlewares/LoggerMiddleware";
 import { CorsMiddleware } from "@BlogsBack/middlewares/CorsMiddleware";
-import { I_BlogService } from "@BlogsBack/service/interface/I_BlogService";
 import { INTERFACESSERVICE, ServiceFactory } from "@BlogsBack/service/ServiceFactory";
+import { I_DossierService } from "@BlogsBack/service/interface/I_DossierService";
 
-const logger = new LoggerMiddleware();
-const service : I_BlogService = ServiceFactory.get<I_BlogService>(INTERFACESSERVICE.I_BlogService);
+const service : I_DossierService = ServiceFactory.get<I_DossierService>(INTERFACESSERVICE.I_DossierService);
 
 /**
  * Route pour récupérer tous les dossiers
@@ -15,11 +13,8 @@ const service : I_BlogService = ServiceFactory.get<I_BlogService>(INTERFACESSERV
 export async function GET(request: NextRequest) {
         
     try {
-        // On log la requête
-        await logger.run(request);
-
         // On récupère tous les dossiers
-        const dossiers = await service.getDossiers();
+        const dossiers = await service.recupererDossiers();
 
         // On crée la réponse JSON avec les dossiers et on ajoute les en-têtes CORS
         let response = NextResponse.json(dossiers);
@@ -31,9 +26,9 @@ export async function GET(request: NextRequest) {
     // En cas d'erreur
     catch (error) {
         // On retourne une réponse d'erreur avec le message
-        return new Response(JSON.stringify({ error: (error as Error).message }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-        });
+        return NextResponse.json(
+            { error: (error as Error).message },
+            { status: 500 }
+        );
     }
 }

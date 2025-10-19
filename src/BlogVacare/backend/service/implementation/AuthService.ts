@@ -22,7 +22,7 @@ export class AuthService implements I_AuthService {
      * Constructeur du service
      */
     constructor() {
-        this.dao = DAOFactory.get<I_UtilisateurDAO>(INTERFACESDAO.I_BlogDAO);
+        this.dao = DAOFactory.get<I_UtilisateurDAO>(INTERFACESDAO.I_UtilisateurDAO);
         this.jwtUtil = UtilsFactory.get<I_JWTUtil>(INTERFACESUTILS.I_JWTUtil);
         this.passwordUtil = UtilsFactory.get<I_PasswordHashUtil>(INTERFACESUTILS.I_PasswordHashUtil);
     }

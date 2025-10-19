@@ -1,14 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AuthMiddleware } from "@BlogsBack/middlewares/AuthMiddleware";
+import { LoggerMiddleware } from "./middlewares/LoggerMiddleware";
 
 export const runtime = 'nodejs'; 
 const authMiddleware = new AuthMiddleware();
+const logger = new LoggerMiddleware();
 
 export async function middleware(requete : NextRequest) {
+    // Enregistrement de la requête
+    logger.run(requete);
+
     const chemin = requete.nextUrl.pathname;
 
     const routesPubliques = [
         '/api/utilisateur/connexion',
+        '/api/utilisateur/deconnexion',
         '/api/utilisateur/inscription',
         '/api/utilisateur/refresh',
 

@@ -8,24 +8,31 @@ import { Message } from '@BlogsShared/model/Message';
 export interface I_BlogDAO {
 
     /**
-     * Méthode permettant de récupérer tous les dossiers du projet
-     * @return Liste des dossiers
+     * Méthode de création d'un blog
+     * @param blog Blog à créer
+     * @param slugDossier Slug du dossier contenant le blog
      */
-    getAllDossiers(): Promise<Dossier[]>;
+    creerBlog(blog : Blog, slugDossier : string) : Promise<void>;
+
+    /**
+     * Méthode permettant de récupérer un blog par son slug
+     * @param slugBlog Slug du blog
+     * @param slugDossier Slug du dossier contenant le blog
+     * @return Blog demandé
+     */
+    recupererBlogParSlug(slugBlog : string, slugDossier : string) : Promise<Blog>;
 
     /**
      * Méthode permettant de récupérer les blogs d'un dossier
-     * @param dossierId Identifiant du dossier
+     * @param slugDossier Slug du dossier
      * @return Liste des blogs du dossier
      */
-    getBlogsForDossier(dossierId: string): Promise<Blog[]>;
+    recupererBlogsDuDossier(slugDossier: string): Promise<Blog[]>;
 
     /**
-     * Méthode permettant de récupérer les messages d'un blog
-     * @param blogId Identifiant du blog
-     * @param dossierId Identifiant du dossier
-     * @return Liste des messages du blog
+     * Méthode de suppression d'un blog
+     * @param blog Blog à supprimer avec l'objet ElementSupprime ajusté en conséquence
      */
-    getMessagesForBlog(blogId: string, dossierId : string): Promise<Message[]>;
-        
+    supprimerBlog(blog : Blog) : Promise<void>;
+
 }

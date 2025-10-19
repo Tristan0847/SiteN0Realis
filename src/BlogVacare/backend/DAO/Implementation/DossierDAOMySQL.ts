@@ -1,0 +1,148 @@
+import { getDbPool } from "@BlogsBack/config/MySQL/dbPoolMySql";
+import { I_DossierDAO } from "../Interface/I_DossierDAO";
+import mysql from 'mysql2/promise';
+import { RowDataPacket } from 'mysql2/promise';
+import { Dossier } from "@BlogsShared/model/Dossier";
+import { Utilisateur } from "@BlogsShared/model/Utilisateur";
+import { ElementSupprime } from "@BlogsShared/model/ElementSupprime";
+
+/**
+ * Lignes attendues à la demande d'un Dossier
+ */
+interface DossierRow extends RowDataPacket {
+    id: string;
+    titre: string;
+    slug: string;
+    description: string;
+    nomUtilisateur: string;
+    idSuppression: number|null;
+}
+
+/**
+ * DAO de la table Dossier sous MySQL
+ */
+export class DossierDAOMySQL implements I_DossierDAO {
+
+    private pool: mysql.Pool;
+
+    constructor() {
+        this.pool = getDbPool();
+    }
+
+    async creerDossier(dossier : Dossier) : Promise<void> {
+        try {
+            // Mise en place de la requête
+            const requete = "INSERT INTO Dossier(id, titre, slug, description, nomUtilisateur, idSuppression) VALUES (?, ?, ?, ?, ?, NULL)";
+            const parametres = [
+                dossier.getId(),
+                dossier.getTitre(),
+                dossier.getSlug(),
+                dossier.getDescription(),
+                dossier.getUtilisateur().getUsername()
+            ];
+
+            await this.pool.execute(requete, parametres);
+        }
+        catch (error) {
+            console.error("Erreur lors de la création du dossier : " + error);
+            throw new Error("Impossible de créer le dossier" + error);
+        }
+    }
+    
+    async recupererDossierParSlug(slugDossier : string) : Promise<Dossier> {
+        try {
+            const requete = "SELECT id, titre, slug, description, nomUtilisateur, idSuppression FROM Dossier WHERE slug = ?";
+            const params = [slugDossier];
+
+            const [rows] = await this.pool.execute<DossierRow[]>(requete, params);
+
+            if (rows.length === 0) {
+                throw new Error("Aucun dossier trouvé avec le slug fourni");
+            }
+            const row = rows[0];
+
+            const dossier = new Dossier();
+            dossier.setId(row.id);
+            dossier.setTitre(row.titre);
+            dossier.setSlug(row.slug);
+            dossier.setDescription(row.description);
+
+            // Création de l'utilisateur
+            const utilisateur = new Utilisateur();
+            utilisateur.setUsername(row.nomUtilisateur);
+            dossier.setUtilisateur(utilisateur);
+
+            // Chargement des données de suppression si le dossier l'est
+            if (row.idSuppression !== null) {
+                const elementSupprime = new ElementSupprime();
+                elementSupprime.setId(row.idSuppression);
+                dossier.setElementSupprime(elementSupprime);
+            }
+
+            return dossier;
+        }
+        catch (error) {
+            console.error("Erreur lors de la récupération du dossier par slug : " + error);
+            throw new Error("Impossible de récupérer le dossier" + error);
+        }
+    }
+
+
+    async recupererDossiers(): Promise<Dossier[]> {
+        try {
+            const requete = "SELECT id, titre, slug, description, nomUtilisateur, idSuppression FROM Dossier";
+
+            const [rows] = await this.pool.query<DossierRow[]>(requete);
+            
+            const dossiers : Dossier[] = [];
+            
+            for (const row of rows) {
+                const dossier = new Dossier();
+                dossier.setId(row.id);
+                dossier.setTitre(row.titre);
+                dossier.setSlug(row.slug);
+                dossier.setDescription(row.description);
+
+                // Créationd de l'utilisateur à partir de son nom
+                const utilisateur = new Utilisateur();
+                utilisateur.setUsername(row.nomUtilisateur);
+                dossier.setUtilisateur(utilisateur);
+
+                // Chargement des données de suppression si le dossier l'est
+                if (row.idSuppression !== null) {
+                    const elementSupprime = new ElementSupprime();
+                    elementSupprime.setId(row.idSuppression);
+                    dossier.setElementSupprime(elementSupprime);
+                }
+
+                dossiers.push(dossier);
+            }
+
+            return dossiers;
+        }
+        catch (error) {
+            console.error("Erreur lors de la récupération des dossiers : " + error);
+            throw new Error("Impossible de récupérer les dossiers" + error);
+        }
+    }
+
+    async supprimerDossier(dossier : Dossier) : Promise<void> {
+        try {
+            if (!dossier.getElementSupprime()) {
+                throw new Error("L'objet de la suppression du dossier doit être défini pour le supprimer.");
+            }
+
+            const requete = "UPDATE Dossier SET idSuppression = ? WHERE id = ?";
+            const params = [
+                dossier.getElementSupprime()?.getId(),
+                dossier.getId()
+            ]
+
+            await this.pool.execute(requete, params);
+        }
+        catch (error) {
+            console.error("Erreur lors de la suppression du dossier : " + error);
+            throw new Error("Impossible de supprimer le dossier " + error);
+        }
+    }
+}

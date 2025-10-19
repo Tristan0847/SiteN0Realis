@@ -5,18 +5,10 @@ import { Message } from '@BlogsShared/model/Message';
 import { I_BlogDAO } from '@BlogsBack/DAO/Interface/I_BlogDAO';
 import { Utilisateur } from '@BlogsShared/model/Utilisateur';
 import { getDbPool } from '@BlogsBack/config/MySQL/dbPoolMySql';
+import { ElementSupprime } from '@BlogsShared/model/ElementSupprime';
 
 //#region Interfaces
 
-/**
- * Lignes attendues à la demande d'un Dossier
- */
-interface DossierRow extends RowDataPacket {
-    id: string;
-    titre: string;
-    description: string;
-    nomUtilisateur: string;
-}
 
 /**
  * Lignes attendues à la demande d'un Blog
@@ -24,21 +16,13 @@ interface DossierRow extends RowDataPacket {
 interface BlogRow extends RowDataPacket {
     id: string;
     titre: string;
+    slug: string;
     dateCreation: Date;
     nomUtilisateur: string;
     contenu: string;
+    idSuppression: number|null;
 }
 
-/**
- * Lignes attendues à la demande d'un Message
- */
-interface MessageRow extends RowDataPacket {
-    id: string;
-    datePublication: Date;
-    contenu: string;
-    nomUtilisateur: string;
-    idBlog: string;
-}
 
 //#endregion
 
@@ -52,92 +36,130 @@ export class BlogDAOMySQL implements I_BlogDAO {
         this.pool = getDbPool();
     }
 
-    async getAllDossiers(): Promise<Dossier[]> {
-        try {
-            const [rows] = await this.pool.query<DossierRow[]>('SELECT id, titre, description, nomUtilisateur FROM Dossier');
-            
-            const dossiers : Dossier[] = rows.map((row) => {
-                const dossier = new Dossier();
-                dossier.setId(row.id);
-                dossier.setTitre(row.titre);
-                dossier.setDescription(row.description);
-                
-                const utilisateur = this.creerUtilisateur(row.nomUtilisateur);
-                dossier.setUtilisateur(utilisateur);
-                
-                return dossier;
-            });
 
-            return dossiers;
+    async creerBlog(blog : Blog, dossierId : string) : Promise<void> {
+        try {
+            // Mise en place de la requête
+            const requete = "INSERT INTO Blog(id, titre, slug, idDossier, nomUtilisateur, dateCreation, idSuppression) VALUES (?, ?, ?, ?, ?, ?, NULL)";
+            const params = [
+                blog.getId(),
+                blog.getNom(),
+                blog.getSlug(),
+                dossierId,
+                blog.getUtilisateur().getUsername(),
+                blog.getDateCreation()
+            ];
+
+            await this.pool.execute(requete, params);
         }
         catch (error) {
-            console.error("Erreur lors de la récupération des dossiers : " + error);
-            throw new Error("Impossible de récupérer les dossiers" + error);
+            console.error("Erreur lors de la création du blog : " + error);
+            throw new Error("Impossible de créer le blog" + error);
+        }
+    }
+    
+    async recupererBlogParSlug(slugBlog : string, slugDossier : string) : Promise<Blog> {
+        try {
+            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression FROM Blog b JOIN Dossier d ON b.idDossier = d.id WHERE b.slug = ? AND d.slug = ?";
+            const params = [slugBlog, slugDossier];
+
+            const [rows] = await this.pool.execute<BlogRow[]>(requete, params);
+
+            if (rows.length === 0) {
+                throw new Error("Aucun blog trouvé avec la paire slug Blog/slug Dossier fournie");
+            }
+
+            const row = rows[0];
+
+            const blog = new Blog();
+            blog.setId(row.id);
+            blog.setNom(row.titre);
+            blog.setSlug(row.slug);
+            const date = new Date(row.dateCreation);
+            blog.setDateCreation(date);
+
+            // Création de l'utilisateur associé
+            const utilisateur = new Utilisateur();
+            utilisateur.setUsername(row.nomUtilisateur);
+            blog.setUtilisateur(utilisateur);
+
+            // Création de l'objet de suppression si le blog l'est
+            if (row.idSuppression !== null) {
+                const elementSupprime = new ElementSupprime();
+                elementSupprime.setId(row.idSuppression);
+                blog.setElementSupprime(elementSupprime);
+            }
+
+            return blog;
+        }
+        catch (error) {
+            console.error("Erreur lors de la récupération du blog par slug : " + error);
+            throw new Error("Impossible de récupérer le blog par slug" + error);
         }
     }
 
-    // Récupère tous les blogs d’un dossier donné
-    async getBlogsForDossier(dossierId: string): Promise<Blog[]> {
+    async recupererBlogsDuDossier(slugDossier: string): Promise<Blog[]> {
         try {
-                
-            const [rows] = await this.pool.query<BlogRow[]>('SELECT b.id, b.titre, b.dateCreation, b.nomUtilisateur, m.contenu FROM Blog b JOIN Message m ON b.id = m.idBlog WHERE idDossier = ? AND m.id = 1 ORDER BY dateCreation ASC', [dossierId]);
+            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression, m.contenu FROM Blog b JOIN Message m ON b.id = m.idBlog JOIN dossier d ON d.id = b.idDossier WHERE d.slug = ? AND m.id = 1 ORDER BY dateCreation DESC";
+            const params = [slugDossier];
 
-            const blogs : Blog[] = rows.map((row) => {
+            const [rows] = await this.pool.query<BlogRow[]>(requete, params);
+
+            const blogs: Blog[] = [];
+
+            for (const row of rows) {
                 const blog = new Blog();
                 blog.setId(row.id);
                 blog.setNom(row.titre);
+                blog.setSlug(row.slug);
                 blog.setDateCreation(new Date(row.dateCreation));
-                
-                const utilisateur = this.creerUtilisateur(row.nomUtilisateur);
+
+                // Création de l'objet de suppression si le blog l'est
+                if (row.idSuppression !== null) {
+                    const elementSupprime = new ElementSupprime();
+                    elementSupprime.setId(row.idSuppression);
+                    blog.setElementSupprime(elementSupprime);
+                }
+
+                // Création de l'utilisateur associé
+                const utilisateur = new Utilisateur();
+                utilisateur.setUsername(row.nomUtilisateur);
                 blog.setUtilisateur(utilisateur);
-                
-                // Ajouter le premier message du blog 
-                const premierMessage = new Message();
-                premierMessage.setContenu(row.contenu);
-                premierMessage.setDate(new Date(row.dateCreation));
-                premierMessage.setUtilisateur(utilisateur);
-                blog.setMessages([premierMessage]);
-                
-                return blog;
-            });
+
+                // Création du premier message associé
+                const message = new Message();
+                message.setContenu(row.contenu);
+                blog.setMessages([message]);
+
+                blogs.push(blog);
+            }
 
             return blogs;
         }
         catch (error) {
-            console.error("Erreur lors de la récupération des blogs pour " + dossierId + " : " + error);
-            throw new Error("Impossible de récupérer des blogs pour le dossier " + dossierId);
+            console.error("Erreur lors de la récupération des blogs du dossier : " + error);
+            throw new Error("Impossible de récupérer les blogs du dossier" + error);
         }
     }
 
-    // Récupère les messages d’un blog donné
-    async getMessagesForBlog(blogId: string, dossierId: string): Promise<Message[]> {
+    async supprimerBlog(blog : Blog) : Promise<void> {
         try {
-        
-            const [rows] = await this.pool.query<MessageRow[]>('SELECT id, datePublication, contenu, nomUtilisateur, idBlog FROM Message WHERE idBlog = ? ORDER BY datePublication ASC',[blogId]);
+            if (!blog.getElementSupprime()) {
+                throw new Error("L'objet de la suppression du blog doit être défini pour le supprimer.");
+            }
 
-            const messages : Message[] = rows.map((row) => {
-                const message = new Message();
-                message.setContenu(row.contenu);
-                message.setDate(new Date(row.datePublication));
-                
-                const utilisateur = this.creerUtilisateur(row.nomUtilisateur);
-                message.setUtilisateur(utilisateur);
-                
-                return message;
-            });
+            const requete = "UPDATE Blog SET idSuppression = ? WHERE id = ?";
+            const params = [
+                blog.getElementSupprime()?.getId(),
+                blog.getId()
+            ]
 
-            return messages;
+            await this.pool.execute(requete, params);
         }
         catch (error) {
-            console.error("Erreur lors de la récupération des messages pour " + dossierId + "/" + blogId + " : " + error);
-            throw new Error("Impossible de récupérer des messages pour " + dossierId + "/" + blogId);
+            console.error("Erreur lors de la suppression du blog : " + error);
+            throw new Error("Impossible de supprimer le blog " + error);
         }
     }
 
-    // Méthode de création d'un utilisateur à partir d'un simple nom d'utilisateur
-    private creerUtilisateur(nomUtilisateur: string): Utilisateur {
-        const utilisateur = new Utilisateur();
-        utilisateur.setUsername(nomUtilisateur);
-        return utilisateur;
-    }
 }
