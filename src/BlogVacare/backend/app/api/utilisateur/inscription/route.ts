@@ -1,7 +1,7 @@
 import { CookiesMiddleware } from "@BlogsBack/middlewares/CookiesMiddleware";
 import { I_AuthService } from "@BlogsBack/service/interface/I_AuthService";
 import { INTERFACESSERVICE, ServiceFactory } from "@BlogsBack/service/ServiceFactory";
-import { DonneesUtilisateur } from "@BlogsShared/model/Auth";
+import { DonneesInscription, DonneesUtilisateur } from "@BlogsShared/model/Auth";
 import { NextRequest, NextResponse } from "next/server";
 
 const service : I_AuthService = ServiceFactory.get<I_AuthService>(INTERFACESSERVICE.I_AuthService);
@@ -14,10 +14,10 @@ const cookiesMiddleware : CookiesMiddleware = new CookiesMiddleware();
 export async function POST(request : NextRequest) : Promise<NextResponse> {
 
     try {
-        const parametres : DonneesUtilisateur = await request.json();
+        const parametres : DonneesInscription = await request.json();
 
         // Vérification des paramètres
-        if (!parametres.username || !parametres.password) {
+        if (!parametres.nomUtilisateur || !parametres.mdp1 || !parametres.mdp2) {
             return NextResponse.json(
                 { error: "Nom d'utilisateur et mot de passe requis"},
                 { status: 400 }

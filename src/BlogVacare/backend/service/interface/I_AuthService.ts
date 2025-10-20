@@ -1,4 +1,4 @@
-import { AuthReponse, DonneesUtilisateur } from "@BlogsShared/model/Auth";
+import { AuthReponse, DonneesInscription, DonneesUtilisateur } from "@BlogsShared/model/Auth";
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 
 /**
@@ -18,7 +18,7 @@ export interface I_AuthService {
      * @param donnees Données d'utilisateur entrées
      * @returns Réponse d'authentification (tokens et nom d'utilisateur)
      */
-    inscription(donnees : DonneesUtilisateur) : Promise<AuthReponse>;
+    inscription(donnees : DonneesInscription) : Promise<AuthReponse>;
     
     /**
      * Méthode de refraichissement du token d'accès

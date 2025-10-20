@@ -25,6 +25,15 @@ export interface DonneesUtilisateur {
 }
 
 /**
+ * Credentials d'identification
+ */
+export interface DonneesInscription {
+  nomUtilisateur: string;
+  mdp1: string;
+  mdp2: string;
+}
+
+/**
  * Réponse d'authentification
  */
 export interface AuthReponse {

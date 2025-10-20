@@ -4,7 +4,7 @@ import { I_AuthService } from "@BlogsBack/service/interface/I_AuthService";
 import { I_JWTUtil } from "@BlogsBack/utils/Interface/I_JWTUtil";
 import { I_PasswordHashUtil } from "@BlogsBack/utils/Interface/I_PasswordHashUtil";
 import { INTERFACESUTILS, UtilsFactory } from "@BlogsBack/utils/UtilsFactory";
-import { AuthReponse, DonneesUtilisateur, JwtPayload } from "@BlogsShared/model/Auth";
+import { AuthReponse, DonneesInscription, DonneesUtilisateur, JwtPayload } from "@BlogsShared/model/Auth";
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 
 /**
@@ -62,13 +62,18 @@ export class AuthService implements I_AuthService {
         return { utilisateur, tokenAcces, tokenRefresh };
     }
 
-    async inscription(donnees : DonneesUtilisateur) : Promise<AuthReponse> {
-        if (!this.verifierMdp(donnees.password)) {
+    async inscription(donnees : DonneesInscription) : Promise<AuthReponse> {
+
+        if (donnees.mdp1 != donnees.mdp2) {
+            throw new Error("Les 2 mots de passe entrés ne sont pas les mêmes");
+        }
+
+        if (!this.verifierMdp(donnees.mdp1)) {
             throw new Error("Mot de passe invalide, il doit contenir au moins une minuscule, une majuscule, un chiffre, un caractère spécial et avoir une longueur minimale de 12");
         }
 
         try {
-            const utilisateurExistant = await this.dao.getRole(donnees.username);
+            const utilisateurExistant = await this.dao.getRole(donnees.nomUtilisateur);
             if (utilisateurExistant) {
                 throw new Error("Ce nom d'utilisateur existe déjà, veuillez en entrer un différent");
             }
@@ -81,10 +86,10 @@ export class AuthService implements I_AuthService {
         }
 
         // On entre donc l'utilisateur en BDD ensuite
-        const mdpHash = await this.passwordUtil.hash(donnees.password);
+        const mdpHash = await this.passwordUtil.hash(donnees.mdp1);
 
         const utilisateur = new Utilisateur();
-        utilisateur.setUsername(donnees.username);
+        utilisateur.setUsername(donnees.nomUtilisateur);
         utilisateur.setMotDePasse(mdpHash);
         utilisateur.setEstAdmin(false);
 
@@ -92,7 +97,7 @@ export class AuthService implements I_AuthService {
 
         // On génère les tokens de retour
         const payload: JwtPayload = {
-            username: donnees.username,
+            username: donnees.nomUtilisateur,
             estAdmin: false,
         };
 
@@ -101,7 +106,7 @@ export class AuthService implements I_AuthService {
 
         // Retour de l'utilisateur sans mot de passe
         const utilisateurRetour = new Utilisateur();
-        utilisateurRetour.setUsername(donnees.username);
+        utilisateurRetour.setUsername(donnees.nomUtilisateur);
         utilisateurRetour.setEstAdmin(false);
 
         return {
