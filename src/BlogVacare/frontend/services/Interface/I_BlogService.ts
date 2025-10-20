@@ -1,6 +1,4 @@
-import { Dossier } from '@BlogsShared/model/Dossier';
 import { Blog } from '@BlogsShared/model/Blog';
-import { Message } from '@BlogsShared/model/Message';
 
 /**
  * Interface de gestion de services de blogs
@@ -8,24 +6,26 @@ import { Message } from '@BlogsShared/model/Message';
 export interface I_BlogService {
 
     /**
-     * Méthode permettant de récupérer tous les dossiers du projet
-     * @return Liste des dossiers
+     * Méthode de récupération de blogs d'un dossier
+     * @param slugDossier Slug du dossier concerné
+     * @returns Liste de blogs du dossier
      */
-    getAllDossiers(): Promise<Dossier[]>;
+    recupererBlogsDuDossier(slugDossier : string) : Promise<Blog[]>;
 
     /**
-     * Méthode permettant de récupérer les blogs d'un dossier
-     * @param dossierId Identifiant du dossier
-     * @return Liste des blogs du dossier
+     * Méthode de création d'un blog
+     * @param nom Nom du blog
+     * @param contenuPremierMessage Contenu du premier message 
+     * @param idDossier Identifiant du dossier dans lequel le blog sera créé
      */
-    getBlogsForDossier(dossierId: string): Promise<Blog[]>;
+    creerBlog(nom : string, contenuPremierMessage : string, idDossier : string) : Promise<void>;
 
     /**
-     * Méthode permettant de récupérer les messages d'un blog
-     * @param blogId Identifiant du blog
-     * @param dossierId Identifiant du dossier
-     * @return Liste des messages du blog
+     * Méthode de suppression d'un blog
+     * @param idBlog Identifiant du blog à supprimer
+     * @param raisonSuppression Raison de sa suppression
+     * @param cache Si le blog supprimé est à cacher ou non
      */
-    getMessagesForBlog(blogId: string, dossierId : string): Promise<Message[]>;
-        
+    supprimerBlog(idBlog : string, raisonSuppression : string, cache : boolean) : Promise<void>;
+    
 }

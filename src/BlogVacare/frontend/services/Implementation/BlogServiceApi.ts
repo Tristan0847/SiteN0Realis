@@ -1,8 +1,5 @@
 import { I_BlogService } from '@BlogsFront/services/Interface/I_BlogService';
-import { Dossier } from '@BlogsShared/model/Dossier';
 import { Blog } from '@BlogsShared/model/Blog';
-import { Message } from '@BlogsShared/model/Message';
-import { jsonMapping } from '@BlogsShared/utils/jsonMapping';
 
 /**
  * Service de gestion de blogs (réception par API)
@@ -18,55 +15,73 @@ export class BlogServiceApi implements I_BlogService {
         this.apiBaseUrl = process.env.NEXT_PUBLIC_LIEN_API_BACKEND ?? "http://localhost:3000/api";
     }
 
-    async getAllDossiers(): Promise<Dossier[]> {
+    async recupererBlogsDuDossier(slugDossier : string) : Promise<Blog[]> {
+        const url = this.apiBaseUrl + "blogs/liste/" + slugDossier;
+        const reponse = await fetch(url);
 
-        const url = `${this.apiBaseUrl}/dossiers/liste`;
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Erreur lors de la récupération des dossiers : ${response.statusText}`);
+        if (!reponse.ok) {
+            throw new Error("Erreur lors de la récupération des blogs du dossier " + slugDossier);
         }
-        const dossiersJson = await response.json();        
 
-        let dossiers : Dossier[] = [];
-        dossiersJson.forEach((d: any) => {
-            dossiers.push(jsonMapping.mapToDossier(d));
-        });
+        const blogsJson = await reponse.json();
+        const blogs : Blog[] = [];
 
-        return dossiers;
-    }
-
-    async getBlogsForDossier(dossierId: string): Promise<Blog[]> {
-
-        const url = `${this.apiBaseUrl}/blogs/liste/${dossierId}`;
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Erreur lors de la récupération des blogs pour le dossier ${dossierId} : ${response.statusText}`);
-        }
-        const blogsJson = await response.json();      
-
-        const blogs: Blog[] = [];
-        for (const blogJson of blogsJson) {
-            let blog : Blog = jsonMapping.mapToBlog(blogJson);
+        blogsJson.forEach( (blogJson : string) => {
+            const blog = Blog.fromJSON(blogJson);
             blogs.push(blog);
-        }
-
+        })
+        
         return blogs;
     }
 
-    async getMessagesForBlog(blogId: string, dossierId : string): Promise<Message[]> {
-    
-        const url = `${this.apiBaseUrl}/messages/liste/${dossierId}/${blogId}`;
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error(`Erreur lors de la récupération des messages pour le blog ${blogId} dans le dossier ${dossierId} : ${response.statusText}`);
-        }
-        const messagesJson = await response.json();        
-
-        let messages : Message[] = [];
-        messagesJson.forEach((m: any) => {
-            messages.push(jsonMapping.mapToMessage(m));
+    async creerBlog(nom : string, contenuPremierMessage : string, idDossier : string) : Promise<void> {
+        const url = this.apiBaseUrl + "blogs/creer";
+        const body = JSON.stringify({
+            nom: nom,
+            contenuPremierMessage: contenuPremierMessage,
+            idDossier: idDossier
         });
 
-        return messages;
+        const requete : RequestInit = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: body
+        };
+
+        const reponse = await fetch(url, requete);
+
+        if (!reponse.ok) {
+            const erreur = await reponse.json();
+            throw new Error(erreur.error || "Erreur lors de la création du blog");
+        }
+    }
+
+    async supprimerBlog(idBlog : string, raisonSuppression : string, cache : boolean) : Promise<void> {
+        const url = this.apiBaseUrl + "/blogs/supprimer";
+
+        const body = JSON.stringify({
+            idBlog: idBlog,
+            raisonSuppression: raisonSuppression,
+            cache: cache
+        });
+
+        const requete : RequestInit = {
+            method: "DELETE",
+            headers: {
+                "Content-Type" : "application/json",
+            },
+            credentials: "include",
+            body: body
+        }
+
+        const reponse = await fetch(url, requete);
+
+        if (!reponse.ok) {
+            const erreur = await reponse.json();
+            throw new Error(erreur.error || "Erreur lors de la suppression du blog");
+        }
     }
 }

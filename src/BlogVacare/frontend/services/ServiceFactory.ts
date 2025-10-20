@@ -1,4 +1,7 @@
 import { BlogServiceApi } from '@BlogsFront/services/Implementation/BlogServiceApi';
+import { MessageServiceApi } from './Implementation/MessageServiceApi';
+import { DossierServiceApi } from './Implementation/DossierServiceApi';
+import { AuthServiceApi } from './Implementation/AuthServiceApi';
 
 /**
  * Création de symboles pour les interfaces (clé unique)
@@ -6,8 +9,11 @@ import { BlogServiceApi } from '@BlogsFront/services/Implementation/BlogServiceA
  * et de s'assurer qu'une interface n'a qu'une seule instance
  * @see https://www.typescriptlang.org/docs/handbook/symbols.html
  */
-export const INTERFACES = {
-  I_BlogService: Symbol.for('I_BlogService'),
+export const INTERFACESSERVICE = {
+    I_DossierService: Symbol.for('I_DossierService'),
+    I_BlogService: Symbol.for('I_BlogService'),
+    I_MessageService: Symbol.for('I_MessageService'),
+    I_AuthService: Symbol.for('I_AuthService')
 };
 
 /**
@@ -34,8 +40,14 @@ export class ServiceFactory {
     // Méthode privée de création d'instances 
     private static createInstance(interfaceKey: symbol): any {
         switch (interfaceKey) {
-            case INTERFACES.I_BlogService:
+            case INTERFACESSERVICE.I_DossierService:
+                return new DossierServiceApi();
+            case INTERFACESSERVICE.I_BlogService:
                 return new BlogServiceApi();
+            case INTERFACESSERVICE.I_MessageService:
+                return new MessageServiceApi();
+            case INTERFACESSERVICE.I_AuthService:
+                return new AuthServiceApi();
             default:
                 throw new Error('Interface inconnue pour factory : ' + interfaceKey.toString());
         }
