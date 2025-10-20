@@ -14,8 +14,8 @@ export class AuthServiceApi implements I_AuthService {
     async connexion(nomUtilisateur : string, mdp : string) : Promise<AuthReponse> {
         const url = this.apiBaseUrl + "/utilisateur/connexion";
         const body = JSON.stringify({
-            nomUtilisateur: nomUtilisateur,
-            mdp: mdp
+            username: nomUtilisateur,
+            password: mdp
         });
 
         const requete : RequestInit = {

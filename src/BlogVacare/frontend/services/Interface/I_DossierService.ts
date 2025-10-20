@@ -12,6 +12,13 @@ export interface I_DossierService {
     recupererDossiers() : Promise<Dossier[]>;
 
     /**
+     * Méthode de récupération d'un dossier à partir de son slug
+     * @param slugDossier Slug du dossier associé
+     * @returns Dossier enrichi
+     */
+    recupererDossierParSlug(slugDossier : string) : Promise<Dossier>;
+
+    /**
      * Méthode de création d'un dossier 
      * @param nom Nom du dossier
      * @param description Description du dossier

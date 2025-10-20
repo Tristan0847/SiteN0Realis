@@ -16,7 +16,7 @@ export class BlogServiceApi implements I_BlogService {
     }
 
     async recupererBlogsDuDossier(slugDossier : string) : Promise<Blog[]> {
-        const url = this.apiBaseUrl + "blogs/liste/" + slugDossier;
+        const url = this.apiBaseUrl + "/blogs/liste/" + slugDossier;
         const reponse = await fetch(url);
 
         if (!reponse.ok) {
@@ -34,8 +34,24 @@ export class BlogServiceApi implements I_BlogService {
         return blogs;
     }
 
+    
+    async recupererBlogParSlug(slugBlog : string, slugDossier : string) : Promise<Blog> {
+        const url = this.apiBaseUrl + "/blogs/recuperation/" + slugDossier + "/" + slugBlog;
+        const reponse = await fetch(url);
+
+        if (!reponse.ok) {
+            throw new Error("Erreur lors de la récupération du blog " + slugDossier + "/" + slugBlog);
+        }
+
+        const blogJson = await reponse.json();
+        const blog = Blog.fromJSON(blogJson);
+
+        return blog;
+    }
+
+
     async creerBlog(nom : string, contenuPremierMessage : string, idDossier : string) : Promise<void> {
-        const url = this.apiBaseUrl + "blogs/creer";
+        const url = this.apiBaseUrl + "/blogs/creer";
         const body = JSON.stringify({
             nom: nom,
             contenuPremierMessage: contenuPremierMessage,

@@ -7,7 +7,7 @@ import mysql, { RowDataPacket } from 'mysql2/promise';
  * Lignes attendues à la demande du mot de passe d'un utilisateur
  */
 interface UtilisateurMdpRow extends RowDataPacket {
-    motDePasse : string;
+    motDePasseHache : string;
 }
 
 /**
@@ -46,7 +46,7 @@ export class UtilisateurDAOMySQL implements I_UtilisateurDAO {
                 throw new Error("Utilisateur introuvable");
             }
 
-            const mdp = rows[0].motDePasse;
+            const mdp = rows[0].motDePasseHache;
 
             let utilisateur = new Utilisateur();
             utilisateur.setUsername(username);

@@ -19,7 +19,9 @@ export async function middleware(requete : NextRequest) {
         '/api/utilisateur/refresh',
 
         '/api/dossiers/liste/',
+        '/api/dossiers/recuperation/',
         '/api/blogs/liste/',
+        '/api/blogs/recuperation/',
         '/api/messages/liste/'
     ];
 

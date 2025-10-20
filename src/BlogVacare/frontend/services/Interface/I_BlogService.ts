@@ -13,6 +13,14 @@ export interface I_BlogService {
     recupererBlogsDuDossier(slugDossier : string) : Promise<Blog[]>;
 
     /**
+     * Méthode de récupération de blogs à partir de slugs fournis
+     * @param slugBlog Slug du blog recherché
+     * @param slugDossier Slug du dossier contenant le blog
+     * @returns Blog enrichi
+     */
+    recupererBlogParSlug(slugBlog : string, slugDossier : string) : Promise<Blog>;
+
+    /**
      * Méthode de création d'un blog
      * @param nom Nom du blog
      * @param contenuPremierMessage Contenu du premier message 

@@ -22,6 +22,14 @@ export interface I_BlogService {
     recupererBlogsDuDossier(slugDossier : string) : Promise<Blog[]>;
 
     /**
+     * Méthode de récupération d'un blog à partir des slugs associés
+     * @param slugBlog Slug du blog à rechercher
+     * @param slugDossier Slug du dossier contenant le blog
+     * @returns Blog associé
+     */
+    recupererBlogParSlug(slugBlog : string, slugDossier : string) : Promise<Blog>;
+
+    /**
      * Méthode de suppression d'un blog
      * @param blogId Identifiant du blog à supprimer 
      * @param nomUtilisateur Nom de l'utilisateur supprimant le blog

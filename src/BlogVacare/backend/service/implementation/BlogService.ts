@@ -4,8 +4,6 @@ import { I_ElementSupprimeDAO } from "@BlogsBack/DAO/Interface/I_ElementSupprime
 import { I_BlogService } from "@BlogsBack/service/interface/I_BlogService";
 import { SlugsUtil } from "@BlogsShared/utils/SlugsUtil";
 import { Blog } from "@BlogsShared/model/Blog";
-import { Dossier } from "@BlogsShared/model/Dossier";
-import { Message } from "@BlogsShared/model/Message";
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 import { I_MessageService } from "@BlogsBack/service/interface/I_MessageService";
 import { INTERFACESSERVICE, ServiceFactory } from "@BlogsBack/service/ServiceFactory";
@@ -73,7 +71,7 @@ export class BlogService implements I_BlogService {
     async recupererBlogsDuDossier(slugDossier : string) : Promise<Blog[]> {
         try {
             if (!slugDossier || slugDossier.trim() === '') {
-                throw new Error("ID du dossier invalide");
+                throw new Error("Slug du dossier invalide");
             }
 
             return await this.dao.recupererBlogsDuDossier(slugDossier);
@@ -83,6 +81,22 @@ export class BlogService implements I_BlogService {
         }
     }
 
+    async recupererBlogParSlug(slugBlog : string, slugDossier : string) : Promise<Blog> {
+        try {
+            if (!slugDossier || slugDossier.trim() === '') {
+                throw new Error("Slug du dossier invalide");
+            }
+            
+            if (!slugBlog || slugBlog.trim() === '') {
+                throw new Error("Slug du blog invalide");
+            }
+
+            return await this.dao.recupererBlogParSlug(slugBlog, slugDossier);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 
     async supprimerBlog(blogId : string, nomUtilisateur : string, raisonSuppression : string, cache : boolean) : Promise<void> {
         try {

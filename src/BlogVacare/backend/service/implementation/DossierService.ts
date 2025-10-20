@@ -59,6 +59,19 @@ export class DossierService implements I_DossierService {
         }
     }
     
+    async recupererDossierParSlug(slugDossier : string) : Promise<Dossier> {
+        try {
+            if (!slugDossier || slugDossier.trim() === '') {
+                throw new Error("Slug du dossier invalide");
+            }
+
+            return await this.dao.recupererDossierParSlug(slugDossier);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
+    
     async supprimerDossier(dossierId : string, nomUtilisateur : string, raisonSuppression : string, cache : boolean) : Promise<void> {
         try {
             if (!dossierId || dossierId.trim() === '') {

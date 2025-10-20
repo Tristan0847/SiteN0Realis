@@ -31,6 +31,20 @@ export class DossierServiceApi implements I_DossierService {
         return dossiers;
     }
 
+    async recupererDossierParSlug(slugDossier : string) : Promise<Dossier> {
+        const url = this.apiBaseUrl + "/dossiers/recuperation/" + slugDossier;
+        const reponse = await fetch(url);
+
+        if (!reponse.ok) {
+            throw new Error("Erreur lors de la récupération du dossier " + slugDossier + " : " + reponse.statusText);
+        }
+
+        const dossierJson = await reponse.json();
+        const dossier = Dossier.fromJSON(dossierJson);
+
+        return dossier;
+    }
+
     async creerDossier(nom : string, description : string) : Promise<void> {
         const url = this.apiBaseUrl + "/dossiers/creer";
         const body = JSON.stringify({
