@@ -1,7 +1,7 @@
 import { CookiesMiddleware } from "@BlogsBack/middlewares/CookiesMiddleware";
 import { I_AuthService } from "@BlogsBack/service/interface/I_AuthService";
 import { INTERFACESSERVICE, ServiceFactory } from "@BlogsBack/service/ServiceFactory";
-import { DonneesInscription, DonneesUtilisateur } from "@BlogsShared/model/Auth";
+import { DonneesInscription } from "@BlogsShared/model/Auth";
 import { NextRequest, NextResponse } from "next/server";
 
 const service : I_AuthService = ServiceFactory.get<I_AuthService>(INTERFACESSERVICE.I_AuthService);

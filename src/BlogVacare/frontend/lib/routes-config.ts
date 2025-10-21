@@ -10,8 +10,8 @@ import { I_MessageService } from '@BlogsFront/services/Interface/I_MessageServic
  * Interface de structuration des routes
  */
 interface RouteComplete {
-  idDossier: string;
-  idBlog: string;
+  slugDossier: string;
+  slugBlog: string;
   messages: Message[];
 }
 
@@ -39,10 +39,10 @@ export async function getAllRoutes() {
     const routesWithBlogs: DossierAvecBlogs[] = await Promise.all(
       dossiers.map(async (dossier) => {
         try {
-          const blogs = await blogService.recupererBlogsDuDossier(dossier.getId());
+          const blogs = await blogService.recupererBlogsDuDossier(dossier.getSlug());
           return { dossier, blogs };
         } catch (error) {
-          console.log(`Erreur lors de la recherche de blogs pour le dossier ${dossier.getId()}:`, error);
+          console.log(`Erreur lors de la recherche de blogs pour le dossier ${dossier.getSlug()}:`, error);
           return { dossier, blogs: [] };
         }
       })
@@ -53,11 +53,11 @@ export async function getAllRoutes() {
       routesWithBlogs.flatMap(({ dossier, blogs }) =>
         blogs.map(async (blog) => {
           try {
-            const messages = await messageService.recupererMessagesDuBlog(blog.getSlug(), dossier.getSlug());
-            return {idDossier: dossier.getId(), idBlog: blog.getId(), messages};
+            const messages = await messageService.recupererMessagesDuBlog(dossier.getSlug(), blog.getSlug());
+            return {slugDossier: dossier.getSlug(), slugBlog: blog.getSlug(), messages};
           } catch (error) {
-            console.log(`Erreur lors de la récupération de messages pour le blog ${blog.getId()}:`, error);
-            return {idDossier: dossier.getId(), idBlog: blog.getId(), messages: []};
+            console.log(`Erreur lors de la récupération de messages pour le blog ${blog.getSlug()}:`, error);
+            return {slugDossier: dossier.getSlug(), slugBlog: blog.getSlug(), messages: []};
           }
         })
       )
@@ -85,7 +85,7 @@ export async function getDossierBlogsParams() {
     const { dossiers } = await getAllRoutes();
     
     const params = dossiers.map((dossier) => ({
-      idDossier: dossier.getId(),
+      slugDossier: dossier.getSlug(),
     }));
 
     return params;
@@ -103,8 +103,8 @@ export async function getMessagesParams() {
     const { routesCompletes } = await getAllRoutes();
     
     const params = routesCompletes.map((route) => ({
-      idDossier: route.idDossier,
-      idBlog: route.idBlog,
+      slugDossier: route.slugDossier,
+      slugBlog: route.slugBlog,
     }));
 
     return params;
@@ -117,12 +117,12 @@ export async function getMessagesParams() {
 /**
  * Récupère les infos d'une route spécifique
  */
-export async function getRouteData(idDossier: string, idBlog: string) {
+export async function getRouteData(slugDossier: string, slugBlog: string) {
   try {
     const { routesCompletes } = await getAllRoutes();
     
     return routesCompletes.find(
-      (route) => route.idDossier === idDossier && route.idBlog === idBlog
+      (route) => route.slugDossier === slugDossier && route.slugBlog === slugBlog
     );
   } catch (error) {
     console.error('Erreur lors de la récupération de données d\'une route (getRouteData) :', error);
@@ -148,12 +148,12 @@ export async function getRouteDossiers() {
 /**
  * Récupère les messages pour une route spécifique
  */
-export async function getRouteMessages(idDossier: string, idBlog: string) {
+export async function getRouteMessages(slugDossier: string, slugBlog: string) {
   try {
     const { routesCompletes } = await getAllRoutes();
     
     const route = routesCompletes.find(
-      (r) => r.idDossier === idDossier && r.idBlog === idBlog
+      (r) => r.slugDossier === slugDossier && r.slugBlog === slugBlog
     );
 
     return route?.messages || [];
@@ -166,11 +166,11 @@ export async function getRouteMessages(idDossier: string, idBlog: string) {
 /**
  * Récupère les blogs pour un dossier spécifique
  */
-export async function getRouteBlogsForDossier(idDossier: string) {
+export async function getRouteBlogsForDossier(slugDossier: string) {
   try {
     const { routesWithBlogs } = await getAllRoutes();
     
-    const route = routesWithBlogs.find((r) => r.dossier.getId() === idDossier);
+    const route = routesWithBlogs.find((r) => r.dossier.getSlug() === slugDossier);
 
     return route?.blogs || [];
   } catch (error) {

@@ -9,19 +9,19 @@ import { Blog, BlogJSON } from '@BlogsShared/model/Blog';
  * Props pour le composant PageBlogsClient
  */
 interface PageBlogsClientProps {
-  idDossier: string;
+  slugDossier: string;
   blogsPrecharges?: BlogJSON[];
 }
 
 /**
  * Page affichant les blogs d'un dossier spécifique
- * @param idDossier ID du dossier dont les blogs doivent être affichés
+ * @param slugDossier ID du dossier dont les blogs doivent être affichés
  * @param blogsPrecharges Blogs JSON préchargés en cas d'export statique
  * @returns {JSX.Element} Composant React pour la page des blogs d'un dossier
  */
-export default function PageBlogsClient({ idDossier, blogsPrecharges }: PageBlogsClientProps) {
+export default function PageBlogsClient({ slugDossier, blogsPrecharges }: PageBlogsClientProps) {
   
-  const { donnees: hookBlogs, chargement: hookLoading, erreur: hookError } = useBlogs(idDossier);
+  const { donnees: hookBlogs, chargement: hookLoading, erreur: hookError } = useBlogs(slugDossier);
   
   const loading = blogsPrecharges ? false : hookLoading;
   const error = blogsPrecharges ? null : hookError;
@@ -40,5 +40,5 @@ export default function PageBlogsClient({ idDossier, blogsPrecharges }: PageBlog
     return <MessageBox message="Aucun blog disponible" type="info" />;
   }
 
-  return <BlogList blogs={blogs} idDossier={idDossier} />;
+  return <BlogList blogs={blogs} slugDossier={slugDossier} />;
 }

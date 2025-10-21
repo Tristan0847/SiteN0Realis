@@ -14,6 +14,7 @@ export class Dossier {
     private id: string = "";
     private titre: string = "";
     private slug : string = "";
+    private dateCreation: Date = new Date();
     private description: string = "";
     private utilisateur: Utilisateur = new Utilisateur();
     private elementSupprime: ElementSupprime | null = null;
@@ -64,6 +65,22 @@ export class Dossier {
      */
     setSlug(slug: string): void {
         this.slug = slug;
+    }
+
+    /**
+     * Getter de la date de création du blog
+     * @returns 
+     */
+    getDateCreation(): Date {
+        return this.dateCreation;
+    }
+
+    /**
+     * Setter de la date de création du blog
+     * @param dateCreation 
+     */
+    setDateCreation(dateCreation: Date): void {
+        this.dateCreation = dateCreation;
     }
 
     /**
@@ -123,6 +140,7 @@ export class Dossier {
             id: this.id,
             titre: this.titre,
             slug: this.slug,
+            dateCreation: this.dateCreation.toISOString(),
             description: this.description,
             utilisateur: this.utilisateur.toJSON(),
             elementSupprime: this.elementSupprime?.toJSON() ?? null
@@ -139,6 +157,7 @@ export class Dossier {
         dossier.setId(json.id);
         dossier.setTitre(json.titre);
         dossier.setSlug(json.slug);
+        dossier.setDateCreation(new Date(json.dateCreation));
         dossier.setDescription(json.description);
         dossier.setUtilisateur(Utilisateur.fromJSON(json.utilisateur));
         if (json.elementSupprime) {

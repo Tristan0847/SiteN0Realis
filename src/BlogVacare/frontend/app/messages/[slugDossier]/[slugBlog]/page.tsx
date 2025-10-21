@@ -1,4 +1,4 @@
-import PageMessagesClient from '@BlogsFront/app/messages/[idDossier]/[idBlog]/pageClient';
+import PageMessagesClient from '@BlogsFront/app/messages/[slugDossier]/[slugBlog]/pageClient';
 import { getMessagesParams, getRouteMessages } from '@BlogsFront/lib/routes-config';
 import { MessageJSON } from '@BlogsShared/model/Message';
 import { Metadata } from 'next';
@@ -7,7 +7,7 @@ import { Metadata } from 'next';
  * Props pour la page des blogs
  */
 interface PageProps {
-    params: Promise<{ idDossier: string; idBlog: string }>;
+    params: Promise<{ slugDossier: string; slugBlog: string }>;
 }
 
 export async function generateMetadata({ params } : PageProps): Promise<Metadata> {
@@ -15,7 +15,7 @@ export async function generateMetadata({ params } : PageProps): Promise<Metadata
   const parametres = await params;
 
   return {
-    title: `${parametres.idBlog} - ${parametres.idDossier} - Blog de Vacare`,
+    title: `${parametres.slugBlog} -  Blog de Vacare`,
   };
 }
 
@@ -26,16 +26,16 @@ export async function generateMetadata({ params } : PageProps): Promise<Metadata
  */
 export default async function Page({ params }: PageProps) {
 
-  const { idDossier, idBlog } = await params;
+  const { slugDossier, slugBlog } = await params;
 
   let messagesSerialises : MessageJSON[] = [];
   const mode = process.env.NEXT_PUBLIC_NEXT_ENV;
   if (mode == 'export') {
-    const messagesPrecharges = await getRouteMessages(idDossier, idBlog);
+    const messagesPrecharges = await getRouteMessages(slugDossier, slugBlog);
     messagesSerialises = messagesPrecharges.map(message => message.toJSON());
   }
   
-  return <PageMessagesClient idDossier={idDossier} idBlog={idBlog} messagesPrecharges={ mode == "export" ? messagesSerialises : undefined } />;
+  return <PageMessagesClient slugDossier={slugDossier} slugBlog={slugBlog} messagesPrecharges={ mode == "export" ? messagesSerialises : undefined } />;
 }
 
 

@@ -54,6 +54,7 @@ CREATE TABLE Dossier(
    id VARCHAR(36) PRIMARY KEY,
    titre VARCHAR(255) NOT NULL,
    slug VARCHAR(255) NOT NULL UNIQUE,
+   dateCreation DATETIME DEFAULT CURRENT_TIMESTAMP,
    description TEXT,
    nomUtilisateur VARCHAR(50) NOT NULL,
    idSuppression INT,
@@ -79,12 +80,13 @@ CREATE TABLE Blog(
 );
 
 CREATE TABLE Message(
-   id INT AUTO_INCREMENT PRIMARY KEY,
+   id INT AUTO_INCREMENT,
    idBlog VARCHAR(36) NOT NULL,
    contenu TEXT NOT NULL,
    nomUtilisateur VARCHAR(50) NOT NULL,
    datePublication DATETIME DEFAULT CURRENT_TIMESTAMP,
    idSuppression INT,
+   PRIMARY KEY(id, idBlog),
    FOREIGN KEY(idBlog) REFERENCES Blog(id) ON DELETE CASCADE,
    FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur) ON DELETE CASCADE,
    FOREIGN KEY(idSuppression) REFERENCES ElementSupprime(id) ON DELETE CASCADE,

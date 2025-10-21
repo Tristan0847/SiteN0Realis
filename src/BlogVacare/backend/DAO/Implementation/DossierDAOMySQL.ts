@@ -13,6 +13,7 @@ interface DossierRow extends RowDataPacket {
     id: string;
     titre: string;
     slug: string;
+    dateCreation: Date;
     description: string;
     nomUtilisateur: string;
     idSuppression: number|null;
@@ -32,13 +33,14 @@ export class DossierDAOMySQL implements I_DossierDAO {
     async creerDossier(dossier : Dossier) : Promise<void> {
         try {
             // Mise en place de la requête
-            const requete = "INSERT INTO Dossier(id, titre, slug, description, nomUtilisateur, idSuppression) VALUES (?, ?, ?, ?, ?, NULL)";
+            const requete = "INSERT INTO Dossier(id, titre, slug, description, nomUtilisateur, idSuppression, dateCreation) VALUES (?, ?, ?, ?, ?, NULL, ?)";
             const parametres = [
                 dossier.getId(),
                 dossier.getTitre(),
                 dossier.getSlug(),
                 dossier.getDescription(),
-                dossier.getUtilisateur().getUsername()
+                dossier.getUtilisateur().getUsername(),
+                dossier.getDateCreation()
             ];
 
             await this.pool.execute(requete, parametres);
@@ -51,7 +53,7 @@ export class DossierDAOMySQL implements I_DossierDAO {
     
     async recupererDossierParSlug(slugDossier : string) : Promise<Dossier> {
         try {
-            const requete = "SELECT id, titre, slug, description, nomUtilisateur, idSuppression FROM Dossier WHERE slug = ?";
+            const requete = "SELECT id, titre, slug, description, nomUtilisateur, idSuppression, dateCreation FROM Dossier WHERE slug = ?";
             const params = [slugDossier];
 
             const [rows] = await this.pool.execute<DossierRow[]>(requete, params);
@@ -79,6 +81,9 @@ export class DossierDAOMySQL implements I_DossierDAO {
                 dossier.setElementSupprime(elementSupprime);
             }
 
+            const date = new Date(row.dateCreation);
+            dossier.setDateCreation(date);
+
             return dossier;
         }
         catch (error) {
@@ -90,7 +95,7 @@ export class DossierDAOMySQL implements I_DossierDAO {
 
     async recupererDossiers(): Promise<Dossier[]> {
         try {
-            const requete = "SELECT id, titre, slug, description, nomUtilisateur, idSuppression FROM Dossier";
+            const requete = "SELECT id, titre, slug, description, nomUtilisateur, idSuppression, dateCreation FROM Dossier ORDER BY dateCreation DESC";
 
             const [rows] = await this.pool.query<DossierRow[]>(requete);
             
@@ -114,6 +119,9 @@ export class DossierDAOMySQL implements I_DossierDAO {
                     elementSupprime.setId(row.idSuppression);
                     dossier.setElementSupprime(elementSupprime);
                 }
+
+                const date = new Date(row.dateCreation);
+                dossier.setDateCreation(date);
 
                 dossiers.push(dossier);
             }

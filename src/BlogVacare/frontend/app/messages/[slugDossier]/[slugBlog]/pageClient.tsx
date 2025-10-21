@@ -9,8 +9,8 @@ import { Message, MessageJSON } from '@BlogsShared/model/Message';
  * Props pour le composant PageMessagesClient
  */
 interface PageBlogsClientProps {
-  idDossier: string;
-  idBlog: string;
+  slugDossier: string;
+  slugBlog: string;
   messagesPrecharges?: MessageJSON[];
 }
 
@@ -18,9 +18,9 @@ interface PageBlogsClientProps {
  * Page affichant les messages d'un blog spécifique
  * @returns {JSX.Element} Composant React pour la page des messages d'un blog
  */
-export default function PageMessagesClient({idDossier, idBlog, messagesPrecharges }: PageBlogsClientProps) {
+export default function PageMessagesClient({slugDossier, slugBlog, messagesPrecharges }: PageBlogsClientProps) {
     
-    const { donnees: hookMessages, chargement: hookLoading, erreur: hookError } = useMessages(idBlog, idDossier);
+    const { donnees: hookMessages, chargement: hookLoading, erreur: hookError } = useMessages(slugDossier, slugBlog);
     
     const loading = messagesPrecharges ? false : hookLoading;
     const error = messagesPrecharges ? null : hookError;

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { LoggerMiddleware } from "@BlogsBack/middlewares/LoggerMiddleware";
 import { CorsMiddleware } from "@BlogsBack/middlewares/CorsMiddleware";
 import { INTERFACESSERVICE, ServiceFactory } from "@BlogsBack/service/ServiceFactory";
 import { I_MessageService } from "@BlogsBack/service/interface/I_MessageService";
