@@ -28,10 +28,16 @@ USE BlogVacare;
 
 Une fois dans ce schéma, créez vos différentes tables en exécutant les lignes suivantes :
 ```
+DROP TABLE IF EXISTS Message;
+DROP TABLE IF EXISTS Blog;
+DROP TABLE IF EXISTS Dossier;
+DROP TABLE IF EXISTS ElementSupprime;
+DROP TABLE IF EXISTS Utilisateur;
+
 CREATE TABLE Utilisateur(
    nomUtilisateur VARCHAR(50),
    motDePasseHache VARCHAR(550) NOT NULL,
-   estAdmin BOOL NOT NULL,
+   estAdmin BOOLEAN NOT NULL,
    PRIMARY KEY(nomUtilisateur)
 );
 
@@ -42,7 +48,7 @@ CREATE TABLE ElementSupprime(
   datesuppression DATETIME DEFAULT CURRENT_TIMESTAMP,
   cache BOOLEAN DEFAULT FALSE,
   FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur) ON DELETE CASCADE
-)
+);
 
 CREATE TABLE Dossier(
    id VARCHAR(36) PRIMARY KEY,

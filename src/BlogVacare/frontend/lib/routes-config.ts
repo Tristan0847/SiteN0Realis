@@ -1,8 +1,10 @@
 import { I_BlogService } from '@BlogsFront/services/Interface/I_BlogService';
-import { ServiceFactory, INTERFACES } from '@BlogsFront/services/ServiceFactory';
+import { ServiceFactory, INTERFACESSERVICE } from '@BlogsFront/services/ServiceFactory';
 import type { Dossier } from '@BlogsShared/model/Dossier';
 import type { Blog } from '@BlogsShared/model/Blog';
 import type { Message } from '@BlogsShared/model/Message';
+import { I_DossierService } from '@BlogsFront/services/Interface/I_DossierService';
+import { I_MessageService } from '@BlogsFront/services/Interface/I_MessageService';
 
 /**
  * Interface de structuration des routes
@@ -26,16 +28,18 @@ interface DossierAvecBlogs {
  */
 export async function getAllRoutes() {
   try {
-    const blogService = ServiceFactory.get<I_BlogService>(INTERFACES.I_BlogService);
+    const dossierService = ServiceFactory.get<I_DossierService>(INTERFACESSERVICE.I_DossierService);
+    const blogService = ServiceFactory.get<I_BlogService>(INTERFACESSERVICE.I_BlogService);
+    const messageService = ServiceFactory.get<I_MessageService>(INTERFACESSERVICE.I_MessageService);
 
     // Récupération des dossiers
-    const dossiers = await blogService.getAllDossiers();
+    const dossiers = await dossierService.recupererDossiers();
 
     // Pour chaque dossier, on récupère le blog
     const routesWithBlogs: DossierAvecBlogs[] = await Promise.all(
       dossiers.map(async (dossier) => {
         try {
-          const blogs = await blogService.getBlogsForDossier(dossier.getId());
+          const blogs = await blogService.recupererBlogsDuDossier(dossier.getId());
           return { dossier, blogs };
         } catch (error) {
           console.log(`Erreur lors de la recherche de blogs pour le dossier ${dossier.getId()}:`, error);
@@ -49,7 +53,7 @@ export async function getAllRoutes() {
       routesWithBlogs.flatMap(({ dossier, blogs }) =>
         blogs.map(async (blog) => {
           try {
-            const messages = await blogService.getMessagesForBlog(blog.getId(), dossier.getId());
+            const messages = await messageService.recupererMessagesDuBlog(blog.getSlug(), dossier.getSlug());
             return {idDossier: dossier.getId(), idBlog: blog.getId(), messages};
           } catch (error) {
             console.log(`Erreur lors de la récupération de messages pour le blog ${blog.getId()}:`, error);

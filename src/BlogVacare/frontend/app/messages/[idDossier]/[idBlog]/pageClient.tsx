@@ -4,7 +4,6 @@ import { MessageList } from '@BlogsFront/components/message/MessageList';
 import MessageBox from '@BlogsFront/components/MessageBox';
 import { useMessages } from '@BlogsFront/hooks/useMessages';
 import { Message, MessageJSON } from '@BlogsShared/model/Message';
-import { useEffect, useState } from 'react';
 
 /**
  * Props pour le composant PageMessagesClient
@@ -21,16 +20,24 @@ interface PageBlogsClientProps {
  */
 export default function PageMessagesClient({idDossier, idBlog, messagesPrecharges }: PageBlogsClientProps) {
     
-    const { messages: hookMessages, loading: hookLoading, error: hookError } = useMessages(idBlog, idDossier);
+    const { donnees: hookMessages, chargement: hookLoading, erreur: hookError } = useMessages(idBlog, idDossier);
     
-    // On utilise les données de préchargement si elles sont présentes, sinon celles du hook
-    const messages = messagesPrecharges ? messagesPrecharges.map(m => Message.fromJSON(m)) : hookMessages;
-
     const loading = messagesPrecharges ? false : hookLoading;
     const error = messagesPrecharges ? null : hookError;
 
     if (loading) return <MessageBox message="Chargement des messages..." type="loading" />;
     if (error) return <MessageBox message={`Erreur : ${error.message}`} type="error" />;
+
+    // Chargement des messages
+    let messages: Message[];
+    
+    if (messagesPrecharges) {
+      messages = messagesPrecharges.map(b => Message.fromJSON(b));
+    } else if (hookMessages) {
+      messages = hookMessages;
+    } else {
+      return <MessageBox message="Aucun blog disponible" type="info" />;
+    }
 
     return (
         <MessageList messages={messages} />

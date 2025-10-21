@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import PageDossiersClient from '@BlogsFront/app/pageClient';
 import { getPageAccueilParams, getRouteDossiers } from '@BlogsFront/lib/routes-config';
-import { Dossier, DossierJSON } from '@BlogsShared/model/Dossier';
+import { DossierJSON } from '@BlogsShared/model/Dossier';
 
 export function generateMetadata(): Metadata {
   return {

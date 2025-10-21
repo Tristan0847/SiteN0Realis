@@ -4,7 +4,6 @@ import { useBlogs } from '@BlogsFront/hooks/useBlogs';
 import { BlogList } from '@BlogsFront/components/blog/BlogList';
 import MessageBox from '@BlogsFront/components/MessageBox';
 import { Blog, BlogJSON } from '@BlogsShared/model/Blog';
-import { useEffect, useState } from 'react';
 
 /**
  * Props pour le composant PageBlogsClient
@@ -22,16 +21,24 @@ interface PageBlogsClientProps {
  */
 export default function PageBlogsClient({ idDossier, blogsPrecharges }: PageBlogsClientProps) {
   
-  const { blogs: hookBlogs, loading: hookLoading, error: hookError } = useBlogs(idDossier);
-
-  // On utilise les données de préchargement si elles sont présentes, sinon celles du hook
-  const blogs = blogsPrecharges ? blogsPrecharges.map(b => Blog.fromJSON(b)) : hookBlogs;
+  const { donnees: hookBlogs, chargement: hookLoading, erreur: hookError } = useBlogs(idDossier);
   
   const loading = blogsPrecharges ? false : hookLoading;
   const error = blogsPrecharges ? null : hookError;
 
   if (loading) return <MessageBox message="Chargement des blogs..." type="loading" />;
   if (error) return <MessageBox message={`Erreur : ${error.message}`} type="error" />;
+
+  // Chargement des blogs
+  let blogs: Blog[];
+  
+  if (blogsPrecharges) {
+    blogs = blogsPrecharges.map(b => Blog.fromJSON(b));
+  } else if (hookBlogs) {
+    blogs = hookBlogs;
+  } else {
+    return <MessageBox message="Aucun blog disponible" type="info" />;
+  }
 
   return <BlogList blogs={blogs} idDossier={idDossier} />;
 }
