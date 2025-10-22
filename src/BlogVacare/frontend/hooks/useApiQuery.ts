@@ -29,7 +29,7 @@ export function useApiQuery<TData, TParams extends any[] = []>(
     const paramsKey = JSON.stringify(params);
 
     // Récupération des données manuellement
-    const refetch = useCallback(async () => {
+    const refetch = useCallback(async () : Promise<TData|null> => {
         setChargement(true);
         setErreur(null);
 
@@ -37,11 +37,13 @@ export function useApiQuery<TData, TParams extends any[] = []>(
             const resultat = await queryFn(...params);
             setDonnees(resultat);
             retourSucces?.(resultat);
+            return resultat;
         }
         catch (err) {
             const erreur = err instanceof Error ? err : new Error("Erreur inconnue");
             setErreur(erreur);
             retourErreur?.(erreur);
+            return null;
         }
         finally {
             setChargement(false);

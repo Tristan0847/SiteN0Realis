@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AuthMiddleware } from "@BlogsBack/middlewares/AuthMiddleware";
 import { LoggerMiddleware } from "./middlewares/LoggerMiddleware";
+import { CorsMiddleware } from "./middlewares/CorsMiddleware";
 
 export const runtime = 'nodejs'; 
 const authMiddleware = new AuthMiddleware();
@@ -12,11 +13,21 @@ export async function middleware(requete : NextRequest) {
 
     const chemin = requete.nextUrl.pathname;
 
+    // Autorisation du préchargement de la requête
+    if (requete.method === 'OPTIONS') {
+        const reponse = new NextResponse(null, {
+            status: 200
+        });
+        const requeteCors = CorsMiddleware.addCorsHeaders(reponse, requete);
+        return requeteCors;
+    }
+
     const routesPubliques = [
         '/api/utilisateur/connexion',
         '/api/utilisateur/deconnexion',
         '/api/utilisateur/inscription',
         '/api/utilisateur/refresh',
+        '/api/utilisateur/me',
 
         '/api/dossiers/liste/',
         '/api/dossiers/recuperation/',

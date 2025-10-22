@@ -3,6 +3,7 @@ import { Header } from '@BlogsFront/components/Header';
 import FondResonanceClient from '@BlogsFront/components/FondResonances';
 import '@BlogsFront/styles/globals.css';
 import { Metadata } from 'next';
+import { AuthProvider } from '@BlogsFront/contexts/AuthContext';
 
 /**
  * Composant pour gérer les balises meta du site
@@ -25,15 +26,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <html lang="fr">
         
       <body className="bg-neutral-light text-neutral-dark font-sans flex flex-col min-h-screen">
-          <Header/>
+          <AuthProvider>
+            <Header/>
 
-          <FondResonanceClient/>
+            <FondResonanceClient/>
 
-          <main className="min-h-[70vh] p-6 mx-auto w-full max-w-8xl flex-grow">
-              {children}
-          </main>
+            <main className="min-h-[70vh] p-6 mx-auto w-full max-w-8xl flex-grow">
+                {children}
+            </main>
 
-          <Footer/>
+            <Footer/>
+          </AuthProvider>
       </body>
 
       </html>

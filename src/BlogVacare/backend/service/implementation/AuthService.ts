@@ -145,6 +145,15 @@ export class AuthService implements I_AuthService {
         return utilisateur;
     }
 
+    async verifierToken(tokenAcces : string) : Promise<JwtPayload> {
+        try {
+            const payload = this.jwtUtil.verifierTokenAcces(tokenAcces);
+            return payload;
+        }
+        catch (erreur) {
+            throw erreur;
+        }
+    }
 
     private verifierMdp(motDePasse : string) : boolean {
         return this.regexMdp.test(motDePasse);

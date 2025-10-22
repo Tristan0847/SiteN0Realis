@@ -20,7 +20,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
         // On crée la réponse JSON avec le blog et on ajoute les en-têtes CORS
         let response = NextResponse.json(blogs);
-        response = CorsMiddleware.addCorsHeaders(response);
+        response = CorsMiddleware.addCorsHeaders(response, request);
 
         // On retourne la réponse
         return response;

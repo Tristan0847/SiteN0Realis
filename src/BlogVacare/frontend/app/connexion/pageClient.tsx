@@ -1,0 +1,31 @@
+'use client';
+
+import { FormulaireConnexion } from '@BlogsFront/components/auth/FormulaireConnexion';
+import { useAuthContexte } from '@BlogsFront/contexts/AuthContext';
+import { useConnexion } from '@BlogsFront/hooks/useAuth';
+import { useRouter } from 'next/navigation';
+
+/**
+ * Page affichant les messages d'un blog spécifique
+ * @returns {JSX.Element} Composant React pour la page de connexion du site
+ */
+export default function PageConnexionClient() {
+    
+    const { mutation: mutationConnexion, chargement: hookLoading, erreur: hookError } = useConnexion();
+    const { verifierAuth } = useAuthContexte();
+    const router = useRouter();
+
+    // A la soumission du formulaire, on renvoie vers l'action de connexion
+    const handleConnexion = async (nomUtilisateur: string, mdp: string) => {
+      const resultat = await mutationConnexion(nomUtilisateur, mdp);
+
+      if (resultat && resultat.succes) {
+        await verifierAuth();
+        router.push("/");
+      }
+    }
+    
+    return (
+        <FormulaireConnexion onSubmit={ handleConnexion } chargement={hookLoading} erreur={hookError}  />
+    );
+}

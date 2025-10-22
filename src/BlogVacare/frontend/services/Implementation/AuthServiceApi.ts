@@ -1,4 +1,5 @@
 import { AuthReponse, I_AuthService } from "@BlogsFront/services/Interface/I_AuthService";
+import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 
 /**
  * Service d'authentification du site
@@ -90,6 +91,25 @@ export class AuthServiceApi implements I_AuthService {
         if (!reponse.ok) {
             throw new Error("Impossible de rafraîchir le token d'accès");
         }
+    }
+
+    async recupererUtilisateurConnecte() : Promise<Utilisateur> {
+        const url = this.apiBaseUrl + "/utilisateur/me";
+        const requete : RequestInit = {
+            method: "GET",
+            credentials: "include"
+        };
+        
+        const reponse = await fetch(url, requete);
+
+        if (!reponse.ok) {
+            throw new Error("Impossible de récupérer l'utilisateur associé");
+        }
+
+        const utilisateurJson = await reponse.json();
+        const utilisateur = Utilisateur.fromJSON(utilisateurJson);
+        
+        return utilisateur;
     }
 
 }

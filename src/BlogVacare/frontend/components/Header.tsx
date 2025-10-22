@@ -13,6 +13,7 @@ export function Header() {
                 <nav>
                     <ul className="flex items-center justify-center space-x-4 mt-2 text-2xl">
                         <li><Link href="/" className="hover:underline">Accueil</Link></li>
+                        <li><Link href="/connexion" className="hover:underline">Connexion</Link></li>
                     </ul>
                 </nav>
             </header>

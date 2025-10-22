@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
 
         // On crée la réponse JSON avec les dossiers et on ajoute les en-têtes CORS
         let response = NextResponse.json(dossiers);
-        response = CorsMiddleware.addCorsHeaders(response);
+        response = CorsMiddleware.addCorsHeaders(response, request);
 
         // On retourne la réponse
         return response;

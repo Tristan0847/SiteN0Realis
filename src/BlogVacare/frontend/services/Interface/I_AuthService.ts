@@ -39,4 +39,9 @@ export interface I_AuthService {
      */
     rafraichirToken() : Promise<void>;
 
+    /**
+     * Méthode de récupération de l'utilisateur actuellement connecté
+     * @returns Utilisateur connecté
+     */
+    recupererUtilisateurConnecte() : Promise<Utilisateur>;
 }

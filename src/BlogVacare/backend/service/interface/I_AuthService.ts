@@ -1,5 +1,6 @@
 import { AuthReponse, DonneesInscription, DonneesUtilisateur } from "@BlogsShared/model/Auth";
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
+import { JwtPayload } from "jsonwebtoken";
 
 /**
  * Interface de service d'authentification
@@ -34,4 +35,10 @@ export interface I_AuthService {
      */
     getUtilisateur(tokenAcces : string) : Promise<Utilisateur>;
 
+    /**
+     * Méthode de vérification du token d'accès
+     * @param tokenAcces Token d'accès entrant
+     * @returns Valeurs du token d'accès
+     */
+    verifierToken(tokenAcces : string) : Promise<JwtPayload>;
 }

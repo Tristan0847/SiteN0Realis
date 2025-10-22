@@ -1,6 +1,7 @@
 'use client';
 
 import { Message } from '@BlogsShared/model/Message';
+import Image from "next/image";
 
 /**
  * Props du composant MessageItem
@@ -23,7 +24,7 @@ export function MessageItem({ message }: MessageItemProps) {
     return (
         <div className="flex gap-4 rounded-lg bg-white shadow-sm transition-transform duration-300 hover:scale-[1.01] hover:shadow-lg">
             <div className="flex-none w-2/12 bg-gradient-to-r from-gray-300/50 to-white flex justify-center p-1">
-                <img
+                <Image
                     className="w-24 h-24 rounded-full object-cover p-4"
                     src={avatarSrc}
                     alt={`Avatar de ${message.getUtilisateur().getUsername()}`}

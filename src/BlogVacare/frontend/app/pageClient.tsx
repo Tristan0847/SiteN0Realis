@@ -1,9 +1,12 @@
 "use client";
 
+import { DossierEntete } from "@BlogsFront/components/dossier/DossierEntete";
+import { DossierFormCreation } from "@BlogsFront/components/dossier/DossierFormCreation";
 import { DossierList } from "@BlogsFront/components/dossier/DossierList";
 import MessageBox from "@BlogsFront/components/MessageBox";
-import { useDossiers } from "@BlogsFront/hooks/useDossiers";
+import { useCreerDossier, useDossiers } from "@BlogsFront/hooks/useDossiers";
 import { Dossier, DossierJSON } from "@BlogsShared/model/Dossier";
+import { useState } from "react";
 
 /**
  * Props pour le composant PageDossiersClient
@@ -18,7 +21,19 @@ interface PageDossiersClientProps {
  */
 export default function PageDossiersClient({ dossiersPrecharges } : PageDossiersClientProps) {
   
-    const { donnees: hookDossiers, chargement: hookLoading, erreur: hookError } = useDossiers();
+    // Hook de récupération des dossiers
+    const { donnees: hookDossiers, chargement: hookLoading, erreur: hookError, refetch: refetch } = useDossiers();
+
+    // Hook de création de dossiers
+    const {mutation: mutation, chargement: chargementCreation, erreur: erreurCreation} = useCreerDossier();
+
+    const estConnecte = true;
+
+    // Une fois un succès créé, on ferme le formulaire de création et on re-récupère la page
+    const handleCreation = async (nom: string, description: string) => {
+      const resultat = await mutation(nom, description);
+      refetch();
+    }
 
     const loading = dossiersPrecharges ? false : hookLoading;
     const error = dossiersPrecharges ? null : hookError;
@@ -38,6 +53,11 @@ export default function PageDossiersClient({ dossiersPrecharges } : PageDossiers
     }
 
     return (
+      <div>
+        <DossierEntete/>
+        <DossierFormCreation onSubmit={handleCreation} chargement={ chargementCreation } erreur={ erreurCreation } estConnecte= {estConnecte }/>
+        
         <DossierList dossiers={dossiers} />
+      </div>
     );
 }
