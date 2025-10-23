@@ -1,3 +1,4 @@
+import { CookiesMiddleware } from "@BlogsBack/middlewares/CookiesMiddleware";
 import { NextRequest, NextResponse } from "next/server";
 
 /**
@@ -8,8 +9,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function POST(request: NextRequest) : Promise<NextResponse> {
     const reponse = NextResponse.json({ succes: true });
 
-    reponse.cookies.delete("tokenAcces");
-    reponse.cookies.delete("tokenRefresh");
+    const middleware = new CookiesMiddleware();
+    middleware.effacerAuthCookies(reponse);
 
     return reponse;
 }

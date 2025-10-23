@@ -3,6 +3,7 @@ import { getDbPool } from "@BlogsBack/config/MySQL/dbPoolMySql";
 import { I_ElementSupprimeDAO } from "@BlogsBack/DAO/Interface/I_ElementSupprimeDAO";
 import { ElementSupprime } from '@BlogsShared/model/ElementSupprime';
 import { Utilisateur } from '@BlogsShared/model/Utilisateur';
+import { dateFormatUtil } from '@BlogsShared/utils/dateFormatUtil';
 
 /**
  * Lignes attendues à la demande d'un ElementSupprime
@@ -27,12 +28,15 @@ export class ElementSupprimeDAOMySQL implements I_ElementSupprimeDAO {
 
     async creerElementSupprime(element : ElementSupprime) : Promise<ElementSupprime> {
         try {
+            
+            const date = dateFormatUtil.dateToMySQLFormat(element.getDateSuppression());
+
             // Mise en place de la requête
             const requete = "INSERT INTO ElementSupprime(nomUtilisateur, raisonSuppression, dateSuppression, cache) VALUES (?, ?, ?, ?)";
             const params = [
                 element.getUtilisateur().getUsername(),
                 element.getRaisonSuppression(),
-                element.getDateSuppression(),
+                date,
                 element.getCache()
             ];
 

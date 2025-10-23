@@ -86,7 +86,7 @@ export class DossierService implements I_DossierService {
             elementSupprime.setUtilisateur(utilisateur);
 
             elementSupprime.setCache(cache);
-            const date = new Date("now");
+            const date = new Date();
             elementSupprime.setDateSuppression(date);
 
             const elementSupprimeAvecID =  await this.elementSupprimeDAO.creerElementSupprime(elementSupprime);

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { AuthMiddleware } from "@BlogsBack/middlewares/AuthMiddleware";
-import { LoggerMiddleware } from "./middlewares/LoggerMiddleware";
-import { CorsMiddleware } from "./middlewares/CorsMiddleware";
+import { LoggerMiddleware } from "@BlogsBack/middlewares/LoggerMiddleware";
+import { CorsMiddleware } from "@BlogsBack/middlewares/CorsMiddleware";
 
 export const runtime = 'nodejs'; 
 const authMiddleware = new AuthMiddleware();

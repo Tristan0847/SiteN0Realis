@@ -1,7 +1,7 @@
 import { BlogServiceApi } from '@BlogsFront/services/Implementation/BlogServiceApi';
-import { MessageServiceApi } from './Implementation/MessageServiceApi';
-import { DossierServiceApi } from './Implementation/DossierServiceApi';
-import { AuthServiceApi } from './Implementation/AuthServiceApi';
+import { MessageServiceApi } from '@BlogsFront/services/Implementation/MessageServiceApi';
+import { DossierServiceApi } from '@BlogsFront/services/Implementation/DossierServiceApi';
+import { AuthServiceApi } from '@BlogsFront/services/Implementation/AuthServiceApi';
 
 /**
  * Création de symboles pour les interfaces (clé unique)

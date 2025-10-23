@@ -1,7 +1,4 @@
-// app/api/utilisateur/me/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { verify } from 'jsonwebtoken';
-import { JwtPayload } from '@BlogsShared/model/Auth';
 import { I_AuthService } from '@BlogsBack/service/interface/I_AuthService';
 import { INTERFACESSERVICE, ServiceFactory } from '@BlogsBack/service/ServiceFactory';
 

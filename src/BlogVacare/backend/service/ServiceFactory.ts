@@ -1,8 +1,7 @@
-import path from 'path';
 import { AuthService } from '@BlogsBack/service/implementation/AuthService';
 import { BlogService } from '@BlogsBack/service/implementation/BlogService';
-import { MessageService } from './implementation/MessageService';
-import { DossierService } from './implementation/DossierService';
+import { MessageService } from '@BlogsBack/service/implementation/MessageService';
+import { DossierService } from '@BlogsBack/service/implementation/DossierService';
 
 /**
  * Création de symboles pour les interfaces (clé unique)

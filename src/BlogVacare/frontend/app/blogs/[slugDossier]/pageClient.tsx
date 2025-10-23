@@ -1,9 +1,12 @@
 'use client';
 
-import { useBlogs } from '@BlogsFront/hooks/useBlogs';
+import { useBlogs, useCreerBlog } from '@BlogsFront/hooks/useBlogs';
 import { BlogList } from '@BlogsFront/components/blog/BlogList';
 import MessageBox from '@BlogsFront/components/MessageBox';
 import { Blog, BlogJSON } from '@BlogsShared/model/Blog';
+import { BlogFormCreation } from '@BlogsFront/components/blog/BlogFormCreation';
+import { useAuthContexte } from '@BlogsFront/contexts/AuthContext';
+import { useDossier } from '@BlogsFront/hooks/useDossiers';
 
 /**
  * Props pour le composant PageBlogsClient
@@ -21,7 +24,24 @@ interface PageBlogsClientProps {
  */
 export default function PageBlogsClient({ slugDossier, blogsPrecharges }: PageBlogsClientProps) {
   
-  const { donnees: hookBlogs, chargement: hookLoading, erreur: hookError } = useBlogs(slugDossier);
+  const { donnees: hookBlogs, chargement: hookLoading, erreur: hookError, refetch: refetch } = useBlogs(slugDossier);
+  const { donnees: dossier, chargement: hookDossierLoading, erreur: hookDossierErreur } = useDossier(slugDossier);
+  
+  // Hook de création de blogs
+  const {mutation: mutation, chargement: chargementCreation, erreur: erreurCreation} = useCreerBlog();
+  
+  // Hook de contexte d'authentification (Vérification que l'on est connecté ou non)
+  const { estConnecte, utilisateur, chargement: chargementAuth } = useAuthContexte();
+
+  // Une fois un succès créé, on ferme le formulaire de création et on re-récupère la page
+  const handleCreation = async (nom: string, premierMessage: string) => {
+    if (!dossier) {
+      throw new Error("Identifiant du dossier manquant");
+    }
+    
+    const resultat = await mutation(nom, premierMessage, dossier.getId());
+    refetch();
+  }
   
   const loading = blogsPrecharges ? false : hookLoading;
   const error = blogsPrecharges ? null : hookError;
@@ -40,5 +60,10 @@ export default function PageBlogsClient({ slugDossier, blogsPrecharges }: PageBl
     return <MessageBox message="Aucun blog disponible" type="info" />;
   }
 
-  return <BlogList blogs={blogs} slugDossier={slugDossier} />;
+  return( 
+  <div>
+    <BlogFormCreation onSubmit={handleCreation} chargement={ chargementCreation } erreur={ erreurCreation } estConnecte= {estConnecte }/>
+        
+    <BlogList blogs={blogs} slugDossier={slugDossier} />
+    </div>);
 }

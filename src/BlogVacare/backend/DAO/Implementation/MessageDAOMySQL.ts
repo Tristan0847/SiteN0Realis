@@ -4,6 +4,7 @@ import { I_MessageDAO } from "@BlogsBack/DAO/Interface/I_MessageDAO";
 import { Message } from '@BlogsShared/model/Message';
 import { Utilisateur } from '@BlogsShared/model/Utilisateur';
 import { ElementSupprime } from '@BlogsShared/model/ElementSupprime';
+import { dateFormatUtil } from '@BlogsShared/utils/dateFormatUtil';
 
 
 /**
@@ -19,11 +20,13 @@ export class MessageDAOMySQL implements I_MessageDAO {
 
     async creerMessage(message : Message, idBlog : string) : Promise<void> {
         try {
+            const date = dateFormatUtil.dateToMySQLFormat(message.getDate());
+
             // Mise en place de la requête
             const requete = "INSERT INTO Message(contenu, datePublication, nomUtilisateur, idBlog, idSuppression) VALUES (?, ?, ?, ?, NULL)";
             const params = [
                 message.getContenu(),
-                message.getDate(),
+                date,
                 message.getUtilisateur().getUsername(),
                 idBlog
             ]

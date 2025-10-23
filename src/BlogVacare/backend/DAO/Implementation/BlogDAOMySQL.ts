@@ -1,11 +1,11 @@
 import mysql, { RowDataPacket } from 'mysql2/promise';
-import { Dossier } from '@BlogsShared/model/Dossier';
 import { Blog } from '@BlogsShared/model/Blog';
 import { Message } from '@BlogsShared/model/Message';
 import { I_BlogDAO } from '@BlogsBack/DAO/Interface/I_BlogDAO';
 import { Utilisateur } from '@BlogsShared/model/Utilisateur';
 import { getDbPool } from '@BlogsBack/config/MySQL/dbPoolMySql';
 import { ElementSupprime } from '@BlogsShared/model/ElementSupprime';
+import { dateFormatUtil } from '@BlogsShared/utils/dateFormatUtil';
 
 //#region Interfaces
 
@@ -39,6 +39,7 @@ export class BlogDAOMySQL implements I_BlogDAO {
 
     async creerBlog(blog : Blog, dossierId : string) : Promise<void> {
         try {
+            const date = dateFormatUtil.dateToMySQLFormat(blog.getDateCreation());
             // Mise en place de la requête
             const requete = "INSERT INTO Blog(id, titre, slug, idDossier, nomUtilisateur, dateCreation, idSuppression) VALUES (?, ?, ?, ?, ?, ?, NULL)";
             const params = [
@@ -47,7 +48,7 @@ export class BlogDAOMySQL implements I_BlogDAO {
                 blog.getSlug(),
                 dossierId,
                 blog.getUtilisateur().getUsername(),
-                blog.getDateCreation()
+                date
             ];
 
             await this.pool.execute(requete, params);

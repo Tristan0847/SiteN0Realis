@@ -3,7 +3,7 @@
 import { ServiceFactory, INTERFACESSERVICE } from '@BlogsFront/services/ServiceFactory';
 import { I_AuthService, AuthReponse } from '@BlogsFront/services/Interface/I_AuthService';
 import { useApiMutation } from '@BlogsFront/hooks/useApiMutation';
-import { useApiQuery } from './useApiQuery';
+import { useApiQuery } from '@BlogsFront/hooks/useApiQuery';
 import { Utilisateur } from '@BlogsShared/model/Utilisateur';
 
 const authService = ServiceFactory.get<I_AuthService>(INTERFACESSERVICE.I_AuthService);

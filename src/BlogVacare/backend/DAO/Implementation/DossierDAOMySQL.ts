@@ -1,10 +1,11 @@
 import { getDbPool } from "@BlogsBack/config/MySQL/dbPoolMySql";
-import { I_DossierDAO } from "../Interface/I_DossierDAO";
+import { I_DossierDAO } from "@BlogsBack/DAO/Interface/I_DossierDAO";
 import mysql from 'mysql2/promise';
 import { RowDataPacket } from 'mysql2/promise';
 import { Dossier } from "@BlogsShared/model/Dossier";
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 import { ElementSupprime } from "@BlogsShared/model/ElementSupprime";
+import { dateFormatUtil } from "@BlogsShared/utils/dateFormatUtil";
 
 /**
  * Lignes attendues à la demande d'un Dossier
@@ -32,6 +33,7 @@ export class DossierDAOMySQL implements I_DossierDAO {
 
     async creerDossier(dossier : Dossier) : Promise<void> {
         try {
+            const date = dateFormatUtil.dateToMySQLFormat(dossier.getDateCreation());
             // Mise en place de la requête
             const requete = "INSERT INTO Dossier(id, titre, slug, description, nomUtilisateur, idSuppression, dateCreation) VALUES (?, ?, ?, ?, ?, NULL, ?)";
             const parametres = [
@@ -40,7 +42,7 @@ export class DossierDAOMySQL implements I_DossierDAO {
                 dossier.getSlug(),
                 dossier.getDescription(),
                 dossier.getUtilisateur().getUsername(),
-                dossier.getDateCreation()
+                date
             ];
 
             await this.pool.execute(requete, parametres);
