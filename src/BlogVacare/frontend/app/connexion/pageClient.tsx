@@ -18,7 +18,7 @@ export default function PageConnexionClient() {
     // A la soumission du formulaire, on renvoie vers l'action de connexion
     const handleConnexion = async (nomUtilisateur: string, mdp: string) => {
       const resultat = await mutationConnexion(nomUtilisateur, mdp);
-
+      
       if (resultat && resultat.succes) {
         await verifierAuth();
         router.push("/");

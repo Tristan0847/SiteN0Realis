@@ -36,7 +36,7 @@ export class AuthServiceApi implements I_AuthService {
         }
 
         const retour : AuthReponse = await reponse.json();
-
+        
         return retour;
     }
 

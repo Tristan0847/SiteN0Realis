@@ -11,7 +11,7 @@ interface AuthContexteType {
     estConnecte: boolean;
     utilisateur: Utilisateur|null;
     chargement: boolean;
-    verifierAuth: () => Promise<void>;
+    verifierAuth: () => Promise<{ succes: boolean, erreur? : string }>;
 }
 
 const AuthContexte = createContext<AuthContexteType|undefined>(undefined);
@@ -27,11 +27,9 @@ export function AuthProvider({ children } : { children: ReactNode}) {
 
     const verifierAuth = async () => {
         try {
-            const resultat = await mutationRafraichir();
+            setChargement(true);
 
-            if (resultat == null) {
-                throw new Error("Erreur lors du rafraichissement de votre jeton d'accès.");
-            }
+            await mutationRafraichir();
             
             const utilisateur = await fetchUtilisateur();
 
@@ -41,10 +39,17 @@ export function AuthProvider({ children } : { children: ReactNode}) {
 
             setUtilisateur(utilisateur);
             setEstConnecte(true);
+
+            return { succes: true }
         }
         catch (error) {
             setEstConnecte(false);
             setUtilisateur(null);
+
+            return {
+                succes: false,
+                erreur: error instanceof Error ? error.message : "Erreur inconnue lors de l'authentification"
+            };
         }
         finally {
             setChargement(false);

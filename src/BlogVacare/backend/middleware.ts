@@ -29,36 +29,45 @@ export async function middleware(requete : NextRequest) {
         '/api/utilisateur/refresh',
         '/api/utilisateur/me',
 
-        '/api/dossiers/liste/',
-        '/api/dossiers/recuperation/',
-        '/api/blogs/liste/',
-        '/api/blogs/recuperation/',
-        '/api/messages/liste/'
+        '/api/dossiers/liste',
+        '/api/dossiers/recuperation',
+        '/api/blogs/liste',
+        '/api/blogs/recuperation',
+        '/api/messages/liste'
     ];
 
     const routesAdmin = [
-        '/api/dossiers/supprimer/',
-        '/api/blogs/supprimer/',
-        '/api/messages/supprimer/'
+        '/api/dossiers/supprimer',
+        '/api/blogs/supprimer',
+        '/api/messages/supprimer'
     ];
 
     const routesAuthentifiees = [
-        '/api/dossiers/creer/',
-        '/api/blogs/creer/',
-        '/api/messages/creer/'
+        '/api/dossiers/creer',
+        '/api/blogs/creer',
+        '/api/messages/creer'
     ];
+
+    let reponse : NextResponse|undefined;
 
     // Récupération des réponses selon le niveau d'authentification requis
     if (routesPubliques.some(route => chemin.startsWith(route))) {
-        return NextResponse.next();
+        reponse = NextResponse.next();
     }
 
     if (routesAdmin.some(route => chemin.startsWith(route))) {
-        return await authMiddleware.verifierAdmin(requete);
+        reponse = await authMiddleware.verifierAdmin(requete);
     }
 
     if (routesAuthentifiees.some(route => chemin.startsWith(route))) {
-        return await authMiddleware.authentification(requete);
+        reponse = await authMiddleware.authentification(requete);
     }
 
+    if (reponse == undefined) {
+        throw new Error("Aucune route correspondante n'a été retrouvée");
+    }
+
+    const reponseCors : NextResponse = CorsMiddleware.addCorsHeaders(reponse, requete);
+
+    return reponseCors;
 }

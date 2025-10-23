@@ -4,6 +4,7 @@ import { DossierEntete } from "@BlogsFront/components/dossier/DossierEntete";
 import { DossierFormCreation } from "@BlogsFront/components/dossier/DossierFormCreation";
 import { DossierList } from "@BlogsFront/components/dossier/DossierList";
 import MessageBox from "@BlogsFront/components/MessageBox";
+import { useAuthContexte } from "@BlogsFront/contexts/AuthContext";
 import { useCreerDossier, useDossiers } from "@BlogsFront/hooks/useDossiers";
 import { Dossier, DossierJSON } from "@BlogsShared/model/Dossier";
 import { useState } from "react";
@@ -27,7 +28,8 @@ export default function PageDossiersClient({ dossiersPrecharges } : PageDossiers
     // Hook de création de dossiers
     const {mutation: mutation, chargement: chargementCreation, erreur: erreurCreation} = useCreerDossier();
 
-    const estConnecte = true;
+    // Hook de contexte d'authentification (Vérification que l'on est connecté ou non)
+    const { estConnecte, utilisateur, chargement: chargementAuth } = useAuthContexte();
 
     // Une fois un succès créé, on ferme le formulaire de création et on re-récupère la page
     const handleCreation = async (nom: string, description: string) => {

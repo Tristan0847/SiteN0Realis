@@ -28,7 +28,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
 
         // Création de la réponse 
         const reponse = NextResponse.json({
-            success: true,
+            succes: true,
             utilisateur: retour.utilisateur
         }, { status: 200 });
 

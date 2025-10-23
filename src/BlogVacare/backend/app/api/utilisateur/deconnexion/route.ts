@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
  * @returns Réponse
  */
 export async function POST(request: NextRequest) : Promise<NextResponse> {
-    const reponse = NextResponse.json({ success: true });
+    const reponse = NextResponse.json({ succes: true });
 
     reponse.cookies.delete("tokenAcces");
     reponse.cookies.delete("tokenRefresh");

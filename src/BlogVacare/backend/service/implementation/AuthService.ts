@@ -33,6 +33,7 @@ export class AuthService implements I_AuthService {
         const utilisateurDao = await this.dao.getMotDePasse(credentials.username);
 
         if (!utilisateurDao) {
+            console.log("Nom d'utilisateur ou mot de passe incorrect");
             throw new Error("Nom d'utilisateur ou mot de passe incorrect");
         }
 
@@ -40,6 +41,7 @@ export class AuthService implements I_AuthService {
         const valide = await this.passwordUtil.compare(credentials.password, utilisateurDao.getMotDePasse());
 
         if (!valide) {
+            console.log("Nom d'utilisateur ou mot de passe incorrect");
             throw new Error("Nom d'utilisateur ou mot de passe incorrect");
         }
 

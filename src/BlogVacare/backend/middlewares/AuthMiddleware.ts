@@ -66,7 +66,7 @@ export class AuthMiddleware {
             return reponse;
         }
         
-        const estAdmin = reponse.headers.get("x-est-admin") === "true";
+        const estAdmin = requete.headers.get("x-est-admin") === "true";
         
         if (!estAdmin) {
             return NextResponse.json(

@@ -6,7 +6,7 @@ import bcrypt from "bcrypt";
  */
 export class PasswordHashUtil implements I_PasswordHashUtil {
 
-    private readonly sel : number = 10;
+    private readonly sel : number = 15;
 
     public async hash(motDePasse : string) : Promise<string> {
         return await bcrypt.hash(motDePasse, this.sel);
