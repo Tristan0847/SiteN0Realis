@@ -152,7 +152,7 @@ export class Dossier {
      * @param json JSON du dossier
      * @returns Dossier créé
      */
-    static fromJSON(json: any): Dossier {
+    static fromJSON(json: DossierJSON): Dossier {
         let dossier = new Dossier();
         dossier.setId(json.id);
         dossier.setTitre(json.titre);

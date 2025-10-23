@@ -7,6 +7,8 @@ import { Blog, BlogJSON } from '@BlogsShared/model/Blog';
 import { BlogFormCreation } from '@BlogsFront/components/blog/BlogFormCreation';
 import { useAuthContexte } from '@BlogsFront/contexts/AuthContext';
 import { useDossier } from '@BlogsFront/hooks/useDossiers';
+import { useDonneesPage } from '@BlogsFront/hooks/useDonneesPage';
+import { PageWrapper } from '@BlogsFront/components/PageWrapper';
 
 /**
  * Props pour le composant PageBlogsClient
@@ -24,14 +26,12 @@ interface PageBlogsClientProps {
  */
 export default function PageBlogsClient({ slugDossier, blogsPrecharges }: PageBlogsClientProps) {
   
+  // Hook de blogs affichés à l'écran, du dossier correspondant, de création de blog, d'authentification et de données affichées sur la page
   const { donnees: hookBlogs, chargement: hookLoading, erreur: hookError, refetch: refetch } = useBlogs(slugDossier);
-  const { donnees: dossier, chargement: hookDossierLoading, erreur: hookDossierErreur } = useDossier(slugDossier);
-  
-  // Hook de création de blogs
+  const { donnees: dossier } = useDossier(slugDossier);
   const {mutation: mutation, chargement: chargementCreation, erreur: erreurCreation} = useCreerBlog();
-  
-  // Hook de contexte d'authentification (Vérification que l'on est connecté ou non)
-  const { estConnecte, utilisateur, chargement: chargementAuth } = useAuthContexte();
+  const { estConnecte } = useAuthContexte();
+  const { donnees: blogs, chargement, erreur } = useDonneesPage(hookBlogs, hookLoading, hookError, blogsPrecharges, Blog.fromJSON );
 
   // Une fois un blog créé, on re-récupère la page
   const handleCreation = async (nom: string, premierMessage: string) => {
@@ -39,31 +39,14 @@ export default function PageBlogsClient({ slugDossier, blogsPrecharges }: PageBl
       throw new Error("Identifiant du dossier manquant");
     }
     
-    const resultat = await mutation(nom, premierMessage, dossier.getId());
+    await mutation(nom, premierMessage, dossier.getId());
     refetch();
-  }
-  
-  const loading = blogsPrecharges ? false : hookLoading;
-  const error = blogsPrecharges ? null : hookError;
-
-  if (loading) return <MessageBox message="Chargement des blogs..." type="loading" />;
-  if (error) return <MessageBox message={`Erreur : ${error.message}`} type="error" />;
-
-  // Chargement des blogs
-  let blogs: Blog[];
-  
-  if (blogsPrecharges) {
-    blogs = blogsPrecharges.map(b => Blog.fromJSON(b));
-  } else if (hookBlogs) {
-    blogs = hookBlogs;
-  } else {
-    return <MessageBox message="Aucun blog disponible" type="info" />;
   }
 
   return( 
-  <div>
+  <PageWrapper chargement={chargement} erreur={erreur} estVide={blogs.length == 0} messageVide="Aucun blog trouvé" chargementMessage="Chargement des blogs...">
     <BlogFormCreation onSubmit={handleCreation} chargement={ chargementCreation } erreur={ erreurCreation } estConnecte= {estConnecte }/>
         
     <BlogList blogs={blogs} slugDossier={slugDossier} />
-    </div>);
+  </PageWrapper>);
 }

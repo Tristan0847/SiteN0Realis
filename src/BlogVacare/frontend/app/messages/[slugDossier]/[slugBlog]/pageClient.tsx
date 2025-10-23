@@ -3,8 +3,10 @@
 import { MessageFormCreation } from '@BlogsFront/components/message/MessageFormCreation';
 import { MessageList } from '@BlogsFront/components/message/MessageList';
 import MessageBox from '@BlogsFront/components/MessageBox';
+import { PageWrapper } from '@BlogsFront/components/PageWrapper';
 import { useAuthContexte } from '@BlogsFront/contexts/AuthContext';
 import { useBlog } from '@BlogsFront/hooks/useBlogs';
+import { useDonneesPage } from '@BlogsFront/hooks/useDonneesPage';
 import { useCreerMessage, useMessages } from '@BlogsFront/hooks/useMessages';
 import { Message, MessageJSON } from '@BlogsShared/model/Message';
 
@@ -23,19 +25,12 @@ interface PageBlogsClientProps {
  */
 export default function PageMessagesClient({slugDossier, slugBlog, messagesPrecharges }: PageBlogsClientProps) {
     
+    // Hooks de messages récupérés, du blog correspondant, de création de message, d'authentification et d'éventuels messages d'erreurs
     const { donnees: hookMessages, chargement: hookLoading, erreur: hookError, refetch: refetch } = useMessages(slugDossier, slugBlog);
-    const { donnees: blog, chargement: hookBlogLoading, erreur: hookBlogErreur } = useBlog(slugDossier, slugBlog);
-
-    // Hooks pour la création de messages
+    const { donnees: blog } = useBlog(slugDossier, slugBlog);
     const { mutation: mutation, chargement: chargementCreation, erreur: erreurCreation } = useCreerMessage();
-    const { estConnecte, utilisateur, chargement: chargementAuth } = useAuthContexte();
-    
-    const loading = messagesPrecharges ? false : hookLoading;
-    const error = messagesPrecharges ? null : hookError;
-
-    if (loading) return <MessageBox message="Chargement des messages..." type="loading" />;
-    if (error) return <MessageBox message={`Erreur : ${error.message}`} type="error" />;
-
+    const { estConnecte } = useAuthContexte();
+    const { donnees: messages, chargement, erreur } = useDonneesPage(hookMessages, hookLoading, hookError, messagesPrecharges, Message.fromJSON );
     
     // Une fois un message créé, on re-récupère la page
     const handleCreation = async (contenu: string) => {
@@ -43,25 +38,14 @@ export default function PageMessagesClient({slugDossier, slugBlog, messagesPrech
         throw new Error("Identifiant du blog manquant");
       }
       
-      const resultat = await mutation(contenu, blog.getId());
+      await mutation(contenu, blog.getId());
       refetch();
     }
 
-    // Chargement des messages
-    let messages: Message[];
-    
-    if (messagesPrecharges) {
-      messages = messagesPrecharges.map(b => Message.fromJSON(b));
-    } else if (hookMessages) {
-      messages = hookMessages;
-    } else {
-      return <MessageBox message="Aucun blog disponible" type="info" />;
-    }
-
     return (
-      <div>
+      <PageWrapper chargement={chargement} erreur={erreur} estVide={messages.length == 0} messageVide="Aucun message trouvé" chargementMessage="Chargement des messages...">
         <MessageList messages={messages} />
         <MessageFormCreation onSubmit={ handleCreation } chargement={ chargementCreation } erreur={ erreurCreation } estConnecte={ estConnecte }/>
-      </div>
+      </PageWrapper>
     );
 }
