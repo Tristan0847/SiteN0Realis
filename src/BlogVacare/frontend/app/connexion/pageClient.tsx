@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 export default function PageConnexionClient() {
     
     const { mutation: mutationConnexion, chargement: hookLoading, erreur: hookError } = useConnexion();
-    const { verifierAuth } = useAuthContexte();
+    const { connexion: connexionContexte } = useAuthContexte();
     const router = useRouter();
 
     // A la soumission du formulaire, on renvoie vers l'action de connexion
@@ -20,7 +20,7 @@ export default function PageConnexionClient() {
       const resultat = await mutationConnexion(nomUtilisateur, mdp);
       
       if (resultat && resultat.succes) {
-        await verifierAuth();
+        connexionContexte(resultat.utilisateur);
         router.push("/");
       }
     }

@@ -101,7 +101,7 @@ export class BlogDAOMySQL implements I_BlogDAO {
 
     async recupererBlogsDuDossier(slugDossier: string): Promise<Blog[]> {
         try {
-            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression, m.contenu FROM Blog b JOIN Message m ON b.id = m.idBlog JOIN dossier d ON d.id = b.idDossier WHERE d.slug = ? AND m.id = 1 ORDER BY dateCreation ASC";
+            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression, m.contenu FROM Blog b INNER JOIN Dossier d ON d.id = b.idDossier LEFT JOIN Message m ON b.id = m.idBlog AND m.id = (SELECT MIN(m2.id) FROM Message m2 WHERE m2.idBlog = b.id) WHERE d.slug = ? ORDER BY b.dateCreation DESC";
             const params = [slugDossier];
 
             const [rows] = await this.pool.query<BlogRow[]>(requete, params);

@@ -12,6 +12,8 @@ interface AuthContexteType {
     utilisateur: Utilisateur|null;
     chargement: boolean;
     verifierAuth: () => Promise<{ succes: boolean, erreur? : string }>;
+    connexion: (utilisateur : Utilisateur) => void;
+    deconnexion: () => void;
 }
 
 const AuthContexte = createContext<AuthContexteType|undefined>(undefined);
@@ -61,8 +63,20 @@ export function AuthProvider({ children } : { children: ReactNode}) {
         verifierAuth();
     }, []);
 
+
+    // Connexion et déconnexion gérées par le contexte (mise à jour de l'état de connexion et de l'utilisateur associé)
+    const connexion = (utilisateur: Utilisateur) => {
+        setUtilisateur(utilisateur);
+        setEstConnecte(true);
+    };
+    
+    const deconnexion = () => {
+        setUtilisateur(null);
+        setEstConnecte(false);
+    };
+
     return(
-        <AuthContexte.Provider value={{ estConnecte, utilisateur, chargement, verifierAuth}}>
+        <AuthContexte.Provider value={{ estConnecte, utilisateur, chargement, verifierAuth, connexion, deconnexion }}>
             {children}
         </AuthContexte.Provider>
     );

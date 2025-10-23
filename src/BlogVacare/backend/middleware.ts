@@ -27,7 +27,6 @@ export async function middleware(requete : NextRequest) {
         '/api/utilisateur/deconnexion',
         '/api/utilisateur/inscription',
         '/api/utilisateur/refresh',
-        '/api/utilisateur/me',
 
         '/api/dossiers/liste',
         '/api/dossiers/recuperation',
@@ -43,6 +42,8 @@ export async function middleware(requete : NextRequest) {
     ];
 
     const routesAuthentifiees = [
+        '/api/utilisateur/me',
+        
         '/api/dossiers/creer',
         '/api/blogs/creer',
         '/api/messages/creer'

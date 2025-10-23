@@ -35,7 +35,7 @@ export function DossierFormCreation({onSubmit, chargement, erreur, estConnecte} 
 
     // Il faut être connecté pour créer le dossier
     if (!estConnecte) {
-        return <AccesRestreint/>;
+        return <AccesRestreint message={"Vous devez être connecté pour créer un dossier."} />;
     }
 
     return(

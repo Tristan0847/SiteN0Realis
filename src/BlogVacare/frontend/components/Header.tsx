@@ -12,13 +12,14 @@ import { useRouter } from "next/navigation";
 export function Header() {
     
     // Hook de contexte d'authentification (Vérification que l'on est connecté ou non)
-    const { estConnecte, utilisateur, chargement: chargementAuth } = useAuthContexte();
+    const { estConnecte, utilisateur, chargement: chargementAuth, deconnexion: deconnexionContexte } = useAuthContexte();
     const router = useRouter();
 
     // Hook de déconnexion
     const { mutation: deconnecter } = useDeconnexion();
     const handleDeconnexion = async () => {
         await deconnecter();
+        deconnexionContexte();
         router.push("/");
     };
 
@@ -27,21 +28,21 @@ export function Header() {
                 <h1 className="text-3xl font-bold">Blog De Vacare</h1>
                 <nav>
                     <ul className="flex items-center justify-center space-x-4 mt-2 text-2xl">
-                        <li><Link href="/" className="hover:underline">Accueil</Link></li>
+                        <li><Link href="/" className="hover:underline px-3 py-1 hover:bg-white/20">Accueil</Link></li>
                         {chargementAuth ? (
                             <li className="animate-pulse">Chargement...</li>
                         ) : estConnecte ? (
                             <>
-                                <li className="text-primary-light font-semibold">
-                                    👤 {utilisateur?.getUsername()}
-                                </li>
                                 <li>
                                     <button 
                                         onClick={handleDeconnexion}
-                                        className="hover:underline bg-white/10 px-3 py-1 rounded-md hover:bg-white/20 transition"
+                                        className="hover:underline px-3 py-1 rounded-md hover:bg-white/20 transition"
                                     >
                                         Déconnexion
                                     </button>
+                                </li>
+                                <li className="text-primary-light font-semibold">
+                                    👤 {utilisateur?.getUsername()}
                                 </li>
                             </>
                         ) : (

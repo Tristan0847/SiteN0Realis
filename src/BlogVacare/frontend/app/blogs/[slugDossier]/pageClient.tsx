@@ -33,7 +33,7 @@ export default function PageBlogsClient({ slugDossier, blogsPrecharges }: PageBl
   // Hook de contexte d'authentification (Vérification que l'on est connecté ou non)
   const { estConnecte, utilisateur, chargement: chargementAuth } = useAuthContexte();
 
-  // Une fois un succès créé, on ferme le formulaire de création et on re-récupère la page
+  // Une fois un blog créé, on re-récupère la page
   const handleCreation = async (nom: string, premierMessage: string) => {
     if (!dossier) {
       throw new Error("Identifiant du dossier manquant");

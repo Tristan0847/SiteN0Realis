@@ -2,6 +2,7 @@
 
 import { Message } from '@BlogsShared/model/Message';
 import Image from "next/image";
+import { useState } from 'react';
 
 /**
  * Props du composant MessageItem
@@ -17,7 +18,10 @@ type MessageItemProps = {
  */
 export function MessageItem({ message }: MessageItemProps) {
     // Chemin vers l'avatar
-    const avatarSrc = `/assets/BlogVacare/Icones/${message.getUtilisateur().getUsername()}.jpg`;
+    const avatarDefaut = `/assets/BlogVacare/Icones/Vince.jpg`;
+    const avatarUtilisateur = `/assets/BlogVacare/Icones/${message.getUtilisateur().getUsername()}.jpg`;
+    const [avatarSrc, setAvatarSrc] = useState(avatarUtilisateur);
+
     // Formatage de la date
     const dateString = message.getDate().toLocaleString('fr-FR');
 
@@ -28,6 +32,8 @@ export function MessageItem({ message }: MessageItemProps) {
                     className="w-24 h-24 rounded-full object-cover p-4"
                     src={avatarSrc}
                     alt={`Avatar de ${message.getUtilisateur().getUsername()}`}
+                    width={96} height={96}
+                    onError={() => setAvatarSrc(avatarDefaut)}
                 />
             </div>
 

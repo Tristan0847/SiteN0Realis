@@ -35,7 +35,7 @@ export function BlogFormCreation({onSubmit, chargement, erreur, estConnecte} : F
 
     // Il faut être connecté pour créer le blog
     if (!estConnecte) {
-        return <AccesRestreint/>;
+        return <AccesRestreint message={"Vous devez être connecté pour créer un blog."} />;
     }
 
     return(

@@ -63,6 +63,8 @@ export function useRafraichirToken() {
 export function useRecupererUtilisateurConnecte() {
     return useApiQuery<Utilisateur, []>(
         () => authService.recupererUtilisateurConnecte(),
-        []
+        [],
+        // Inactif initialement, empêchant un appel automatique du contexte
+        { actif: false }
     );
 }
