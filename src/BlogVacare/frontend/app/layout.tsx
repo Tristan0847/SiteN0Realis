@@ -1,9 +1,6 @@
-import { Footer } from '@BlogsFront/components/Footer';
-import { Header } from '@BlogsFront/components/Header';
-import FondResonanceClient from '@BlogsFront/components/FondResonances';
+
 import '@BlogsFront/styles/globals.css';
 import { Metadata } from 'next';
-import { AuthProvider } from '@BlogsFront/contexts/AuthContext';
 
 /**
  * Composant pour gérer les balises meta du site
@@ -23,22 +20,10 @@ export function generateMetadata(): Metadata {
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-      <html lang="fr">
-        
+    <html lang="fr">
       <body className="bg-neutral-light text-neutral-dark font-sans flex flex-col min-h-screen">
-          <AuthProvider>
-            <Header/>
-
-            <FondResonanceClient/>
-
-            <main className="min-h-[70vh] p-6 mx-auto w-full max-w-8xl flex-grow">
-                {children}
-            </main>
-
-            <Footer/>
-          </AuthProvider>
+        {children}
       </body>
-
-      </html>
+    </html>
   );
 }

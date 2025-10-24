@@ -21,11 +21,12 @@ export function DossierItem({ dossier }: DossierItemProps) {
   // Récupération des styles
   const variant = useVariant();
   const styles = getVariantStyles(variant);
+    const baseUrl = (variant == "modern") ? "" : "/" + variant;
 
   return (
     <div className={ styles.listeDossierItem }>
       <div className={ styles.listeDossierLienConteneur}>
-        <Link href={`/blogs/${dossier.getSlug()}`} className={ styles.listeDosierLien }>
+        <Link href={`${baseUrl}/blogs/${dossier.getSlug()}`} className={ styles.listeDosierLien }>
           {dossier.getTitre()}
         </Link>
       </div>

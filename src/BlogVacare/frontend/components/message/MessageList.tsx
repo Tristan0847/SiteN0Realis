@@ -3,6 +3,7 @@
 import { Message } from '@BlogsShared/model/Message';
 import { MessageItem } from '@BlogsFront/components/message/MessageItem';
 import { useVariant } from '@BlogsFront/contexts/VariantContext';
+import { getVariantStyles } from '@BlogsFront/lib/variant-styles';
 
 /**
  * Props du composant MessageList
@@ -20,6 +21,8 @@ export function MessageList({ messages }: MessageListProps) {
 
     let messagesAffiches : Message[] = [];
     const variant = useVariant();
+    const styles = getVariantStyles(variant);
+
     // Si on est en mode old, on affiche même les messages supprimés
     if (variant == "modern") {
         messages.forEach((m) => {
@@ -28,9 +31,12 @@ export function MessageList({ messages }: MessageListProps) {
             }
         })
     }
+    else {
+        messagesAffiches = messages;
+    }
 
     return (
-        <div className="flex flex-col gap-3 p-4 mx-auto max-w-4xl">
+        <div className={ styles.messageList }>
             {messagesAffiches.map((m) => (
                 <MessageItem key={m.getDate().toISOString() + m.getUtilisateur()} message={m} />
             ))}

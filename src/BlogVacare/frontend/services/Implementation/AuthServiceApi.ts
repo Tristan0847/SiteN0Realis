@@ -35,7 +35,11 @@ export class AuthServiceApi implements I_AuthService {
             throw new Error(erreur.error || "La connexion a échoué");
         }
 
-        const retour : AuthReponse = await reponse.json();
+        const json = await reponse.json();
+        let retour : AuthReponse = {
+            succes: json.succes,
+            utilisateur: Utilisateur.fromJSON(json.utilisateur)
+        }
         
         return retour;
     }

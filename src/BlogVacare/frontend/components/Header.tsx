@@ -17,26 +17,28 @@ export function Header() {
     const { estConnecte, utilisateur, chargement: chargementAuth, deconnexion: deconnexionContexte } = useAuthContexte();
     const router = useRouter();
 
+    // Récupération des styles
+    const variant = useVariant();
+    const styles = getVariantStyles(variant);
+    const baseUrl = (variant == "modern") ? "" : "/" + variant;
+
     // Hook de déconnexion
     const { mutation: deconnecter } = useDeconnexion();
     const handleDeconnexion = async () => {
         await deconnecter();
         deconnexionContexte();
-        router.push("/");
+        router.push(baseUrl);
     };
 
-    // Récupération des styles
-    const variant = useVariant();
-    const styles = getVariantStyles(variant);
     
     const titre = (variant == "old") ? "Forum de SuperFlashAtomicMan et Vince" : "Blog de Vacare";
 
     return (
             <header className={ styles.header }>
-                <h1 className="text-3xl font-bold">{ titre }</h1>
-                <nav>
+                <h1 className="text-3xl font-bold py-2">{ titre }</h1>
+                <nav className={ styles.headerNav }>
                     <ul className="flex items-center justify-center space-x-4 mt-2 text-2xl">
-                        <li><Link href="/" className={ styles.headerLien }>Accueil</Link></li>
+                        <li><Link href={ baseUrl } className={ styles.headerLien }>Accueil</Link></li>
                         {chargementAuth ? (
                             <li className="animate-pulse">Chargement...</li>
                         ) : estConnecte ? (
@@ -55,7 +57,7 @@ export function Header() {
                             </>
                         ) : (
                             <li>
-                                <Link href="/connexion" className={ styles.headerLien }>
+                                <Link href={baseUrl + "/connexion" } className={ styles.headerLien }>
                                     Connexion
                                 </Link>
                             </li>

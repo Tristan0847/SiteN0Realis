@@ -1,4 +1,5 @@
-import PageBlogsClient from '@BlogsFront/app/blogs/[slugDossier]/pageClient';
+import PageBlogsClient from '@BlogsFront/app/_shared/blogs/[slugDossier]/pageClient';
+import { getBlogsPrecharges } from '@BlogsFront/app/_shared/blogs/[slugDossier]/pageGetter';
 import { getDossierBlogsParams, getRouteBlogsForDossier } from '@BlogsFront/lib/routes-config';
 import { BlogJSON } from '@BlogsShared/model/Blog';
 import { Metadata } from 'next';
@@ -26,17 +27,12 @@ export async function generateMetadata({ params } : PageProps): Promise<Metadata
  */
 export default async function Page({ params }: PageProps) {
   
-  const { slugDossier } = await params;
-
-  let blogsSerialises : BlogJSON[] = [];
-  const mode = process.env.NEXT_PUBLIC_NEXT_ENV;
-  if (mode == 'export') {
-    const blogsPrecharges = await getRouteBlogsForDossier(slugDossier);
-    blogsSerialises = blogsPrecharges.map(blog => blog.toJSON());
-  }
+    const { slugDossier } = await params;
   
-  // La page transmet l'idDossier au composant client (vue)
-  return <PageBlogsClient slugDossier={slugDossier} blogsPrecharges={ mode == "export" ? blogsSerialises : undefined } />;
+    const blogsSerialises = await getBlogsPrecharges(slugDossier);
+    
+    // La page transmet l'idDossier au composant client (vue)
+    return <PageBlogsClient slugDossier={slugDossier} blogsPrecharges={ (blogsSerialises?.length > 0) ? blogsSerialises : undefined } />;
 }
 
 /**

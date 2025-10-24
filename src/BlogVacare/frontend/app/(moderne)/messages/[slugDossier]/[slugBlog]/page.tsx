@@ -1,4 +1,5 @@
-import PageMessagesClient from '@BlogsFront/app/messages/[slugDossier]/[slugBlog]/pageClient';
+import PageMessagesClient from '@BlogsFront/app/_shared/messages/[slugDossier]/[slugBlog]/pageClient';
+import { getMessagesPrecharges } from '@BlogsFront/app/_shared/messages/[slugDossier]/[slugBlog]/pageGetter';
 import { getMessagesParams, getRouteMessages } from '@BlogsFront/lib/routes-config';
 import { MessageJSON } from '@BlogsShared/model/Message';
 import { Metadata } from 'next';
@@ -28,14 +29,9 @@ export default async function Page({ params }: PageProps) {
 
   const { slugDossier, slugBlog } = await params;
 
-  let messagesSerialises : MessageJSON[] = [];
-  const mode = process.env.NEXT_PUBLIC_NEXT_ENV;
-  if (mode == 'export') {
-    const messagesPrecharges = await getRouteMessages(slugDossier, slugBlog);
-    messagesSerialises = messagesPrecharges.map(message => message.toJSON());
-  }
+  let messagesSerialises : MessageJSON[] = await getMessagesPrecharges(slugDossier, slugBlog);
   
-  return <PageMessagesClient slugDossier={slugDossier} slugBlog={slugBlog} messagesPrecharges={ mode == "export" ? messagesSerialises : undefined } />;
+  return <PageMessagesClient slugDossier={slugDossier} slugBlog={slugBlog} messagesPrecharges={ messagesSerialises.length > 0 ? messagesSerialises : undefined } />;
 }
 
 

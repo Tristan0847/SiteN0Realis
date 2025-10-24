@@ -48,7 +48,7 @@ export function DossierFormCreation({onSubmit, chargement, erreur, estConnecte} 
     const bouton = (variant == "old") ? "Créer ton dossier !" : "Créer le dossier";
 
     return(
-    <section className="mx-auto px-4 py-5 max-w-4xl">
+    <section className="w-full max-w-4xl mx-auto px-4 py-5">
         <form onSubmit={gererSoumission} className={ styles.formContainer }>
             <h3 className={ styles.formH3 }>{ titre }</h3>
 

@@ -18,6 +18,7 @@ export function AccesRestreint({message} : AccesRestreintProps) {
     // Récupération des styles
     const variant = useVariant();
     const styles = getVariantStyles(variant);
+    const baseUrl = (variant == "modern") ? "" : "/" + variant;
 
     return <section className="mx-auto px-4 py-5 max-w-4xl">
                 <div className={ styles.accesRestreintDiv }>
@@ -31,7 +32,7 @@ export function AccesRestreint({message} : AccesRestreintProps) {
                         {message}
                     </p>
                     
-                    <Link href="/connexion" className={ styles.accesRestreintLien }>Se connecter</Link>
+                    <Link href={baseUrl + "/connexion" } className={ styles.accesRestreintLien }>Se connecter</Link>
                 </div>
             </section>;
 }

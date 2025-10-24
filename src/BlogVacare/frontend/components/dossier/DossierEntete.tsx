@@ -2,6 +2,7 @@
 
 import { useVariant } from "@BlogsFront/contexts/VariantContext";
 import { getVariantStyles } from "@BlogsFront/lib/variant-styles";
+import Link from "next/link";
 
 /**
  * Méthode de composant pour afficher l'entête de la liste de dossiers
@@ -13,14 +14,12 @@ export function DossierEntete() {
 
   if (variant == "old") {
     return (
-    <section className="mx-auto px-4">
-      <div className="text-center mb-10">
-        <h1 className="text-6xl font-extrabold text-primary-dark drop-shadow-md leading-tight">
-          Bienvenue sur le Blog de SuperFlashAtomicMan et Vince
-        </h1>
-        <p>Si vous n'êtes ni l'unique SuperFlashAtomicMan, ni l'audacieux Vince, ni le TRES intelligent Mister Owl, vous n'êtes PAS le bienvenue ici ! Ce forum est privé et interdit aux adultes !</p>
-      </div>
-    </section>
+      <div className="mx-auto px-4 border-2 border-black bg-white max-w-3xl">
+          <div className="text-center mb-10">
+        <h2 className="font-bold text-4xl">Bienvenue sur le Forum de SuperFlashAtomicMan et Vince</h2>
+        <p className="px-2 text-xl">Si vous n'êtes ni l'unique SuperFlashAtomicMan, ni l'audacieux Vince, ni le TRES intelligent Mister Owl, vous n'êtes PAS le bienvenue ici ! Ce forum est privé et interdit aux adultes !</p>
+        </div>
+    </div>
   );
   }
 
@@ -31,7 +30,7 @@ export function DossierEntete() {
           Bienvenue sur le Blog de Vacare
         </h1>
         <p className="mt-4 max-w-xl mx-auto text-lg text-neutral-700 leading-relaxed px-2">
-          Anciennement blog de Vince et de son meilleur ami, ce forum est aujourd&apos;hui celui de Vacare et, par conséquent, de <strong>N0Realis</strong>.<br/>
+          <Link href="/old" className="underline hover:bg-green-800 hover:text-white">Anciennement</Link> blog de Vince et de son meilleur ami, ce forum est aujourd&apos;hui celui de Vacare et, par conséquent, de <strong>N0Realis</strong>.<br/>
           Espace réservé aux employés autorisés, ne contactez Vacare qu&apos;en cas de nécessité absolue.<br/>
           <strong>Nos rêves deviendront réalité.</strong>
         </p>

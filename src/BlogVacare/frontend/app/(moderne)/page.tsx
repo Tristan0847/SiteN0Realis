@@ -1,7 +1,8 @@
 import { Metadata } from 'next';
-import PageDossiersClient from '@BlogsFront/app/pageClient';
+import PageDossiersClient from '@BlogsFront/app/_shared/pageClient';
 import { getPageAccueilParams, getRouteDossiers } from '@BlogsFront/lib/routes-config';
 import { DossierJSON } from '@BlogsShared/model/Dossier';
+import { getDossiersPrecharges } from '../_shared/pageGetter';
 
 export function generateMetadata(): Metadata {
   return {
@@ -15,15 +16,10 @@ export function generateMetadata(): Metadata {
  */
 export default async function Page() {
 
-    let dossiersSerialises : DossierJSON[] = [];
-    const mode = process.env.NEXT_PUBLIC_NEXT_ENV;
-    if (mode == 'export') {
-      const dossiersPrecharges = await getRouteDossiers();
-      dossiersSerialises = dossiersPrecharges.map(dossier => dossier.toJSON());
-    }
+    let dossiersSerialises : DossierJSON[] = await getDossiersPrecharges();
 
     return(
-        <PageDossiersClient dossiersPrecharges={ mode == "export" ? dossiersSerialises : undefined } />
+        <PageDossiersClient dossiersPrecharges={ dossiersSerialises.length > 0 ? dossiersSerialises : undefined } />
     );
 }
 

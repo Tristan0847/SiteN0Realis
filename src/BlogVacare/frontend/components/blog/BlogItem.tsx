@@ -25,11 +25,12 @@ export function BlogItem({ blog, slugDossier }: BlogItemProps) {
     // Récupération des styles
     const variant = useVariant();
     const styles = getVariantStyles(variant);
+    const baseUrl = (variant == "modern") ? "" : "/" + variant;
 
     return (
         <div className={ styles.BlogItemConteneur }>
         <div className={ styles.BlogItemSousConteneur }>
-            <Link href={`/messages/${slugDossier}/${blog.getSlug()}`} className={ styles.BlogItemLien } aria-label={`Voir le blog ${blog.getNom()}`}
+            <Link href={`${baseUrl}/messages/${slugDossier}/${blog.getSlug()}`} className={ styles.BlogItemLien } aria-label={`Voir le blog ${blog.getNom()}`}
             >
             {blog.getNom()}
             </Link>

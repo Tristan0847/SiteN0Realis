@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import PageConnexionClient from '@BlogsFront/app/connexion/pageClient';
+import PageConnexionClient from '@BlogsFront/app/_shared/connexion/pageClient';
 
 export async function generateMetadata(): Promise<Metadata> {
 
