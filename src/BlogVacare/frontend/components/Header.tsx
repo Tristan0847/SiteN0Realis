@@ -20,7 +20,7 @@ export function Header() {
     // Récupération des styles
     const variant = useVariant();
     const styles = getVariantStyles(variant);
-    const baseUrl = (variant == "modern") ? "" : "/" + variant;
+    const baseUrl = (variant == "modern") ? "/" : "/" + variant;
 
     // Hook de déconnexion
     const { mutation: deconnecter } = useDeconnexion();

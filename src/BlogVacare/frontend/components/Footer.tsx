@@ -18,6 +18,7 @@ export function Footer() {
     return (
         <footer className={ styles.footer }>
             { basDePage }
+            { variant == "old" && <a href='0.html'></a>}
         </footer>
     );
 }

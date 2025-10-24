@@ -24,6 +24,10 @@ export function DossierFormCreation({onSubmit, chargement, erreur, estConnecte} 
     const [nom, setNom] = useState("");
     const [description, setDescription] = useState("");
 
+    // Récupération des styles
+    const variant = useVariant();
+    const styles = getVariantStyles(variant);
+
     // Gestion de la soumission du formulaire
     const gererSoumission = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -40,9 +44,6 @@ export function DossierFormCreation({onSubmit, chargement, erreur, estConnecte} 
         return <AccesRestreint message={"Vous devez être connecté pour créer un dossier."} />;
     }
 
-    // Récupération des styles
-    const variant = useVariant();
-    const styles = getVariantStyles(variant);
     
     const titre = (variant == "old") ? "Crée ton dossier !" : "Créer un nouveau dossier de blogs";
     const bouton = (variant == "old") ? "Créer ton dossier !" : "Créer le dossier";

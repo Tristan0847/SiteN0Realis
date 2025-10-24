@@ -127,9 +127,14 @@ export class BlogDAOMySQL implements I_BlogDAO {
                 utilisateur.setUsername(row.nomUtilisateur);
                 blog.setUtilisateur(utilisateur);
 
-                // Création du premier message associé
+                // Création du premier message associé, limité à 150 caractères
                 const message = new Message();
-                message.setContenu(row.contenu);
+                let contenu = row.contenu;
+                if (contenu.length >= 250) {
+                    contenu = contenu.slice(0,246) + "...";
+                }
+
+                message.setContenu(contenu);
                 blog.setMessages([message]);
 
                 blogs.push(blog);

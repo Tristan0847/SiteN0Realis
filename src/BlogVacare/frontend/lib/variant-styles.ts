@@ -119,7 +119,7 @@ export function getVariantStyles(variant: SiteVariant) {
       messageFormContenu: "text-sm font-normal",
 
       // Formulaires du site (style commun)
-      formContainer: "p-4 bg-white border-2 border-gray-400 max-w-3xl mb-2.5 text-black",
+      formContainer: "space-x-4 p-4 bg-white border-2 border-gray-400 max-w-3xl mx-auto mb-2.5 text-black",
       formH3: "text-base font-bold text-black m-0 mb-2.5",
       formLabel: "block font-bold text-black text-sm my-2 mt-2",
       formInput: "w-full px-1 py-1 my-0.5 mb-2 border-2 border-gray-400 bg-white text-black text-sm focus:outline-none focus:bg-yellow-100",
@@ -130,7 +130,7 @@ export function getVariantStyles(variant: SiteVariant) {
       listeDossiersUl: "w-full",
       listeDossiersLi: "mb-2.5",
       listeDossierItem: "bg-white border-2 border-gray-400 mb-1.5 w-full",
-      listeDossierLienConteneur: "bg-[#7a997a] text-white p-2.5 px-4 font-bold border-b border-gray-400 flex justify-between items-center",
+      listeDossierLienConteneur: "bg-green-700/80 text-white p-2.5 px-4 font-bold border-b border-gray-400 flex justify-between items-center",
       listeDosierLien: "text-white no-underline font-bold text-base hover:underline",
       listeDossierItemSoustitre: "bg-gray-50 text-black p-2 px-2.5 font-normal border-t border-gray-400 text-sm leading-relaxed",
       
@@ -140,7 +140,7 @@ export function getVariantStyles(variant: SiteVariant) {
       listeBlogsConteneur: "bg-white border-2 border-gray-400 p-4 my-4 max-w-3xl mx-auto",
       BlogItemConteneur: "bg-white border-2 border-gray-400 mb-2.5 w-full",
       BlogItemSousConteneur: "flex flex-col",
-      BlogItemLien: "bg-[#749c74] text-white p-2.5 px-4 font-bold border-b border-gray-400 no-underline hover:underline text-base block",
+      BlogItemLien: "bg-green-700/80 text-white p-2.5 px-4 font-bold border-b border-gray-400 no-underline hover:underline text-base block",
       BlogItemSpan: "text-black px-2.5 border-b-1 border-gray-300 text-sm font-normal float-right",
       BlogItemContenu: "bg-[#f9f9f9] text-black p-2 px-2.5 text-sm leading-relaxed",
 

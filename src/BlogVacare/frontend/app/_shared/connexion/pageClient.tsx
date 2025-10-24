@@ -16,7 +16,7 @@ export default function PageConnexionClient() {
     const { connexion: connexionContexte } = useAuthContexte();
     const router = useRouter();
     const variant = useVariant();
-    const baseUrl = (variant == "modern") ? "" : "/" + variant;
+    const baseUrl = (variant == "modern") ? "/" : "/" + variant;
 
     // A la soumission du formulaire, on renvoie vers l'action de connexion
     const handleConnexion = async (nomUtilisateur: string, mdp: string) => {

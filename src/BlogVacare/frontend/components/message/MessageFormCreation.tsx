@@ -23,6 +23,12 @@ export function MessageFormCreation({onSubmit, chargement, erreur, estConnecte} 
 
     const [message, setMessage] = useState("");
 
+    // Récupération des styles
+    const variant = useVariant();
+    const styles = getVariantStyles(variant);
+
+    const titre = (variant == "old") ? "Ajoute ta réponse au blog !" : "Répondre";
+
     // Gestion de la soumission du formulaire
     const gererSoumission = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -37,12 +43,6 @@ export function MessageFormCreation({onSubmit, chargement, erreur, estConnecte} 
     if (!estConnecte) {
         return <AccesRestreint message={'Vous devez être connecté pour répondre à un blog.'} />;
     }
-
-    // Récupération des styles
-    const variant = useVariant();
-    const styles = getVariantStyles(variant);
-
-    const titre = (variant == "old") ? "Ajoute ta réponse au blog !" : "Répondre";
 
     return(
     <section className="mx-auto px-4 py-5 max-w-4xl">
