@@ -63,7 +63,7 @@ export function BlogFormCreation({onSubmit, chargement, erreur, estConnecte} : F
 
             {/*Affichage des composants du formulaire*/}
             <div>
-                <label htmlFor="nom" className={ styles.formLabel }>Nom du dossier</label>
+                <label htmlFor="nom" className={ styles.formLabel }>Nom du blog</label>
                 <input id="nom" type="text" value={nom} onChange={(e) => setNom(e.target.value)} maxLength={255} className={ styles.formInput } required />
                 
                 <label htmlFor="premierMessage" className={ styles.formLabel }>Premier message du blog :</label>

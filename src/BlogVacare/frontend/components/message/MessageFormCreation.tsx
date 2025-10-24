@@ -59,7 +59,7 @@ export function MessageFormCreation({onSubmit, chargement, erreur, estConnecte} 
             {/*Affichage du composant du formulaire*/}
             <div>
                 <label htmlFor="nom" className={ styles.formLabel }>Votre réponse :</label>
-                <textarea id="nom" rows={4} value={message} onChange={(e) => setMessage(e.target.value)} maxLength={255} className={ styles.formInput } required />
+                <textarea id="nom" rows={4} value={message} onChange={(e) => setMessage(e.target.value)} className={ styles.formInput } required />
                 
 
                 <div className="flex gap-2">
