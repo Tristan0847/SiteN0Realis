@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { AccesRestreint } from "@BlogsFront/components/auth/AccesRestreint";
+import { useVariant } from "@BlogsFront/contexts/VariantContext";
+import { getVariantStyles } from "@BlogsFront/lib/variant-styles";
 
 /**
  * Paramètres de création du formulaire
@@ -38,29 +40,38 @@ export function BlogFormCreation({onSubmit, chargement, erreur, estConnecte} : F
         return <AccesRestreint message={"Vous devez être connecté pour créer un blog."} />;
     }
 
+
+    // Récupération des styles
+    const variant = useVariant();
+    const styles = getVariantStyles(variant);
+    
+    const titre = (variant == "old") ? "Crée ton blog !" : "Créer un nouveau blog";
+    const bouton = (variant == "old") ? "Créer ton blog !" : "Créer le blog";
+
+
     return(
     <section className="mx-auto px-4 py-5 max-w-4xl">
-        <form onSubmit={gererSoumission} className="space-y-4 p-6 bg-slate-50 rounded-lg shadow-md">
-            <h3 className="text-xl font-bold text-primary-dark">Créer un nouveau blogs</h3>
+        <form onSubmit={gererSoumission} className={ styles.formContainer }>
+            <h3 className={ styles.formH3 }>{ titre }</h3>
 
             {/*Affichage de l'erreur s'il y en a une*/}
             {erreur && (
-                <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded">
+                <div className={ styles.messageFormDiv }>
                     {erreur.message}
                 </div>
             )}
 
             {/*Affichage des composants du formulaire*/}
             <div>
-                <label htmlFor="nom" className="block, text-sm font-medium text-neutral-dark mb-1">Nom du dossier</label>
-                <input id="nom" type="text" value={nom} onChange={(e) => setNom(e.target.value)} maxLength={255} className="w-full px-3 py-2 border border-primary-light rounded-md focus:outline-none focus:ring-2 focus:ring-primary" required />
+                <label htmlFor="nom" className={ styles.formLabel }>Nom du dossier</label>
+                <input id="nom" type="text" value={nom} onChange={(e) => setNom(e.target.value)} maxLength={255} className={ styles.formInput } required />
                 
-                <label htmlFor="premierMessage" className="block, text-sm font-medium text-neutral-dark mb-1">Premier message du blog :</label>
-                <textarea id="premierMessage" value={premierMessage} onChange={(e) => setPremierMessage(e.target.value)} rows={3} className="w-full px-3 py-2 border border-primary-light rounded-md focus:outline-none focus:ring-2 focus:ring-primary" required />
+                <label htmlFor="premierMessage" className={ styles.formLabel }>Premier message du blog :</label>
+                <textarea id="premierMessage" value={premierMessage} onChange={(e) => setPremierMessage(e.target.value)} rows={3} className={ styles.formInput } required />
 
                 <div className="flex gap-2">
-                    <button type="submit" disabled={chargement} className="flex-1 bg-primary-light hover:bg-primary-dark text-black hover:text-white font-semibold py-2 px-4 rounded-md transition-colors disabled:opacity-50">
-                        {chargement ? "Création en cours..." : "Créer le blog"}
+                    <button type="submit" disabled={chargement} className={ styles.formBouton }>
+                        {chargement ? "Création en cours..." : bouton }
                     </button>
                 </div>
             </div>

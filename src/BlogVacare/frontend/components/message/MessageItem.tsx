@@ -1,5 +1,7 @@
 'use client';
 
+import { useVariant } from '@BlogsFront/contexts/VariantContext';
+import { getVariantStyles } from '@BlogsFront/lib/variant-styles';
 import { Message } from '@BlogsShared/model/Message';
 import Image from "next/image";
 import { useState } from 'react';
@@ -25,11 +27,16 @@ export function MessageItem({ message }: MessageItemProps) {
     // Formatage de la date
     const dateString = message.getDate().toLocaleString('fr-FR');
 
+    // Récupération des styles
+    const variant = useVariant();
+    const styles = getVariantStyles(variant);
+
+
     return (
-        <div className="flex gap-4 rounded-lg bg-white shadow-sm transition-transform duration-300 hover:scale-[1.01] hover:shadow-lg">
-            <div className="flex-none w-2/12 bg-gradient-to-r from-gray-300/50 to-white flex justify-center p-1">
+        <div className={ styles.messageItem }>
+            <div className={ styles.messageImgConteneur }>
                 <Image
-                    className="w-24 h-24 rounded-full object-cover p-4"
+                    className={ styles.messageImg }
                     src={avatarSrc}
                     alt={`Avatar de ${message.getUtilisateur().getUsername()}`}
                     width={96} height={96}
@@ -37,10 +44,10 @@ export function MessageItem({ message }: MessageItemProps) {
                 />
             </div>
 
-            <div className="flex-1 flex flex-col pr-2 p-4">
-                <span className="font-semibold text-primary-dark col border-b-2 border-gray-400/15">{message.getUtilisateur().getUsername()}</span>
-                <p className="bg-white p-2 rounded-md text-neutral-dark pr-5 whitespace-pre-line">{message.getContenu()}</p>
-                <span className="text-xs text-neutral dark:text-neutral-dark mt-1 pl-2">Posté le {dateString}</span>
+            <div className={ styles.messageConteneur }>
+                <span className={ styles.messagecontenuPseudo }>{message.getUtilisateur().getUsername()}</span>
+                <p className={ styles.messageContenu }>{message.getContenu()}</p>
+                <span className={ styles.messageDate }>Posté le {dateString}</span>
             </div>
         </div>
     );

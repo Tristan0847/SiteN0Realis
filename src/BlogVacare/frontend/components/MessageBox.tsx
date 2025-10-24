@@ -1,3 +1,6 @@
+import { useVariant } from "@BlogsFront/contexts/VariantContext";
+import { getVariantStyles } from "@BlogsFront/lib/variant-styles";
+
 /**
  * Paramètres en entrée de la fonction
  */
@@ -13,19 +16,22 @@ interface MessageBoxProps {
  */
 export default function MessageBox({ message, type = 'info' }: MessageBoxProps) {
   
-    const baseClass = 'rounded-md p-4 text-center text-lg font-semibold max-w-md mx-auto select-none';
+    // Récupération des styles
+    const variant = useVariant();
+    const styles = getVariantStyles(variant);
+    const baseClass = styles.messageBase;
     let typeClass = '';
 
     // Couleurs selon le type de message
     switch (type) {
         case 'error':
-        typeClass = 'bg-red-100 text-red-700 border border-red-400';
+        typeClass = styles.messageErreur;
         break;
         case 'loading':
-        typeClass = 'bg-blue-100 text-blue-700 border border-blue-400 animate-pulse';
+        typeClass = styles.messageChargement;
         break;
         default:
-        typeClass = 'bg-gray-100 text-gray-700 border border-gray-300';
+        typeClass = styles.messageDefaut;
     }
 
     return (

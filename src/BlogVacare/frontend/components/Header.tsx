@@ -1,7 +1,9 @@
 'use client';
 
 import { useAuthContexte } from "@BlogsFront/contexts/AuthContext";
+import { useVariant } from "@BlogsFront/contexts/VariantContext";
 import { useDeconnexion } from "@BlogsFront/hooks/useAuth";
+import { getVariantStyles } from "@BlogsFront/lib/variant-styles";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
@@ -23,12 +25,18 @@ export function Header() {
         router.push("/");
     };
 
+    // Récupération des styles
+    const variant = useVariant();
+    const styles = getVariantStyles(variant);
+    
+    const titre = (variant == "old") ? "Forum de SuperFlashAtomicMan et Vince" : "Blog de Vacare";
+
     return (
-            <header className="bg-gradient-to-b from-primary to-green-700 shadow-lg rounded-b-xl p-4 text-white text-center">
-                <h1 className="text-3xl font-bold">Blog De Vacare</h1>
+            <header className={ styles.header }>
+                <h1 className="text-3xl font-bold">{ titre }</h1>
                 <nav>
                     <ul className="flex items-center justify-center space-x-4 mt-2 text-2xl">
-                        <li><Link href="/" className="hover:underline px-3 py-1 hover:bg-white/20">Accueil</Link></li>
+                        <li><Link href="/" className={ styles.headerLien }>Accueil</Link></li>
                         {chargementAuth ? (
                             <li className="animate-pulse">Chargement...</li>
                         ) : estConnecte ? (
@@ -36,18 +44,18 @@ export function Header() {
                                 <li>
                                     <button 
                                         onClick={handleDeconnexion}
-                                        className="hover:underline px-3 py-1 rounded-md hover:bg-white/20 transition"
+                                        className={ styles.headerLien }
                                     >
                                         Déconnexion
                                     </button>
                                 </li>
-                                <li className="text-primary-light font-semibold">
+                                <li className={ styles.headerUtilisateur }>
                                     👤 {utilisateur?.getUsername()}
                                 </li>
                             </>
                         ) : (
                             <li>
-                                <Link href="/connexion" className="hover:underline">
+                                <Link href="/connexion" className={ styles.headerLien }>
                                     Connexion
                                 </Link>
                             </li>

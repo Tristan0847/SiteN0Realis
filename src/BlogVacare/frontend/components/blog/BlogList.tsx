@@ -2,6 +2,8 @@
 
 import { Blog } from '@BlogsShared/model/Blog';
 import { BlogItem } from '@BlogsFront/components/blog/BlogItem';
+import { getVariantStyles } from '@BlogsFront/lib/variant-styles';
+import { useVariant } from '@BlogsFront/contexts/VariantContext';
 
 /**
  * Props du composant BlogList
@@ -18,10 +20,14 @@ type BlogListProps = {
  * @returns Composant React contenant la liste de blogs
  */
 export function BlogList({ blogs, slugDossier }: BlogListProps) {
+    // Récupération des styles
+    const variant = useVariant();
+    const styles = getVariantStyles(variant);
+
     if (blogs.length === 0) {
         return (
-            <div className="flex flex-col items-center justify-center p-8 bg-white border-2 border-stone-200/10 rounded-lg shadow-primary-dark/80 max-w-4xl mx-auto">
-                <p className='text-center text-gray-500 text-lg font-medium py-8'>
+            <div className={ styles.listeBlogsAucunBlogConteneur }>
+                <p className={ styles.listeBlogsAucunBlogContenu }>
                     Aucun blog trouvé
                 </p>
             </div>
@@ -29,7 +35,7 @@ export function BlogList({ blogs, slugDossier }: BlogListProps) {
     }
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-2 bg-white border-2 border-stone-200/10 rounded-lg shadow-primary-dark/80 max-w-4xl mx-auto">
+        <div className={ styles.listeBlogsConteneur }>
             {blogs.map(b => (
                 <BlogItem key={b.getId()} blog={b} slugDossier={slugDossier} />
             ))}

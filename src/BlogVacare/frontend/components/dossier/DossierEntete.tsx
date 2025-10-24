@@ -1,10 +1,29 @@
 'use client';
 
+import { useVariant } from "@BlogsFront/contexts/VariantContext";
+import { getVariantStyles } from "@BlogsFront/lib/variant-styles";
+
 /**
  * Méthode de composant pour afficher l'entête de la liste de dossiers
  * @returns Composant React contenant l'entête de la liste de dossiers
  */
 export function DossierEntete() {
+  // Récupération des styles
+  const variant = useVariant();
+
+  if (variant == "old") {
+    return (
+    <section className="mx-auto px-4">
+      <div className="text-center mb-10">
+        <h1 className="text-6xl font-extrabold text-primary-dark drop-shadow-md leading-tight">
+          Bienvenue sur le Blog de SuperFlashAtomicMan et Vince
+        </h1>
+        <p>Si vous n'êtes ni l'unique SuperFlashAtomicMan, ni l'audacieux Vince, ni le TRES intelligent Mister Owl, vous n'êtes PAS le bienvenue ici ! Ce forum est privé et interdit aux adultes !</p>
+      </div>
+    </section>
+  );
+  }
+
   return (
     <section className="mx-auto px-4">
       <div className="text-center mb-10">
