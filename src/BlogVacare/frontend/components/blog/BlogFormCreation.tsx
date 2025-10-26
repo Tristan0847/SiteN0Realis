@@ -24,6 +24,10 @@ export function BlogFormCreation({onSubmit, chargement, erreur, estConnecte} : F
     const [nom, setNom] = useState("");
     const [premierMessage, setPremierMessage] = useState("");
 
+    // Récupération des styles
+    const variant = useVariant();
+    const styles = getVariantStyles(variant);
+
     // Gestion de la soumission du formulaire
     const gererSoumission = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -40,10 +44,6 @@ export function BlogFormCreation({onSubmit, chargement, erreur, estConnecte} : F
         return <AccesRestreint message={"Vous devez être connecté pour créer un blog."} />;
     }
 
-
-    // Récupération des styles
-    const variant = useVariant();
-    const styles = getVariantStyles(variant);
     
     const titre = (variant == "old") ? "Crée ton blog !" : "Créer un nouveau blog";
     const bouton = (variant == "old") ? "Créer ton blog !" : "Créer le blog";

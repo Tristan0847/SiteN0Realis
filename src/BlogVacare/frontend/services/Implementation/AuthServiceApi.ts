@@ -1,5 +1,5 @@
 import { AuthReponse, I_AuthService } from "@BlogsFront/services/Interface/I_AuthService";
-import { Utilisateur } from "@BlogsShared/model/Utilisateur";
+import { Utilisateur, UtilisateurJSON } from "@BlogsShared/model/Utilisateur";
 
 /**
  * Service d'authentification du site
@@ -110,7 +110,7 @@ export class AuthServiceApi implements I_AuthService {
             throw new Error("Impossible de récupérer l'utilisateur associé");
         }
 
-        const utilisateurJson = await reponse.json();
+        const utilisateurJson : UtilisateurJSON = await reponse.json();
         const utilisateur = Utilisateur.fromJSON(utilisateurJson);
         
         return utilisateur;

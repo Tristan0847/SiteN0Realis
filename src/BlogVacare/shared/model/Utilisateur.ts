@@ -1,5 +1,9 @@
 
 /**
+ * Type pour les utilisateurs sérialisés
+ */
+export type UtilisateurJSON = ReturnType<Utilisateur['toJSON']>;
+/**
  * Classe représentant un utilisateur du site
  */
 export class Utilisateur {
@@ -74,7 +78,7 @@ export class Utilisateur {
      * @param json JSON de l'utilisateur
      * @returns Utilisateur créé
      */
-    static fromJSON(json: any): Utilisateur {
+    static fromJSON(json: UtilisateurJSON): Utilisateur {
         let utilisateur = new Utilisateur();
         utilisateur.setUsername(json.username);
         utilisateur.setMotDePasse(json.motDePasse);

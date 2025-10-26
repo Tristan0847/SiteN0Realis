@@ -170,7 +170,7 @@ export class Blog {
      * @param json JSON du blog
      * @returns Blog créé
      */
-    static fromJSON(json: any): Blog {
+    static fromJSON(json: BlogJSON): Blog {
         let blog = new Blog();
         blog.setId(json.id);
         blog.setNom(json.nom);

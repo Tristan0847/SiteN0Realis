@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import PageDossiersClient from '@BlogsFront/app/_shared/pageClient';
-import { getPageAccueilParams, getRouteDossiers } from '@BlogsFront/lib/routes-config';
+import { getPageAccueilParams } from '@BlogsFront/lib/routes-config';
 import { DossierJSON } from '@BlogsShared/model/Dossier';
 import { getDossiersPrecharges } from '@BlogsFront/app/_shared/pageGetter';
 
@@ -16,7 +16,7 @@ export function generateMetadata(): Metadata {
  */
 export default async function Page() {
 
-    let dossiersSerialises : DossierJSON[] = await getDossiersPrecharges();
+    const dossiersSerialises : DossierJSON[] = await getDossiersPrecharges();
 
     return(
         <PageDossiersClient dossiersPrecharges={ dossiersSerialises.length > 0 ? dossiersSerialises : undefined } />

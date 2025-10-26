@@ -1,7 +1,6 @@
 import PageBlogsClient from '@BlogsFront/app/_shared/blogs/[slugDossier]/pageClient';
 import { getBlogsPrecharges } from '@BlogsFront/app/_shared/blogs/[slugDossier]/pageGetter';
-import { getDossierBlogsParams, getRouteBlogsForDossier } from '@BlogsFront/lib/routes-config';
-import { BlogJSON } from '@BlogsShared/model/Blog';
+import { getDossierBlogsParams } from '@BlogsFront/lib/routes-config';
 import { Metadata } from 'next';
 
 /**

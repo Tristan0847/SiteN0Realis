@@ -3,13 +3,11 @@
 import { DossierEntete } from "@BlogsFront/components/dossier/DossierEntete";
 import { DossierFormCreation } from "@BlogsFront/components/dossier/DossierFormCreation";
 import { DossierList } from "@BlogsFront/components/dossier/DossierList";
-import MessageBox from "@BlogsFront/components/MessageBox";
 import { PageWrapper } from "@BlogsFront/components/PageWrapper";
 import { useAuthContexte } from "@BlogsFront/contexts/AuthContext";
 import { useDonneesPage } from "@BlogsFront/hooks/useDonneesPage";
 import { useCreerDossier, useDossiers } from "@BlogsFront/hooks/useDossiers";
 import { Dossier, DossierJSON } from "@BlogsShared/model/Dossier";
-import { useState } from "react";
 
 /**
  * Props pour le composant PageDossiersClient

@@ -20,7 +20,7 @@ export function Header() {
     // Récupération des styles
     const variant = useVariant();
     const styles = getVariantStyles(variant);
-    const baseUrl = (variant == "modern") ? "/" : "/" + variant;
+    const baseUrl = (variant == "modern") ? "" : "/" + variant;
 
     // Hook de déconnexion
     const { mutation: deconnecter } = useDeconnexion();
@@ -38,7 +38,7 @@ export function Header() {
                 <h1 className="text-3xl font-bold py-2">{ titre }</h1>
                 <nav className={ styles.headerNav }>
                     <ul className="flex items-center justify-center space-x-4 mt-2 text-2xl">
-                        <li><Link href={ baseUrl } className={ styles.headerLien }>Accueil</Link></li>
+                        <li><Link href={ baseUrl + "/" } className={ styles.headerLien }>Accueil</Link></li>
                         {chargementAuth ? (
                             <li className="animate-pulse">Chargement...</li>
                         ) : estConnecte ? (

@@ -1,5 +1,5 @@
 import { I_DossierService } from "@BlogsFront/services/Interface/I_DossierService";
-import { Dossier } from "@BlogsShared/model/Dossier";
+import { Dossier, DossierJSON } from "@BlogsShared/model/Dossier";
 
 /**
  * Classe de service de dossier utilisant l'API de backend
@@ -23,7 +23,7 @@ export class DossierServiceApi implements I_DossierService {
 
         const dossiersJson = await reponse.json();
         const dossiers : Dossier[] = [];
-        dossiersJson.forEach((dossierJson : string) => {
+        dossiersJson.forEach((dossierJson : DossierJSON) => {
             const dossier = Dossier.fromJSON(dossierJson);
             dossiers.push(dossier);
         });

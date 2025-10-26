@@ -1,5 +1,5 @@
 import { I_BlogService } from '@BlogsFront/services/Interface/I_BlogService';
-import { Blog } from '@BlogsShared/model/Blog';
+import { Blog, BlogJSON } from '@BlogsShared/model/Blog';
 
 /**
  * Service de gestion de blogs (réception par API)
@@ -26,7 +26,7 @@ export class BlogServiceApi implements I_BlogService {
         const blogsJson = await reponse.json();
         const blogs : Blog[] = [];
 
-        blogsJson.forEach( (blogJson : string) => {
+        blogsJson.forEach( (blogJson : BlogJSON) => {
             const blog = Blog.fromJSON(blogJson);
             blogs.push(blog);
         })

@@ -29,7 +29,7 @@ export default async function Page({ params }: PageProps) {
 
   const { slugDossier, slugBlog } = await params;
 
-  let messagesSerialises : MessageJSON[] = await getMessagesPrecharges(slugDossier, slugBlog);
+  const messagesSerialises : MessageJSON[] = await getMessagesPrecharges(slugDossier, slugBlog);
   
   return <PageMessagesClient slugDossier={slugDossier} slugBlog={slugBlog} messagesPrecharges={ messagesSerialises.length > 0 ? messagesSerialises : undefined } />;
 }

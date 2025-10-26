@@ -116,7 +116,7 @@ export class Message {
      * @param json JSON du messa
      * @returns Message créé
      */
-    static fromJSON(json: any): Message {
+    static fromJSON(json: MessageJSON): Message {
         let message = new Message();
         message.setContenu(json.contenu);
         message.setDate(new Date(json.date));

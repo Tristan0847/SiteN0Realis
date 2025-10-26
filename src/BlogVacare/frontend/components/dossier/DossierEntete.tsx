@@ -1,7 +1,6 @@
 'use client';
 
 import { useVariant } from "@BlogsFront/contexts/VariantContext";
-import { getVariantStyles } from "@BlogsFront/lib/variant-styles";
 import Link from "next/link";
 
 /**
@@ -16,8 +15,8 @@ export function DossierEntete() {
     return (
       <div className="mx-auto px-4 border-2 border-black bg-white max-w-3xl">
           <div className="text-center mb-10">
-        <h2 className="font-bold text-4xl">Bienvenue sur le Forum de SuperFlashAtomicMan et Vince</h2>
-        <p className="px-2 text-xl">Si vous n'êtes ni l'unique SuperFlashAtomicMan, ni l'audacieux Vince, ni le TRES intelligent Mister Owl, vous n'êtes PAS le bienvenue ici ! Ce forum est privé et interdit aux adultes !</p>
+        <h2 className="font-bold text-3xl pt-4">Bienvenue sur le Forum de SuperFlashAtomicMan et Vince</h2>
+        <p className="px-2 text-lg">Si vous n&apos;êtes ni l&apos;unique SuperFlashAtomicMan, ni l&apos;audacieux Vince, ni le TRES intelligent Mister Owl, vous n&apos;êtes PAS le bienvenue ici ! Ce forum est privé et interdit aux adultes !</p>
         </div>
     </div>
   );

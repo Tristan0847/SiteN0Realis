@@ -2,7 +2,6 @@
 
 import { MessageFormCreation } from '@BlogsFront/components/message/MessageFormCreation';
 import { MessageList } from '@BlogsFront/components/message/MessageList';
-import MessageBox from '@BlogsFront/components/MessageBox';
 import { PageWrapper } from '@BlogsFront/components/PageWrapper';
 import { useAuthContexte } from '@BlogsFront/contexts/AuthContext';
 import { useBlog } from '@BlogsFront/hooks/useBlogs';

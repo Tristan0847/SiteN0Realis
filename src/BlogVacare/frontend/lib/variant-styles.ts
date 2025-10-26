@@ -1,4 +1,4 @@
-import { SiteVariant } from '@BlogsFront/contexts/VariantContext';
+import { SiteVariant } from "@BlogsFront/contexts/VariantContext";
 
 /**
  * Helper pour récupérer les classes CSS selon la variante du site, permet aussi de centraliser les styles du site
@@ -15,9 +15,9 @@ export function getVariantStyles(variant: SiteVariant) {
 
       // Messages d'erreur/d'information
       messageBase: "rounded-md p-4 text-center text-lg font-semibold max-w-md mx-auto select-none",
-      messageErreur: 'bg-red-100 text-red-700 border border-red-400',
-      messageChargement: 'bg-blue-100 text-blue-700 border border-blue-400 animate-pulse',
-      messageDefaut:'bg-gray-100 text-gray-700 border border-gray-300',
+      messageErreur: "bg-red-100 text-red-700 border border-red-400",
+      messageChargement: "bg-blue-100 text-blue-700 border border-blue-400 animate-pulse",
+      messageDefaut:"bg-gray-100 text-gray-700 border border-gray-300",
 
       // Accès restreint
       accesRestreintDiv: "p-6 bg-gradient-to-br from-yellow-50 to-orange-50 rounded-lg shadow-md border-2 border-orange-200",
@@ -93,9 +93,9 @@ export function getVariantStyles(variant: SiteVariant) {
 
       // Messages d'erreur/d'information
       messageBase: "rounded-md p-4 text-center text-lg font-semibold max-w-md mx-auto select-none",
-      messageErreur: 'bg-red-100 text-red-700 border border-red-400',
-      messageChargement: 'bg-blue-100 text-blue-700 border border-blue-400 animate-pulse',
-      messageDefaut:'bg-gray-100 text-gray-700 border border-gray-300',
+      messageErreur: "bg-red-100 text-red-700 border border-red-400",
+      messageChargement: "bg-blue-100 text-blue-700 border border-blue-400 animate-pulse",
+      messageDefaut:"bg-gray-100 text-gray-700 border border-gray-300",
 
       // Accès restreint
       accesRestreintDiv: "p-4 bg-white border-2 border-gray-400 my-4 text-black",
@@ -130,7 +130,7 @@ export function getVariantStyles(variant: SiteVariant) {
       listeDossiersUl: "w-full",
       listeDossiersLi: "mb-2.5",
       listeDossierItem: "bg-white border-2 border-gray-400 mb-1.5 w-full",
-      listeDossierLienConteneur: "bg-green-700/80 text-white p-2.5 px-4 font-bold border-b border-gray-400 flex justify-between items-center",
+      listeDossierLienConteneur: "bg-green-800/70 text-white p-2.5 px-4 font-bold border-b border-gray-400 flex justify-between items-center",
       listeDosierLien: "text-white no-underline font-bold text-base hover:underline",
       listeDossierItemSoustitre: "bg-gray-50 text-black p-2 px-2.5 font-normal border-t border-gray-400 text-sm leading-relaxed",
       
@@ -140,7 +140,7 @@ export function getVariantStyles(variant: SiteVariant) {
       listeBlogsConteneur: "bg-white border-2 border-gray-400 p-4 my-4 max-w-3xl mx-auto",
       BlogItemConteneur: "bg-white border-2 border-gray-400 mb-2.5 w-full",
       BlogItemSousConteneur: "flex flex-col",
-      BlogItemLien: "bg-green-700/80 text-white p-2.5 px-4 font-bold border-b border-gray-400 no-underline hover:underline text-base block",
+      BlogItemLien: "bg-green-800/70 text-white p-2.5 px-4 font-bold border-b border-gray-400 no-underline hover:underline text-base block",
       BlogItemSpan: "text-black px-2.5 border-b-1 border-gray-300 text-sm font-normal float-right",
       BlogItemContenu: "bg-[#f9f9f9] text-black p-2 px-2.5 text-sm leading-relaxed",
 

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import PageConnexionClient from '@BlogsFront/app/_shared/connexion/pageClient';
+import { FakePageConnexion } from '@BlogsFront/components/auth/FakePageConnexion';
 
 export async function generateMetadata(): Promise<Metadata> {
 
@@ -14,5 +15,10 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default async function Page() {
   
+    const mode = process.env.NEXT_PUBLIC_NEXT_ENV;
+    if (mode == 'export') {
+      return <FakePageConnexion />
+    }
+
     return <PageConnexionClient />
 }

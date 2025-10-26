@@ -1,5 +1,5 @@
 import { I_MessageService } from "@BlogsFront/services/Interface/I_MessageService";
-import { Message } from "@BlogsShared/model/Message";
+import { Message, MessageJSON } from "@BlogsShared/model/Message";
 
 /**
  * Service de messages par l'API backend
@@ -26,7 +26,7 @@ export class MessageServiceApi implements I_MessageService {
         const messagesJson = await reponse.json();
         const messages : Message[] = [];
 
-        messagesJson.forEach( (messageJson : string) => {
+        messagesJson.forEach( (messageJson : MessageJSON) => {
             const message = Message.fromJSON(messageJson);
             messages.push(message);            
         });

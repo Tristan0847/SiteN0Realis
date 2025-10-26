@@ -1,6 +1,6 @@
 import PageMessagesClient from '@BlogsFront/app/_shared/messages/[slugDossier]/[slugBlog]/pageClient';
 import { getMessagesPrecharges } from '@BlogsFront/app/_shared/messages/[slugDossier]/[slugBlog]/pageGetter';
-import { getMessagesParams, getRouteMessages } from '@BlogsFront/lib/routes-config';
+import { getMessagesParams } from '@BlogsFront/lib/routes-config';
 import { MessageJSON } from '@BlogsShared/model/Message';
 import { Metadata } from 'next';
 
@@ -29,7 +29,7 @@ export default async function Page({ params }: PageProps) {
 
   const { slugDossier, slugBlog } = await params;
 
-  let messagesSerialises : MessageJSON[] = await getMessagesPrecharges(slugDossier, slugBlog);
+  const messagesSerialises : MessageJSON[] = await getMessagesPrecharges(slugDossier, slugBlog);
   
   return <PageMessagesClient slugDossier={slugDossier} slugBlog={slugBlog} messagesPrecharges={ messagesSerialises.length > 0 ? messagesSerialises : undefined } />;
 }

@@ -1,6 +1,11 @@
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 
 /**
+ * Type pour les dossiers sérialisés
+ */
+export type ElementSupprimeJSON= ReturnType<ElementSupprime['toJSON']>;
+
+/**
  * Classe représentant les caractéristiques d'un élément supprimé 
  */
 export class ElementSupprime {
@@ -111,7 +116,7 @@ export class ElementSupprime {
      * @param json JSON de l'élément supprimé
      * @returns Élément supprimé créé
      */
-    static fromJSON(json: any): ElementSupprime {
+    static fromJSON(json: ElementSupprimeJSON): ElementSupprime {
         let elementSupprime = new ElementSupprime();
         elementSupprime.setId(json.id);
         elementSupprime.setUtilisateur(Utilisateur.fromJSON(json.utilisateur));

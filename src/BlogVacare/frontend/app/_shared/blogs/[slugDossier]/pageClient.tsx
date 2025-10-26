@@ -2,7 +2,6 @@
 
 import { useBlogs, useCreerBlog } from '@BlogsFront/hooks/useBlogs';
 import { BlogList } from '@BlogsFront/components/blog/BlogList';
-import MessageBox from '@BlogsFront/components/MessageBox';
 import { Blog, BlogJSON } from '@BlogsShared/model/Blog';
 import { BlogFormCreation } from '@BlogsFront/components/blog/BlogFormCreation';
 import { useAuthContexte } from '@BlogsFront/contexts/AuthContext';
