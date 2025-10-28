@@ -45,6 +45,10 @@ export class AuthServiceApi implements I_AuthService {
     }
 
     async inscription(nomUtilisateur : string, mdp1 : string, mdp2 : string) : Promise<AuthReponse> {
+        if (mdp1 != mdp2) {
+            throw new Error("Les deux mots de passe entrés ne correspondent pas.");
+        }
+
         const url = this.apiBaseUrl + "/utilisateur/inscription";
         const body = JSON.stringify({
             nomUtilisateur: nomUtilisateur,

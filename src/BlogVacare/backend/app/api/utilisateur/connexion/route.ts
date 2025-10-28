@@ -39,7 +39,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
     }
     catch (error) {
         return NextResponse.json(
-            { error : "Paramètres invalides" },
+            { error : "Paramètres invalides - " },
             { status: 401 }
         )
     }

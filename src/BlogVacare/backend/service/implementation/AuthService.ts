@@ -16,7 +16,7 @@ export class AuthService implements I_AuthService {
     private jwtUtil : I_JWTUtil;
     private passwordUtil : I_PasswordHashUtil;
 
-    private readonly regexMdp = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$/;
+    private readonly regexMdp = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]).{12,}$/;
 
     /**
      * Constructeur du service
@@ -66,14 +66,6 @@ export class AuthService implements I_AuthService {
 
     async inscription(donnees : DonneesInscription) : Promise<AuthReponse> {
 
-        if (donnees.mdp1 != donnees.mdp2) {
-            throw new Error("Les 2 mots de passe entrés ne sont pas les mêmes");
-        }
-
-        if (!this.verifierMdp(donnees.mdp1)) {
-            throw new Error("Mot de passe invalide, il doit contenir au moins une minuscule, une majuscule, un chiffre, un caractère spécial et avoir une longueur minimale de 12");
-        }
-
         try {
             const utilisateurExistant = await this.dao.getRole(donnees.nomUtilisateur);
             if (utilisateurExistant) {
@@ -86,36 +78,49 @@ export class AuthService implements I_AuthService {
                 throw error;
             }
         }
+        
+        try {
+            if (donnees.mdp1 != donnees.mdp2) {
+                throw new Error("Les 2 mots de passe entrés ne sont pas les mêmes");
+            }
 
-        // On entre donc l'utilisateur en BDD ensuite
-        const mdpHash = await this.passwordUtil.hash(donnees.mdp1);
+            if (!this.verifierMdp(donnees.mdp1)) {
+                throw new Error("Mot de passe invalide, il doit contenir au moins une minuscule, une majuscule, un chiffre, un caractère spécial et avoir une longueur minimale de 12");
+            }
+            
+            // On entre donc l'utilisateur en BDD ensuite
+            const mdpHash = await this.passwordUtil.hash(donnees.mdp1);
 
-        const utilisateur = new Utilisateur();
-        utilisateur.setUsername(donnees.nomUtilisateur);
-        utilisateur.setMotDePasse(mdpHash);
-        utilisateur.setEstAdmin(false);
+            const utilisateur = new Utilisateur();
+            utilisateur.setUsername(donnees.nomUtilisateur);
+            utilisateur.setMotDePasse(mdpHash);
+            utilisateur.setEstAdmin(false);
 
-        await this.dao.creerUtilisateur(utilisateur);
+            await this.dao.creerUtilisateur(utilisateur);
 
-        // On génère les tokens de retour
-        const payload: JwtPayload = {
-            username: donnees.nomUtilisateur,
-            estAdmin: false,
-        };
+            // On génère les tokens de retour
+            const payload: JwtPayload = {
+                username: donnees.nomUtilisateur,
+                estAdmin: false,
+            };
 
-        const tokenAcces = this.jwtUtil.genererTokenAcces(payload);
-        const tokenRefresh = this.jwtUtil.genererRefreshToken(payload);
+            const tokenAcces = this.jwtUtil.genererTokenAcces(payload);
+            const tokenRefresh = this.jwtUtil.genererRefreshToken(payload);
 
-        // Retour de l'utilisateur sans mot de passe
-        const utilisateurRetour = new Utilisateur();
-        utilisateurRetour.setUsername(donnees.nomUtilisateur);
-        utilisateurRetour.setEstAdmin(false);
+            // Retour de l'utilisateur sans mot de passe
+            const utilisateurRetour = new Utilisateur();
+            utilisateurRetour.setUsername(donnees.nomUtilisateur);
+            utilisateurRetour.setEstAdmin(false);
 
-        return {
-            utilisateur : utilisateurRetour,
-            tokenAcces,
-            tokenRefresh,
-        };
+            return {
+                utilisateur : utilisateurRetour,
+                tokenAcces,
+                tokenRefresh,
+            };
+        }
+        catch (error) {
+            throw error;
+        }
     }
     
     async rafraichirToken(tokenRefresh : string) : Promise<string> {

@@ -7,7 +7,7 @@ import { useConnexion } from '@BlogsFront/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 
 /**
- * Page affichant les messages d'un blog spécifique
+ * Page affichant la page de connexion
  * @returns {JSX.Element} Composant React pour la page de connexion du site
  */
 export default function PageConnexionClient() {

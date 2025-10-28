@@ -25,11 +25,11 @@ class DbPoolMySQL {
         if (!DbPoolMySQL.instance) {
 
             DbPoolMySQL.instance = {
-                host: process.env.DB_HOST || '127.0.0.1',
-                user: process.env.DB_USER || 'root',
-                password: process.env.DB_PASSWORD || '',
-                database: process.env.DB_NAME || 'blogvacare',
-                port: Number(process.env.DB_PORT) || 3306
+                host: process.env.MYSQL_DB_HOST || '127.0.0.1',
+                user: process.env.MYSQL_DB_USER || 'root',
+                password: process.env.MYSQL_DB_PASSWORD || '',
+                database: process.env.MYSQL_DB_NAME || 'blogvacare',
+                port: Number(process.env.MYSQL_DB_PORT) || 3306
             };
         }
 

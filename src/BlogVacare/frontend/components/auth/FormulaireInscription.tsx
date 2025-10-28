@@ -2,56 +2,57 @@
 
 import { useVariant } from "@BlogsFront/contexts/VariantContext";
 import { getVariantStyles } from "@BlogsFront/lib/variant-styles";
-import Link from "next/link";
 import { useState } from "react";
 
 
 /**
  * Paramètres de création du formulaire
  */
-interface ConnexionProps {
-    onSubmit: (nomUtilisateur: string, mdp: string) => Promise<void>;
+interface InscriptionProps {
+    onSubmit: (nomUtilisateur: string, mdp1: string, mdp2: string) => Promise<void>;
     chargement: boolean;
     erreur: Error|null;
 }
 
 /**
- * Méthode de connexion au site
+ * Méthode d'inscription au site
  * @param param0 Hook nécessaire à la connexion 
  */
-export function FormulaireConnexion({ onSubmit, chargement, erreur} : ConnexionProps) {
+export function FormulaireInscription({ onSubmit, chargement, erreur} : InscriptionProps) {
 
     const [nomUtilisateur, setNomUtilisateur] = useState("");
-    const [mdp, setMdp] = useState("");
+    const [mdp1, setMdp1] = useState("");
+    const [mdp2, setMdp2] = useState("");
 
     // Gestion de la soumission du formulaire
     const gererSoumission = async (e : React.FormEvent) => {
         e.preventDefault();
 
-        await onSubmit(nomUtilisateur, mdp);
+        await onSubmit(nomUtilisateur, mdp1, mdp2);
 
         setNomUtilisateur("");
-        setMdp("");
+        setMdp1("");
+        setMdp2("");
     }
 
     // Récupération des styles
     const variant = useVariant();
     const styles = getVariantStyles(variant);
-    const baseUrl = (variant == "modern") ? "" : "/" + variant;
     
     // Contenu de la page
-    const titre = (variant == "old") ? "Connecte-toi pour venir parler !" : "Connectez-vous à votre compte";
+    const titre = (variant == "old") ? "Inscris-toi sur mon site !" : "Inscrivez-vous";
     const votreNom = (variant == "old") ? "Ton pseudo :" : "Nom d'utilisateur";
     const votreNomPlaceholder = (variant == "old") ? "Entre ton pseudo !" : "Entrez votre nom d'utilisateur";
-    const votreMdp = (variant == "old") ? "Ton mot de passe super secret :" : "Mot de passe";
-        
+    const votreMdp1 = (variant == "old") ? "Ton mot de passe super secret :" : "Mot de passe";
+    const votreMdp2 = (variant == "old") ? "Validation de ton mot de passe super secret :" : "Confirmation du mot de passe";
+
     return (
         <div className="min-h-[80vh] flex items-center justify-center px-4">
             <section className="w-full max-w-md">
                 <form onSubmit={gererSoumission} className={ styles.formConnexionDiv }>
                     {/* Titre */}
                     <div className="text-center mb-6">
-                        <h1 className={ styles.formConnexionTitre }>Connexion</h1>
+                        <h1 className={ styles.formConnexionTitre }>Inscription</h1>
                         <p className={ styles.formConnexionSousTitre }>{ titre }</p>
                     </div>
 
@@ -73,10 +74,21 @@ export function FormulaireConnexion({ onSubmit, chargement, erreur} : ConnexionP
                     </div>
 
                     <div className={ styles.formConnexionConteneurChamp }>
-                        <label htmlFor="mdp" className={ styles.formConnexionLabel }>
-                            { votreMdp }
+                        <label htmlFor="mdp1" className={ styles.formConnexionLabel }>
+                            { votreMdp1 }
                         </label>
-                        <input id="mdp" type="password" value={mdp} onChange={(e) => setMdp(e.target.value)} className={ styles.formConnexionChamps }  placeholder="**************" required />
+                        <input id="mdp1" type="password" value={mdp1} onChange={(e) => setMdp1(e.target.value)} className={ styles.formConnexionChamps }  placeholder="**************" required />
+                    </div>
+
+                    <div className={ styles.formConnexionConteneurChamp }>
+                        <label htmlFor="mdp2" className={ styles.formConnexionLabel }>
+                            { votreMdp2 }
+                        </label>
+                        <input id="mdp2" type="password" value={mdp2} onChange={(e) => setMdp2(e.target.value)} className={ styles.formConnexionChamps }  placeholder="**************" required />
+                    </div>
+
+                    <div className={ styles.formConnexionConteneurChamp + " italic" }>
+                        <p className={ styles.formConnexionLabel }>Le mot de passe doit avoir une longueur minimale de 12 caractères, contenir une majuscule, une minuscule, un chiffe et un caractère spécial.</p>
                     </div>
 
                     {/* Bouton de soumission */}
@@ -90,13 +102,12 @@ export function FormulaireConnexion({ onSubmit, chargement, erreur} : ConnexionP
                                 </svg>
                                 }
                                 
-                                Connexion en cours...
+                                Inscription en cours...
                             </span>
                         ) : (
-                            "Se connecter"
+                            "S'inscrire"
                         )}
                     </button>
-                    <p>Pas encore de compte? <Link href={ baseUrl + "/inscription" }>Inscrivez-vous.</Link></p>
                 </form>
             </section>
         </div>
