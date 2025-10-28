@@ -12,7 +12,7 @@ const service : I_DossierService = ServiceFactory.get<I_DossierService>(INTERFAC
 export async function DELETE(request: NextRequest) : Promise<NextResponse> {
     try {
         const nomUtilisateur = request.headers.get('x-username');
-        const estAdmin = request.headers.get('x-est-admin') === 'true';
+        const estAdmin = request.headers.get('x-est-admin') === '1';
 
         if (!nomUtilisateur) {
             return NextResponse.json(
@@ -24,7 +24,7 @@ export async function DELETE(request: NextRequest) : Promise<NextResponse> {
         if (!estAdmin) {
             return NextResponse.json(
                 { error: 'Utilisateur non autorisé à supprimer des dossiers' },
-                { status: 403 }
+                { status: 400 }
             );
         }
 

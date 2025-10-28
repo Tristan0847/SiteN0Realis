@@ -64,7 +64,8 @@ export function getVariantStyles(variant: SiteVariant) {
       listeBlogsConteneur: "grid grid-cols-1 md:grid-cols-2 gap-6 p-2 bg-white border-2 border-stone-200/10 rounded-lg shadow-primary-dark/80 max-w-4xl mx-auto",
       BlogItemConteneur: "p-4 border border-neutral-light rounded-md shadow-sm hover:shadow-md transition-shadow cursor-pointer bg-white max-w-md",
       BlogItemSousConteneur: "flex flex-col gap-1",
-      BlogItemLien: "text-lg font-semibold text-primary-dark hover:underline border-b-2 border-primary-dark/50 pb-1",
+      BlogItemLienConteneur: "text-black font-bold border-b border-gray-400 text-base flex flex-row justify-between items-center",
+      BlogItemLien: "text-lg font-semibold text-primary-dark hover:underline pb-1",
       BlogItemSpan: "text-sm text-neutral-dark italic",
       BlogItemContenu: "text-neutral-700 mt-2 line-clamp-4",
 
@@ -75,9 +76,37 @@ export function getVariantStyles(variant: SiteVariant) {
       messageImg: "w-24 h-24 rounded-full object-cover p-4",
       messageConteneur: "flex-1 flex flex-col pr-2 p-4",
       messagecontenuPseudo: "font-semibold text-primary-dark col border-b-2 border-gray-400/15",
-      messageContenu: "bg-white p-2 rounded-md text-neutral-dark pr-5 whitespace-pre-line",
+      messageContenu: "text-left bg-white p-2 rounded-md text-neutral-dark pr-5 whitespace-pre-line",
       messageDate: "text-xs text-neutral dark:text-neutral-dark mt-1 pl-2",
+      
+      messageSupprimeBox: "bg-gray-100/80 border-1 border-gray-400 p-2 text-center w-full",
+      messageSupprimeDesc: "text-black italic text-sm mb-1",
+      messageSupprimeBtn: "underline hover:no-underline",
 
+      // Suppression/messagebox d'éléments supprimés
+      supprimerDossierBtn: "text-right text-black underline hover:bg-black/5 rounded-md transition p-1 my-auto",
+      supprimerBtn: "text-right text-primary-dark underline hover:bg-black/10 transition p-1 hover:scale-[1.02]",
+
+      supprFormConteneur: "fixed inset-0 z-50 flex items-center justify-center bg-black/30",
+      supprFormPanel: "bg-white rounded-xl p-8 shadow-lg max-w-2xl w-full",
+      supprFormContenu: "flex flex-col items-center text-center gap-4",
+      supprFormTitre: "font-bold text-xl text-gray-900",
+      supprFormDesc: "text-gray-800",
+      supprFormRaisonLabel: "block text-sm font-medium text-gray-700 mb-1",
+      supprFormRaison: "w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500",
+      supprFormCache: "w-4 h-4 text-red-600 border-gray-300 rounded focus:ring-red-500",
+      supprFormCacheLabel: "text-sm text-gray-700",
+      supprFormBtnAnnuler: "px-4 py-2 rounded font-medium bg-gray-100 text-gray-800 hover:bg-gray-200 transition",
+      supprFormBtnConfirmer: "px-4 py-2 rounded font-medium bg-red-600 text-white hover:bg-red-700 transition",
+
+      elementSupprTitre: "bg-red-300/60 rounded p-2 mt-2 flex flex-row items-center gap-2",
+      elementSupprTitreMessage: "text-black p-1.5 px-3 flex flex-row items-center justify-center",
+      elementSupprTitreLien: "text-left underline hover:bg-black/10 cursor-pointer",
+      elementSupprDialogBox: "fixed inset-0 flex items-center justify-center z-50 bg-black/20 transition duration-300",
+      elementSupprDialogPanel: "bg-white p-6 rounded shadow-lg",
+      elementSupprDialogTitre: "font-bold mb-2",
+      elementSupprDialogContenu: "font-semibold",
+      elementSupprDialogBtn: "mt-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300",
 
       // Containers
       pageContainer: "bg-neutral-light text-neutral-dark font-sans flex flex-col min-h-screen",
@@ -140,7 +169,8 @@ export function getVariantStyles(variant: SiteVariant) {
       listeBlogsConteneur: "bg-white border-2 border-gray-400 p-4 my-4 max-w-3xl mx-auto",
       BlogItemConteneur: "bg-white border-2 border-gray-400 mb-2.5 w-full",
       BlogItemSousConteneur: "flex flex-col",
-      BlogItemLien: "bg-green-800/70 text-white p-2.5 px-4 font-bold border-b border-gray-400 no-underline hover:underline text-base block",
+      BlogItemLienConteneur: "bg-green-800/70 text-white font-bold border-b border-gray-400 text-base flex flex-row justify-between items-center",
+      BlogItemLien: "no-underline hover:underline text-base p-2.5 px-4",
       BlogItemSpan: "text-black px-2.5 border-b-1 border-gray-300 text-sm font-normal float-right",
       BlogItemContenu: "bg-[#f9f9f9] text-black p-2 px-2.5 text-sm leading-relaxed",
 
@@ -150,9 +180,39 @@ export function getVariantStyles(variant: SiteVariant) {
       messageImgConteneur: "table-cell w-24 p-2 bg-gray-200/80 border-r border-gray-400 align-top text-center",
       messageImg: "w-[60px] h-[60px] border-2 border-gray-400 bg-white block mx-auto",
       messageConteneur: "table-cell align-top",
-      messagecontenuPseudo: "block bg-gray-700/90 w-full text-white p-1.5 px-2.5 font-bold border-b border-gray-400 text-sm",
-      messageContenu: "p-2.5 bg-white text-black leading-relaxed whitespace-pre-line text-sm",
+      messagecontenuPseudo: "block bg-gray-700/90 w-full text-white p-1.5 px-2.5 font-bold border-b border-gray-400 text-sm flex flex-row justify-between items-center",
+      messageContenu: "p-2.5 bg-white text-black text-left leading-relaxed whitespace-pre-line text-sm",
       messageDate: "block text-right text-xs text-black border-t border-gray-400 p-1.5 px-2.5 bg-gray-200/60",
+      
+      messageSupprimeBox: "bg-gray-200 border-2 border-gray-400 p-2 text-center",
+      messageSupprimeDesc: "text-black italic text-sm mb-1",
+      messageSupprimeBtn: "underline hover:no-underline",
+
+      // Suppression/messagebox d'éléments supprimés
+      supprimerDossierBtn: "text-right text-white underline hover:bg-black/20 p-1 my-auto",
+      supprimerBtn: "text-right text-white underline hover:bg-black/20 mr-5 p-2",
+
+      supprFormConteneur: "fixed inset-0 z-50 flex items-center justify-center bg-black/30",
+      supprFormPanel: "bg-white border-2 border-gray-400 p-6 rounded text-black max-w-lg w-full",
+      supprFormContenu: "flex flex-col items-center text-center gap-3",
+      supprFormTitre: "font-bold text-lg text-black mb-3",
+      supprFormDesc: "text-black text-sm mb-4",
+      supprFormRaisonLabel: "block font-bold text-black text-sm mb-1",
+      supprFormRaison: "w-full px-2 py-1 border-2 border-gray-400 rounded text-black text-sm focus:outline-none focus:bg-yellow-100",
+      supprFormCache: "w-4 h-4 accent-gray-600 border-2 border-gray-400 rounded focus:ring-0",
+      supprFormCacheLabel: "text-sm text-black",
+      supprFormBtnAnnuler: "px-4 py-1.5 rounded font-bold bg-gray-100 border-2 border-gray-400 text-black hover:bg-gray-200 transition mt-2",
+      supprFormBtnConfirmer: "px-4 py-1.5 rounded font-bold bg-green-700 text-white border-2 border-gray-400 hover:bg-green-800 transition mt-2",
+
+      elementSupprTitre: "bg-red-100 border-1 border-gray-600 text-black p-1.5 px-3 mt-2 flex flex-row items-center gap-2",
+      elementSupprTitreMessage: "text-black p-1.5 px-3 flex flex-row items-center justify-center",
+      elementSupprTitreLien: "text-blue-800 underline hover:bg-gray-200 cursor-pointer font-bold px-2 py-0.5 transition",
+      elementSupprDialogBox: "fixed inset-0 flex items-center justify-center z-50 bg-black/30 border-0",
+      elementSupprDialogPanel: "bg-white border-2 border-gray-600 rounded-none shadow-none p-5 max-w-xs w-full",
+      elementSupprDialogTitre: "font-bold text-black text-base mb-2 border-b-2 border-gray-400 pb-1",
+      elementSupprDialogContenu: "font-normal text-black text-sm py-0.5",
+      elementSupprDialogBtn: "mt-4 px-4 py-1 bg-gray-100 border-2 border-gray-400 text-black font-bold rounded-none hover:bg-gray-200 transition",
+
 
       // Containers
       pageContainer: "bg-neutral-light text-black flex flex-col min-h-screen text-base leading-relaxed",

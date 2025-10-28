@@ -1,6 +1,5 @@
 import mysql, { RowDataPacket } from 'mysql2/promise';
 import { Blog } from '@BlogsShared/model/Blog';
-import { Message } from '@BlogsShared/model/Message';
 import { I_BlogDAO } from '@BlogsBack/DAO/Interface/I_BlogDAO';
 import { Utilisateur } from '@BlogsShared/model/Utilisateur';
 import { getDbPool } from '@BlogsBack/config/MySQL/dbPoolMySql';
@@ -19,8 +18,11 @@ interface BlogRow extends RowDataPacket {
     slug: string;
     dateCreation: Date;
     nomUtilisateur: string;
-    contenu: string;
     idSuppression: number|null;
+    utilisateurSuppression: string|null;
+    raisonSuppression: string|null;
+    datesuppression: string|null;
+    cache: boolean|null;
 }
 
 
@@ -101,7 +103,7 @@ export class BlogDAOMySQL implements I_BlogDAO {
 
     async recupererBlogsDuDossier(slugDossier: string): Promise<Blog[]> {
         try {
-            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression, m.contenu FROM Blog b INNER JOIN Dossier d ON d.id = b.idDossier LEFT JOIN Message m ON b.id = m.idBlog AND m.id = (SELECT MIN(m2.id) FROM Message m2 WHERE m2.idBlog = b.id) WHERE d.slug = ? ORDER BY b.dateCreation DESC";
+            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression, es.nomUtilisateur AS utilisateurSuppression, es.raisonSuppression, es.datesuppression, es.cache FROM Blog b LEFT JOIN elementsupprime es ON b.idSuppression = es.id INNER JOIN Dossier d ON d.id = b.idDossier WHERE d.slug = ? ORDER BY b.dateCreation DESC";
             const params = [slugDossier];
 
             const [rows] = await this.pool.query<BlogRow[]>(requete, params);
@@ -115,10 +117,20 @@ export class BlogDAOMySQL implements I_BlogDAO {
                 blog.setSlug(row.slug);
                 blog.setDateCreation(new Date(row.dateCreation));
 
-                // Création de l'objet de suppression si le blog l'est
-                if (row.idSuppression !== null) {
+                // Chargement des données de suppression si le blog l'est
+                if (row.idSuppression !== null && row.datesuppression != null) {
                     const elementSupprime = new ElementSupprime();
                     elementSupprime.setId(row.idSuppression);
+                    elementSupprime.setRaisonSuppression(row.raisonSuppression ?? "");
+
+                    // Création de l'utilisateur à partir de son nom
+                    const utilisateurSuppression = new Utilisateur();
+                    utilisateurSuppression.setUsername(row.utilisateurSuppression ?? "");
+                    elementSupprime.setUtilisateur(utilisateurSuppression);
+
+                    const dateSuppr = new Date(row.datesuppression)
+                    elementSupprime.setDateSuppression(dateSuppr);
+                    elementSupprime.setCache(row.cache ?? false);
                     blog.setElementSupprime(elementSupprime);
                 }
 
@@ -126,16 +138,6 @@ export class BlogDAOMySQL implements I_BlogDAO {
                 const utilisateur = new Utilisateur();
                 utilisateur.setUsername(row.nomUtilisateur);
                 blog.setUtilisateur(utilisateur);
-
-                // Création du premier message associé, limité à 150 caractères
-                const message = new Message();
-                let contenu = row.contenu;
-                if (contenu.length >= 250) {
-                    contenu = contenu.slice(0,246) + "...";
-                }
-
-                message.setContenu(contenu);
-                blog.setMessages([message]);
 
                 blogs.push(blog);
             }

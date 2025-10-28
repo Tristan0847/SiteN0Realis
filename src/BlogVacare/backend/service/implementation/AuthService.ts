@@ -143,7 +143,7 @@ export class AuthService implements I_AuthService {
         if (!utilisateur) {
             throw new Error('Utilisateur introuvable');
         }
-
+        
         return utilisateur;
     }
 

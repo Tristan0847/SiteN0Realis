@@ -55,12 +55,10 @@ export async function middleware(requete : NextRequest) {
     if (routesPubliques.some(route => chemin.startsWith(route))) {
         reponse = NextResponse.next();
     }
-
-    if (routesAdmin.some(route => chemin.startsWith(route))) {
+    else if (routesAdmin.some(route => chemin.startsWith(route))) {
         reponse = await authMiddleware.verifierAdmin(requete);
     }
-
-    if (routesAuthentifiees.some(route => chemin.startsWith(route))) {
+    else if (routesAuthentifiees.some(route => chemin.startsWith(route))) {
         reponse = await authMiddleware.authentification(requete);
     }
 

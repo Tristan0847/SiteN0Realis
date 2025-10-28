@@ -104,6 +104,7 @@ export class Message {
      */
     toJSON() {
         return {
+            id: this.id,
             contenu: this.contenu,
             date: this.date.toISOString(),
             utilisateur: this.utilisateur.toJSON(),
@@ -118,6 +119,7 @@ export class Message {
      */
     static fromJSON(json: MessageJSON): Message {
         let message = new Message();
+        message.setId(json.id);
         message.setContenu(json.contenu);
         message.setDate(new Date(json.date));
         message.setUtilisateur(Utilisateur.fromJSON(json.utilisateur));

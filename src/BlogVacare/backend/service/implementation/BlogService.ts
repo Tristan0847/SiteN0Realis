@@ -9,6 +9,7 @@ import { I_MessageService } from "@BlogsBack/service/interface/I_MessageService"
 import { INTERFACESSERVICE, ServiceFactory } from "@BlogsBack/service/ServiceFactory";
 import { v4 as uuidv4 } from 'uuid';
 import { ElementSupprime } from "@BlogsShared/model/ElementSupprime";
+import { Message } from "@BlogsShared/model/Message";
 
 /**
  * Service de blogs de l'application
@@ -73,8 +74,22 @@ export class BlogService implements I_BlogService {
             if (!slugDossier || slugDossier.trim() === '') {
                 throw new Error("Slug du dossier invalide");
             }
+            const blogs : Blog[] = await this.dao.recupererBlogsDuDossier(slugDossier);
+            for (const blog of blogs) {
+                const message : Message = await this.messageService.recupererPremierMessage(blog.getId());
+                const messages : Message[] = [];
+                
+                const contenu = message.getContenu();
+                if (contenu.length >= 250) {
+                    const contenuFix = contenu.slice(0,246) + "...";
+                    message.setContenu(contenuFix);
+                }
+                
+                messages.push(message);
+                blog.setMessages(messages);
+            }
 
-            return await this.dao.recupererBlogsDuDossier(slugDossier);
+            return blogs;
         }
         catch (error) {
             throw error;

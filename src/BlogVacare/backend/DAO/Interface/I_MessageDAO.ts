@@ -21,6 +21,13 @@ export interface I_MessageDAO {
     recupererMessages(idBlog : string): Promise<Message[]>;
 
     /**
+     * Méthode de récupération du premier message d'un blog
+     * @param idBlog Identifiant du blog dont on veut récupérer le premier message
+     * @returns Premier message du blog
+     */
+    recupererPremierMessage(idBlog : string) : Promise<Message>;
+
+    /**
      * Méthode de suppression d'un dossier
      * @param message Message à supprimer avec l'objet ElementSupprime ajusté en conséquence
      * @param idBlog Identifiant du blog contenant le message

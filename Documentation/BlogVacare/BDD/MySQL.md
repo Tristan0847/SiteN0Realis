@@ -59,7 +59,7 @@ CREATE TABLE Dossier(
    nomUtilisateur VARCHAR(50) NOT NULL,
    idSuppression INT,
    FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur) ON DELETE CASCADE,
-   FOREIGN KEY(idSuppression) REFERENCES ElementSupprime(id) ON DELETE CASCADE,
+   FOREIGN KEY(idSuppression) REFERENCES ElementSupprime(id) ON DELETE SET NULL,
    INDEX idx_slug (slug)
 );
 
@@ -74,7 +74,7 @@ CREATE TABLE Blog(
    UNIQUE KEY unique_slug_par_dossier (slug, idDossier),
    FOREIGN KEY(idDossier) REFERENCES Dossier(id) ON DELETE CASCADE,
    FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur) ON DELETE CASCADE,
-   FOREIGN KEY(idSuppression) REFERENCES ElementSupprime(id) ON DELETE CASCADE,
+   FOREIGN KEY(idSuppression) REFERENCES ElementSupprime(id) ON DELETE SET NULL,
    INDEX idx_dossier (idDossier),
    INDEX idx_slug (slug)
 );
@@ -89,7 +89,7 @@ CREATE TABLE Message(
    PRIMARY KEY(id, idBlog),
    FOREIGN KEY(idBlog) REFERENCES Blog(id) ON DELETE CASCADE,
    FOREIGN KEY(nomUtilisateur) REFERENCES Utilisateur(nomUtilisateur) ON DELETE CASCADE,
-   FOREIGN KEY(idSuppression) REFERENCES ElementSupprime(id) ON DELETE CASCADE,
+   FOREIGN KEY(idSuppression) REFERENCES ElementSupprime(id) ON DELETE SET NULL,
    INDEX idx_blog (idBlog)
 );
 ```

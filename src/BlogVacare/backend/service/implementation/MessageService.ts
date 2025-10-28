@@ -64,6 +64,19 @@ export class MessageService implements I_MessageService {
             throw error;
         }
     }
+    
+    async recupererPremierMessage(idBlog : string) : Promise<Message> {
+        try {
+            if (!idBlog || idBlog.trim() === '') {
+                throw new Error("Identifiant du blog invalide");
+            }
+            
+            return await this.dao.recupererPremierMessage(idBlog);
+        }
+        catch (error) {
+            throw error;
+        }
+    }
 
     async supprimerMessage(messageId : number, idBlog : string, nomUtilisateur : string, raisonSuppression : string, cache : boolean) : Promise<void> {
         try {

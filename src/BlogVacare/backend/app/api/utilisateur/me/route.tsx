@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     
     if (!tokenAcces) {
       return NextResponse.json(
-        { error: 'Vousn n\'êtes pas authentifié, veuillez vous connecter.' },
+        { error: 'Vous n\'êtes pas authentifié, veuillez vous connecter.' },
         { status: 401 }
       );
     }

@@ -10,6 +10,7 @@ import { getVariantStyles } from '@BlogsFront/lib/variant-styles';
  */
 type MessageListProps = {
     messages: Message[];
+    suppressionHandler?: (id: string, raison: string, cache: boolean) => Promise<void>;
 }
 
 /**
@@ -17,28 +18,15 @@ type MessageListProps = {
  * @param messages Liste des messages à afficher
  * @returns Composant React contenant la liste de messages
  */
-export function MessageList({ messages }: MessageListProps) {
+export function MessageList({ messages, suppressionHandler }: MessageListProps) {
 
-    let messagesAffiches : Message[] = [];
     const variant = useVariant();
     const styles = getVariantStyles(variant);
 
-    // Si on est en mode old, on affiche même les messages supprimés
-    if (variant == "modern") {
-        messages.forEach((m) => {
-            if (m.getElementSupprime() == null) {
-                messagesAffiches.push(m);
-            }
-        })
-    }
-    else {
-        messagesAffiches = messages;
-    }
-
     return (
         <div className={ styles.messageList }>
-            {messagesAffiches.map((m) => (
-                <MessageItem key={m.getDate().toISOString() + m.getUtilisateur()} message={m} />
+            {messages.map((m) => (
+                <MessageItem key={m.getDate().toISOString() + m.getUtilisateur()} message={m} suppressionHandler={ suppressionHandler } />
             ))}
         </div>
     );

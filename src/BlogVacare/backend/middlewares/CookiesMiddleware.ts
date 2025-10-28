@@ -25,7 +25,7 @@ export class CookiesMiddleware {
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
             maxAge: Number(process.env.JWT_TOKEN_REFRESH_EXPIRATION_NUM),
-            path: "/api/utilisateur"
+            path: "/"
         });
     }
 
@@ -35,7 +35,7 @@ export class CookiesMiddleware {
      */
     public effacerAuthCookies(reponse : NextResponse) {
         reponse.cookies.set("tokenAcces", "", { maxAge: 0, path: "/" });
-        reponse.cookies.set("tokenRefresh", "", { maxAge: 0, path: "/api/utilisateur" });
+        reponse.cookies.set("tokenRefresh", "", { maxAge: 0, path: "/" });
     }
 
 

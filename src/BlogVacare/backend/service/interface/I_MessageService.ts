@@ -22,6 +22,13 @@ export interface I_MessageService {
     recupererMessages(slugBlog : string, slugDossier : string) : Promise<Message[]>;
 
     /**
+     * Méthode de récupération du premier message d'un blog
+     * @param idBlog Identifiant du blog dont on veut récupérer le premier message
+     * @returns Premier message du blog
+     */
+    recupererPremierMessage(idBlog : string) : Promise<Message>;
+    
+    /**
      * Méthode de suppression d'un message
      * @param messageId Identifiant du message à supprimer
      * @param blogId Identifiant du blog contenant le message à supprimer 

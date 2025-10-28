@@ -10,6 +10,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@headlessui/react": "*",
     "react": "*",
     "react-dom": "*",
     "next": "*",

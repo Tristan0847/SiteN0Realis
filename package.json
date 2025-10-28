@@ -34,6 +34,7 @@
     "export:all": "npm run export --workspace src/BlogVacare/backend && npm run export --workspace src/BlogVacare/frontend && npm run export --workspace src/CR && npm run export --workspace src/Wiki"
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.9",
     "bcrypt": "^6.0.0",
     "dotenv": "^17.2.2",
     "jsonwebtoken": "^9.0.2",

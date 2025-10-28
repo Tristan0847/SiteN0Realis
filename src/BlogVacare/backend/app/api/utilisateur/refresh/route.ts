@@ -50,7 +50,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
         reponse.cookies.set("tokenAcces", '', { maxAge: 0, path: "/"});
         reponse.cookies.set("tokenRefresh", "", {
             maxAge: 0,
-            path: "/api/utilisateur/refresh"
+            path: "/"
         });
 
         return reponse;

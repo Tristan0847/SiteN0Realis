@@ -18,6 +18,10 @@ interface DossierRow extends RowDataPacket {
     description: string;
     nomUtilisateur: string;
     idSuppression: number|null;
+    utilisateurSuppression: string|null;
+    raisonSuppression: string|null;
+    datesuppression: string|null;
+    cache: boolean|null;
 }
 
 /**
@@ -97,7 +101,7 @@ export class DossierDAOMySQL implements I_DossierDAO {
 
     async recupererDossiers(): Promise<Dossier[]> {
         try {
-            const requete = "SELECT id, titre, slug, description, nomUtilisateur, idSuppression, dateCreation FROM Dossier ORDER BY dateCreation DESC";
+            const requete = "SELECT d.id, d.titre, d.slug, d.description, d.nomUtilisateur, d.dateCreation, idSuppression, es.nomUtilisateur AS utilisateurSuppression, es.raisonSuppression, es.datesuppression, es.cache FROM Dossier d LEFT JOIN elementsupprime es ON d.idSuppression = es.id ORDER BY dateCreation DESC";
 
             const [rows] = await this.pool.query<DossierRow[]>(requete);
             
@@ -110,15 +114,25 @@ export class DossierDAOMySQL implements I_DossierDAO {
                 dossier.setSlug(row.slug);
                 dossier.setDescription(row.description);
 
-                // Créationd de l'utilisateur à partir de son nom
+                // Création de l'utilisateur à partir de son nom
                 const utilisateur = new Utilisateur();
                 utilisateur.setUsername(row.nomUtilisateur);
                 dossier.setUtilisateur(utilisateur);
 
                 // Chargement des données de suppression si le dossier l'est
-                if (row.idSuppression !== null) {
+                if (row.idSuppression !== null && row.datesuppression != null) {
                     const elementSupprime = new ElementSupprime();
                     elementSupprime.setId(row.idSuppression);
+                    elementSupprime.setRaisonSuppression(row.raisonSuppression ?? "");
+
+                    // Création de l'utilisateur à partir de son nom
+                    const utilisateurSuppression = new Utilisateur();
+                    utilisateurSuppression.setUsername(row.utilisateurSuppression ?? "");
+                    elementSupprime.setUtilisateur(utilisateurSuppression);
+
+                    const dateSuppr = new Date(row.datesuppression)
+                    elementSupprime.setDateSuppression(dateSuppr);
+                    elementSupprime.setCache(row.cache ?? false);
                     dossier.setElementSupprime(elementSupprime);
                 }
 
