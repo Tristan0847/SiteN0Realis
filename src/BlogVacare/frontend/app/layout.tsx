@@ -21,7 +21,7 @@ export function generateMetadata(): Metadata {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
-      <body className="bg-neutral-light text-neutral-dark font-sans flex flex-col min-h-screen">
+      <body className="text-neutral-dark font-sans flex flex-col min-h-screen">
         {children}
       </body>
     </html>

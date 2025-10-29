@@ -109,7 +109,7 @@ export function getVariantStyles(variant: SiteVariant) {
       elementSupprDialogBtn: "mt-4 px-4 py-2 bg-gray-200 rounded hover:bg-gray-300",
 
       // Containers
-      pageContainer: "bg-neutral-light text-neutral-dark font-sans flex flex-col min-h-screen",
+      pageContainer: "text-neutral-dark font-sans flex flex-col min-h-screen",
     },
     
     old: {
@@ -215,7 +215,7 @@ export function getVariantStyles(variant: SiteVariant) {
 
 
       // Containers
-      pageContainer: "bg-neutral-light text-black flex flex-col min-h-screen text-base leading-relaxed",
+      pageContainer: "text-black flex flex-col min-h-screen text-base leading-relaxed",
     }
   };
   

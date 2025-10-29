@@ -5,6 +5,8 @@ import '@BlogsFront/styles/globals.css';
 import { AuthProvider } from '@BlogsFront/contexts/AuthContext';
 import { Metadata } from 'next';
 import { VariantProvider } from '@BlogsFront/contexts/VariantContext';
+import { TypeConfigResonance } from '@BlogsFront/utils/Resonances/ResonanceConfig';
+import FondResonance from '@BlogsFront/components/FondResonances';
 
 /**
  * Composant pour gérer les balises meta du site
@@ -26,15 +28,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <VariantProvider variant='old'>
       <AuthProvider>
-        <Header/>
+        <div style={{ position: 'relative', minHeight: '100vh', background: "linear-gradient(90deg,rgba(255,255,255,1) 0%,rgba(167,167,167,1) 25%,rgba(0,0,0,1) 50%,rgba(167,167,167,1) 75%,rgba(255,255,255,1) 100%)"}}>
+          <FondResonance preset={ TypeConfigResonance.old }/>
 
-        <FondResonanceClient />
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <Header/>
 
-        <main className="min-h-[70vh] p-6 mx-auto w-full max-w-8xl flex-grow bg-[linear-gradient(0.25turn,rgba(255,255,255,1)_0%,rgba(167,167,167,1)_25%,rgba(0,0,0,1)_50%,rgba(167,167,167,1)_75%,rgba(255,255,255,1)_100%)]">
-            {children}
-        </main>
+            <main className="min-h-[70vh] p-6 mx-auto w-full max-w-8xl flex-grow" style={{ zIndex:1 }}>
+                {children}
+            </main>
 
-        <Footer/>
+            <Footer/>
+          </div>
+        </div>
       </AuthProvider>
     </VariantProvider>
   );

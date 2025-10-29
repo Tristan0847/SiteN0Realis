@@ -1,3 +1,4 @@
+import { ResonanceConfig } from "@BlogsFront/utils/Resonances/ResonanceConfig";
 
 /**
  * Données concernant une résonance 
@@ -18,15 +19,25 @@ export class Resonance {
     private duration : number;
     // Identifiant unique
     private id : number;
+    // Couleur de la résonance
+    private couleur : string;
+    // Facteur ajouté à chaque écho
+    private echoFacteur : number;
 
 
     /**
      * Constructeur de la classe
+     * @param config Configuration de la résonance
      */
-    constructor() {
+    constructor(config : ResonanceConfig) {
         this.startTime = Date.now();
-        this.duration = 12000;
+        this.duration = config.duree;
         this.id = Math.random();
+        this.echoFacteur = config.intensiteEcho;
+
+        // Choix aléatoire de la couleur de la résonance parmi celles de la configuration
+        const valeurAleatoire = Math.floor(Math.random() * config.couleurs.length);
+        this.couleur = config.couleurs[valeurAleatoire];
     }
 
     /**
@@ -61,20 +72,30 @@ export class Resonance {
 
         const wavePosition = progress * 100;
         const baseIntensity = Math.max(0, 1 - progress);
-        const echo1 = Math.abs(Math.sin(progress * Math.PI * 12) * 0.15);
-        const echo2 = Math.abs(Math.sin(progress * Math.PI * 6) * 0.25);
-        const echo3 = Math.abs(Math.sin(progress * Math.PI * 3) * 0.35);
-        const echo4 = Math.abs(Math.sin(progress * Math.PI * 1.5) * 0.45);
+
+        // Intensité de la configuration
+        const echo1 = Math.abs(Math.sin(progress * Math.PI * 12) * 0.15 * this.echoFacteur);
+        const echo2 = Math.abs(Math.sin(progress * Math.PI * 6) * 0.25 * this.echoFacteur);
+        const echo3 = Math.abs(Math.sin(progress * Math.PI * 3) * 0.35 * this.echoFacteur);
+        const echo4 = Math.abs(Math.sin(progress * Math.PI * 1.5) * 0.45 * this.echoFacteur);
         
         // Dissipation progressive
         let fonduFermeture = 1;
-        if (progress > 0.8) {
-            fonduFermeture = Math.pow((1 - progress) / 0.2, 0.5);
+        if (progress > 0.75) {
+            fonduFermeture = Math.pow((1 - progress) / 0.25, 0.3);
         }
         
-        const combinedEchos = (echo1 + echo2 + echo3 + echo4) * 0.6;
-        const totalIntensity = Math.min(0.4, baseIntensity * combinedEchos * fonduFermeture);
+        const combinedEchos = echo1 + echo2 + echo3 + echo4;
+        const totalIntensity = baseIntensity * combinedEchos * fonduFermeture;
 
         return {position: wavePosition, intensite: totalIntensity};
+    }
+
+    /**
+     * Getter de la couleur de la résonance
+     * @returns Couleur de la résonance
+     */
+    public getCouleur() : string {
+        return this.couleur;
     }
 }

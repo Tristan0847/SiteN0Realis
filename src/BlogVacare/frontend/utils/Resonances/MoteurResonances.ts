@@ -1,6 +1,7 @@
 import { ResonanceManager } from "@BlogsFront/utils/Resonances/ResonanceManager";
 import { DOMService } from "@BlogsFront/utils/Resonances/DOMService";
 import { GradientService } from "@BlogsFront/utils/Resonances/GradientService";
+import { ResonanceConfig } from "@BlogsFront/utils/Resonances/ResonanceConfig";
 
 /**
  * Moteur gérant le système d'animation des ondes
@@ -15,15 +16,18 @@ export class MoteurResonance {
     // ID de l'intervalle de résonance
     private intervalleResonances: number | null = null;
     private body : HTMLElement;
+    // Configuration actuelle des résonances 
+    private config : ResonanceConfig;
 
     /**
      * Constructeur de la classe
      * @param body Element body du document
-     * @param intervalle Intervalle entre 2 résonances
+     * @param config Configuration des résonances
      */
-    constructor(body: HTMLElement,intervalle: number = 8470) {
+    constructor(body: HTMLElement, config : ResonanceConfig) {
         this.body = body;
-        this.resonanceManager = new ResonanceManager(intervalle);
+        this.config = config;
+        this.resonanceManager = new ResonanceManager(config);
         this.resonanceOverlay = DOMService.creerResonanceOverlay();
     }
 
@@ -41,10 +45,7 @@ export class MoteurResonance {
         }
 
         // Génération et application des gradients pour toutes les résonances actives
-        const gradients = GradientService.genererGradients(
-            this.resonanceManager.getResonancesActuelles(),
-            tempsActuel
-        );
+        const gradients = GradientService.genererGradients(this.resonanceManager.getResonancesActuelles(), tempsActuel, this.config);
 
         const finalBackground = gradients.length > 0 ? gradients.join(', ') : 'transparent';
         this.resonanceOverlay.style.background = finalBackground;
@@ -78,7 +79,7 @@ export class MoteurResonance {
         // Résonances régulières programmées
         this.intervalleResonances = window.setInterval(() => {
             this.resonanceManager.ajouterResonance();
-        }, this.resonanceManager['intervalle']);
+        }, this.config.intervalle);
     }
 
     /**
