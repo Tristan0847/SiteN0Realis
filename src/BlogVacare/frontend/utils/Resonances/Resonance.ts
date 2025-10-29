@@ -92,6 +92,14 @@ export class Resonance {
     }
 
     /**
+     * Getter de l'id de la résonance
+     * @returns ID de la résonance
+     */
+    public getId() : number {
+        return this.id;
+    }
+
+    /**
      * Getter de la couleur de la résonance
      * @returns Couleur de la résonance
      */

@@ -6,7 +6,11 @@ import { ResonanceConfig } from "@BlogsFront/utils/Resonances/ResonanceConfig";
  */
 export class GradientService {
     // Seuil minimum d'intensité pour qu'une résonance soit visible
-    private static readonly MIN_INTENSITY_THRESHOLD = 0.005;
+    private readonly MIN_INTENSITY_THRESHOLD = 0.005;
+    // Mise en cache de gradients 
+    private gradientCache = new Map<string, string>();
+    // Limite de résonances mises en cache (on ne devrait pas en avoir plus de 15 à l'écran à la fois, on majore à 25)
+    private readonly CACHE_MAX = 25;
 
     /**
      * Génère un gradient CSS linéaire pour une résonance seule
@@ -16,7 +20,7 @@ export class GradientService {
      * @param config Configuration des résonances
      * @returns CSS représentant le gradient linéaire
      */
-    static creerGradientResonances(position: number, intensite: number, couleur : string, config : ResonanceConfig): string {
+    private creerGradientResonances(position: number, intensite: number, couleur : string, config : ResonanceConfig): string {
         const opacity = Math.min(config.opaciteMax, intensite);
         const waveSpread = Math.min(config.tailleResonance, (position / 100) * (config.tailleResonance * 0.9));
         const centerPos = config.positionCentre;
@@ -71,7 +75,7 @@ export class GradientService {
      * @param config Configuratio actuelle des résonances
      * @returns Array de CSS représentant tous les gradients à appliquer
      */
-    static genererGradients(activeWaves: Resonance[], currentTime: number, config : ResonanceConfig): string[] {
+    public genererGradients(activeWaves: Resonance[], currentTime: number, config : ResonanceConfig): string[] {
         const gradients: string[] = [];
 
         activeWaves.forEach(wave => {
@@ -79,12 +83,43 @@ export class GradientService {
             
             // Ne traite que les résonances assez intenses pour être visibles
             if (waveData && waveData.intensite >= this.MIN_INTENSITY_THRESHOLD) {
-                const { position, intensite } = waveData;
-                const couleur = wave.getCouleur();
-                gradients.push(this.creerGradientResonances(position, intensite, couleur, config));
-            }
+
+                // Cache par frame
+                const clefCache = wave.getId() + "_" + Math.floor(currentTime / 16);
+
+                // On récupère le gradient mis en cache ou on utilise celui existant
+                let gradient : string = "";
+                if (this.gradientCache.has(clefCache)) {
+                    gradient = this.gradientCache.get(clefCache)!;
+                }
+                else {
+                    const { position, intensite } = waveData;
+                    const couleur = wave.getCouleur();
+
+                    gradient = this.creerGradientResonances(position, intensite, couleur, config);
+                    this.gradientCache.set(clefCache, gradient);
+                }
+                
+                gradients.push(gradient);
+            }    
         });
 
+        // Nettoyage du cache
+        this.nettoyerCache();
+
         return gradients;
+    }
+
+    /**
+     * Nettoie le cache s'il devient trop grand
+     */
+    private nettoyerCache(): void {
+        if (this.gradientCache.size > this.CACHE_MAX) {
+            const entries = Array.from(this.gradientCache.entries());
+            this.gradientCache.clear();
+            entries.slice(-(this.CACHE_MAX / 2)).forEach(([key, value]) => {
+                this.gradientCache.set(key, value);
+            });
+        }
     }
 }

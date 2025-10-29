@@ -9,15 +9,25 @@ import { ResonanceConfig } from "@BlogsFront/utils/Resonances/ResonanceConfig";
 export class MoteurResonance {
     // Gestionnaire d'ondes
     private resonanceManager: ResonanceManager;
+    // Gestionnaire de gradients
+    private gradientService : GradientService;
     // Element DOM pour l'affichage
     private resonanceOverlay: HTMLDivElement;
     // ID de la boucle d'animation pour l'arrêter
     private animationFrameId: number | null = null;
     // ID de l'intervalle de résonance
     private intervalleResonances: number | null = null;
+    // Body de la page
     private body : HTMLElement;
     // Configuration actuelle des résonances 
     private config : ResonanceConfig;
+    // Dernier background mis en cache pour l'optimisation
+    private dernierBackground : string = "";
+
+    // Valeurs d'images par seconde, limitées à 60 pour optimiser l'affichage
+    private derniereFrame : number = 0;
+    private readonly FPS = 60;
+    private readonly INTERVALLE_FRAMES = 1000 / this.FPS;
 
     /**
      * Constructeur de la classe
@@ -29,6 +39,7 @@ export class MoteurResonance {
         this.config = config;
         this.resonanceManager = new ResonanceManager(config);
         this.resonanceOverlay = DOMService.creerResonanceOverlay();
+        this.gradientService = new GradientService();
     }
 
     /**
@@ -45,10 +56,13 @@ export class MoteurResonance {
         }
 
         // Génération et application des gradients pour toutes les résonances actives
-        const gradients = GradientService.genererGradients(this.resonanceManager.getResonancesActuelles(), tempsActuel, this.config);
+        const gradients = this.gradientService.genererGradients(this.resonanceManager.getResonancesActuelles(), tempsActuel, this.config);
 
         const finalBackground = gradients.length > 0 ? gradients.join(', ') : 'transparent';
-        this.resonanceOverlay.style.background = finalBackground;
+        if (finalBackground != this.dernierBackground) {
+            this.resonanceOverlay.style.background = finalBackground;
+            this.dernierBackground = finalBackground;
+        }
     }
 
     /**
@@ -56,31 +70,22 @@ export class MoteurResonance {
      */
     private animer = (): void => {
         const tempsActuel = Date.now();
+        const delta = tempsActuel - this.derniereFrame;
         
-        // Gestion automatique des résonances temporelles
-        this.resonanceManager.nouvelleResonance(tempsActuel);
-        
-        // Mise à jour visuelle
-        this.updateGradients();
-        
+        // On n'animera selon une limite définie en constante, 60 FPS par exemple
+        if (delta > this.INTERVALLE_FRAMES) {
+            this.derniereFrame = tempsActuel - (delta % this.INTERVALLE_FRAMES);
+
+            // Gestion automatique des résonances temporelles
+            this.resonanceManager.nouvelleResonance(tempsActuel);
+            
+            // Mise à jour visuelle
+            this.updateGradients();
+        }
+            
         // Programmation de la frame suivante
         this.animationFrameId = requestAnimationFrame(this.animer);
     };
-
-    /**
-     * Démarre le système de pulsations régulières avec setInterval
-     * Complète le système de pulsations temporelles de la boucle d'animation
-     * Double sécurité : pulsation par frame ET par intervalle fixe
-     */
-    private commencerResonances(): void {
-        // Résonance initiale
-        this.resonanceManager.ajouterResonance();
-        
-        // Résonances régulières programmées
-        this.intervalleResonances = window.setInterval(() => {
-            this.resonanceManager.ajouterResonance();
-        }, this.config.intervalle);
-    }
 
     /**
      * Démarre le système d'animation
@@ -91,7 +96,7 @@ export class MoteurResonance {
         DOMService.appliquerStylesBody(this.body);
         
         // Démarrage des pulsations automatiques
-        this.commencerResonances();
+        this.resonanceManager.ajouterResonance();
         
         // Lancement de la boucle d'animation
         this.animer();
@@ -105,12 +110,6 @@ export class MoteurResonance {
         if (this.animationFrameId) {
             cancelAnimationFrame(this.animationFrameId);
             this.animationFrameId = null;
-        }
-
-        // Arrêt des résonances programmées
-        if (this.intervalleResonances) {
-            clearInterval(this.intervalleResonances);
-            this.intervalleResonances = null;
         }
 
         // Nettoyage DOM
