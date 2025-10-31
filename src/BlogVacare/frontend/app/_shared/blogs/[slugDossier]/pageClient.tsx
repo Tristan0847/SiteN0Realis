@@ -8,7 +8,7 @@ import { useAuthContexte } from '@BlogsFront/contexts/AuthContext';
 import { useDossier } from '@BlogsFront/hooks/useDossiers';
 import { useDonneesPage } from '@BlogsFront/hooks/useDonneesPage';
 import { PageWrapper } from '@BlogsFront/components/PageWrapper';
-import { SiteVariant, useVariant } from '@BlogsFront/contexts/VariantContext';
+import { useVariant } from '@BlogsFront/contexts/VariantContext';
 import { filtrerElements } from '@BlogsFront/app/_shared/pageMethodes';
 
 /**
@@ -53,7 +53,7 @@ export default function PageBlogsClient({ slugDossier, blogsPrecharges }: PageBl
   }
 
   // Gestion des données affichées pour un utilisateur admin ou non, ou pour le mode old
-  let estAdmin = utilisateur?.getEstAdmin() ?? false;
+  const estAdmin = utilisateur?.getEstAdmin() ?? false;
   const suppressionHandler = estAdmin ? handleSuppression : undefined;
   const blogsAffiches = filtrerElements(blogs, estAdmin, variant);
 

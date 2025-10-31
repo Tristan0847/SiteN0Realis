@@ -29,7 +29,7 @@ export function DossierItem({ dossier, suppressionHandler }: DossierItemProps) {
   const baseUrl = (variant == "modern") ? "" : "/" + variant;
 
   // Mise en place de la dialog box de suppression
-  let [dialogBoxOuverte, setDialogBox] = useState(false);
+  const [dialogBoxOuverte, setDialogBox] = useState(false);
   const suppression = dossier.getElementSupprime();
 
   return (

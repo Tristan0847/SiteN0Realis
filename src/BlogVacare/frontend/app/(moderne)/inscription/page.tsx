@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import { FakePageConnexion } from '@BlogsFront/components/auth/FakePageConnexion';
 import PageInscriptionClient from '@BlogsFront/app/_shared/inscription/pageClient';
+import { FakePageInscription } from '@BlogsFront/components/auth/FakePageInscription';
 
 export async function generateMetadata(): Promise<Metadata> {
 
@@ -17,7 +17,7 @@ export default async function Page() {
   
     const mode = process.env.NEXT_PUBLIC_NEXT_ENV;
     if (mode == 'export') {
-      return <FakePageConnexion />
+      return <FakePageInscription />
     }
 
     return <PageInscriptionClient />

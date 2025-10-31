@@ -19,6 +19,7 @@ export function AccesRestreint({message} : AccesRestreintProps) {
     const variant = useVariant();
     const styles = getVariantStyles(variant);
     const baseUrl = (variant == "modern") ? "" : "/" + variant;
+    const texteCreationCompte = (variant == "modern") ? "Inscrivez-vous dès maintenant." : "Inscris-toi maintenant !";
 
     return <section className="mx-auto px-4 py-5 max-w-4xl">
                 <div className={ styles.accesRestreintDiv }>
@@ -33,6 +34,7 @@ export function AccesRestreint({message} : AccesRestreintProps) {
                     </p>
                     
                     <Link href={baseUrl + "/connexion" } className={ styles.accesRestreintLien }>Se connecter</Link>
+                    <p>Pas encore de compte? <Link className="underline hover:font-bold" href={baseUrl + "/inscription"}>{ texteCreationCompte }</Link></p>
                 </div>
             </section>;
 }

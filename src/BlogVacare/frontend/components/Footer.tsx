@@ -18,7 +18,8 @@ export function Footer() {
     return (
         <footer className={ styles.footer }>
             { basDePage }
-            { variant == "old" && <a href='0.html'></a>}
+            { variant == "old" && <a href='0.html'>°</a>}
+            { variant == "modern" && <p><a className="underline hover:bg-gray-400/50" href="/complements/Mentions-Legales"> Mentions légales</a></p>}
         </footer>
     );
 }

@@ -5,6 +5,7 @@ import { getVariantStyles } from '@BlogsFront/lib/variant-styles';
 import { Message } from '@BlogsShared/model/Message';
 import Image from "next/image";
 import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 import SuppressionBox from '@BlogsFront/components/SuppressionBox';
 import ElementSupprimeBox from '@BlogsFront/components/ElementSupprimeBox';
 
@@ -36,7 +37,7 @@ export function MessageItem({ message, suppressionHandler }: MessageItemProps) {
     const styles = getVariantStyles(variant);
 
     // Mise en place de la dialog box de suppression
-    let [dialogBoxOuverte, setDialogBox] = useState(false);
+    const [dialogBoxOuverte, setDialogBox] = useState(false);
     const suppression = message.getElementSupprime();
 
     return (
@@ -71,13 +72,29 @@ export function MessageItem({ message, suppressionHandler }: MessageItemProps) {
                         <ElementSupprimeBox type={ "message" } donnees= { suppression }/>
                         <button onClick={() => setAfficherSupprime(!afficherSupprime)} className={ styles.messageSupprimeBtn }>{afficherSupprime ? "Masquer" : "Voir quand même"}</button>
                         {afficherSupprime && (
-                            <p className={`${styles.messageContenu} mt-3 opacity-90`}>
+                            <div className={`${styles.messageContenu} mt-3 opacity-90`}>
+                                <ReactMarkdown
+                                    components={{
+                                        a: ({node, ...props}) => (
+                                            <a {...props} className="underline hover:font-bold" target='_blank' rel="noopener noreferrer" />
+                                        )
+                                    }}>
                                 {message.getContenu()}
-                            </p>
+                                </ReactMarkdown>
+                            </div>
                         )}
                     </div>
                 ) : (
-                    <p className={styles.messageContenu}>{message.getContenu()}</p>
+                    <div className={styles.messageContenu}>
+                        <ReactMarkdown
+                                    components={{
+                                        a: ({node, ...props}) => (
+                                            <a {...props} className="underline hover:font-bold" target='_blank' rel="noopener noreferrer" />
+                                        )
+                                    }}>
+                                {message.getContenu()}
+                        </ReactMarkdown>
+                    </div>
                 )}
                 <span className={ styles.messageDate }>Posté le {dateString}</span>
             </div>

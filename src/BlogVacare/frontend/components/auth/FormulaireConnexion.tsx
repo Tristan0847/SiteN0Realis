@@ -96,7 +96,7 @@ export function FormulaireConnexion({ onSubmit, chargement, erreur} : ConnexionP
                             "Se connecter"
                         )}
                     </button>
-                    <p>Pas encore de compte? <Link href={ baseUrl + "/inscription" }>Inscrivez-vous.</Link></p>
+                    <p>Pas encore de compte? <Link className={ styles.elementSupprTitreLien} href={ baseUrl + "/inscription" }>Inscrivez-vous.</Link></p>
                 </form>
             </section>
         </div>

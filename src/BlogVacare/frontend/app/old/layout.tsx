@@ -1,6 +1,5 @@
 import { Footer } from '@BlogsFront/components/Footer';
 import { Header } from '@BlogsFront/components/Header';
-import FondResonanceClient from '@BlogsFront/components/FondResonances';
 import '@BlogsFront/styles/globals.css';
 import { AuthProvider } from '@BlogsFront/contexts/AuthContext';
 import { Metadata } from 'next';
@@ -34,7 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div style={{ position: 'relative', zIndex: 1 }}>
             <Header/>
 
-            <main className="min-h-[70vh] p-6 mx-auto w-full max-w-8xl flex-grow" style={{ zIndex:1 }}>
+            <main className="min-h-[85vh] p-6 mx-auto w-full max-w-8xl flex-grow">
                 {children}
             </main>
 

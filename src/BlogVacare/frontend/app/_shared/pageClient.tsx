@@ -5,7 +5,7 @@ import { DossierFormCreation } from "@BlogsFront/components/dossier/DossierFormC
 import { DossierList } from "@BlogsFront/components/dossier/DossierList";
 import { PageWrapper } from "@BlogsFront/components/PageWrapper";
 import { useAuthContexte } from "@BlogsFront/contexts/AuthContext";
-import { SiteVariant, useVariant } from "@BlogsFront/contexts/VariantContext";
+import { useVariant } from "@BlogsFront/contexts/VariantContext";
 import { useDonneesPage } from "@BlogsFront/hooks/useDonneesPage";
 import { useCreerDossier, useDossiers, useSupprimerDossier } from "@BlogsFront/hooks/useDossiers";
 import { Dossier, DossierJSON } from "@BlogsShared/model/Dossier";
@@ -44,7 +44,7 @@ export default function PageDossiersClient({ dossiersPrecharges } : PageDossiers
     }
 
     // Gestion des données affichées pour un utilisateur admin ou non
-    let estAdmin = utilisateur?.getEstAdmin() ?? false;
+    const estAdmin = utilisateur?.getEstAdmin() ?? false;
     const suppressionHandler = estAdmin ? handleSuppression : undefined;
     const dossiersAffiches = filtrerElements(dossiers, estAdmin, variant);
 

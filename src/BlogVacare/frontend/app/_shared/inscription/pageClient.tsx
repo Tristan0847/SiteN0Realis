@@ -1,8 +1,6 @@
 'use client';
 
-import { FormulaireConnexion } from '@BlogsFront/components/auth/FormulaireConnexion';
 import { FormulaireInscription } from '@BlogsFront/components/auth/FormulaireInscription';
-import { useAuthContexte } from '@BlogsFront/contexts/AuthContext';
 import { useVariant } from '@BlogsFront/contexts/VariantContext';
 import { useInscription } from '@BlogsFront/hooks/useAuth';
 import { useRouter } from 'next/navigation';

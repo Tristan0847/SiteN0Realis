@@ -5,7 +5,7 @@ import { MessageFormCreation } from '@BlogsFront/components/message/MessageFormC
 import { MessageList } from '@BlogsFront/components/message/MessageList';
 import { PageWrapper } from '@BlogsFront/components/PageWrapper';
 import { useAuthContexte } from '@BlogsFront/contexts/AuthContext';
-import { SiteVariant, useVariant } from '@BlogsFront/contexts/VariantContext';
+import { useVariant } from '@BlogsFront/contexts/VariantContext';
 import { useBlog } from '@BlogsFront/hooks/useBlogs';
 import { useDonneesPage } from '@BlogsFront/hooks/useDonneesPage';
 import { useCreerMessage, useMessages, useSupprimerMessage } from '@BlogsFront/hooks/useMessages';
@@ -58,7 +58,7 @@ export default function PageMessagesClient({slugDossier, slugBlog, messagesPrech
     }
     
     // Gestion des données affichées pour un utilisateur admin ou non, ou pour le mode old
-    let estAdmin = utilisateur?.getEstAdmin() ?? false;
+    const estAdmin = utilisateur?.getEstAdmin() ?? false;
     const suppressionHandler = estAdmin ? handleSuppression : undefined;
     const messagesAffiches = filtrerElements(messages, estAdmin, variant);
 

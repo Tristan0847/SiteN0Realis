@@ -4,7 +4,6 @@ import { Dossier } from '@BlogsShared/model/Dossier';
 import { DossierItem } from '@BlogsFront/components/dossier/DossierItem';
 import { useVariant } from '@BlogsFront/contexts/VariantContext';
 import { getVariantStyles } from '@BlogsFront/lib/variant-styles';
-import { useAuthContexte } from '@BlogsFront/contexts/AuthContext';
 
 /**
  * Props du composant DossierList

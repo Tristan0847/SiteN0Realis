@@ -32,13 +32,13 @@ export const RESONANCE_PRESETS: Record<TypeConfigResonance, ResonanceConfig> = {
     // Résonance noire, centrale et horizontale
     old: {
         intervalle: 8470,
-        duree: 10000,
-        opaciteMax: 0.65,
+        duree: 8000,
+        opaciteMax: 0.75,
         positionCentre: 50,
         tailleResonance: 50,
-        couleurs: ['0,0,0'],
+        couleurs: ['0,0,0', "50, 50, 50"],
         direction: 'horizontal',
-        intensiteEcho: 0.7
+        intensiteEcho: 0.75
     },
     // Résonance plus claire et moins prononcée
     modern: {

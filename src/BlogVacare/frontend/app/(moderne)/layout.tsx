@@ -18,7 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           
           <div style={{ position: 'relative', zIndex: 1 }}>
             <Header/>
-            <main className="min-h-[70vh] p-6 mx-auto w-full max-w-8xl flex-grow">
+            <main className="min-h-[85vh] p-6 mx-auto w-full max-w-8xl flex-grow">
               {children}
             </main>
             <Footer/>

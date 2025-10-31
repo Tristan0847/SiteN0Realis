@@ -1,6 +1,7 @@
 "use client";
 
 import { useVariant } from "@BlogsFront/contexts/VariantContext";
+import { RatsConteneur } from "@BlogsFront/components/RatsConteneur";
 
 /**
  * Méthode de génération d'une fausse page de connexion (version exportée HTML du site)
@@ -12,7 +13,7 @@ export function FakePageConnexion() {
     
     if (variant == "old") {
         return (
-            <section className="min-h-screen w-full h-full flex items-center justify-center bg-gradient-to-br from-gray-900 via-gray-800 to-black p-4">
+            <RatsConteneur>
                 <div className="w-full">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="relative w-full aspect-video rounded-lg overflow-hidden shadow-2xl border-2 border-red-600">
@@ -41,12 +42,12 @@ export function FakePageConnexion() {
                         </p>
                     </div>
                 </div>
-            </section>
+            </RatsConteneur>
         );
     }
     else {
         return (
-            <section className="min-h-screen w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-950 p-8">
+            <RatsConteneur>
                 <div className="w-full max-w-6xl flex flex-col items-center gap-8">
                     <div className="text-center space-y-4 text-gray-300 text-lg">
                         <p><a href="https://youtu.be/0_RO74QsIAo?t=367">Robert nous a ouvert la voie.</a></p>
@@ -71,7 +72,7 @@ export function FakePageConnexion() {
                         </p>
                     </div>
                 </div>
-            </section>
+            </RatsConteneur>
         );
     }
 }
