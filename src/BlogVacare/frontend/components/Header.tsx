@@ -56,11 +56,18 @@ export function Header() {
                                 </li>
                             </>
                         ) : (
+                            <>
                             <li>
                                 <Link href={baseUrl + "/connexion" } className={ styles.headerLien }>
                                     Connexion
                                 </Link>
                             </li>
+                            <li>
+                                <Link href={baseUrl + "/inscription" } className={ styles.headerLien }>
+                                    Inscription
+                                </Link>
+                            </li>
+                            </>
                         )}
                     </ul>
                 </nav>

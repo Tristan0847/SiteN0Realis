@@ -32,4 +32,4 @@ export async function generateStaticParams() {
   return await getPageAccueilParams();
 }
 // Désactive les paramètres dynamiques
-export const dynamicParams = false;
+export const dynamicParams = true;

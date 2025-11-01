@@ -2,7 +2,7 @@ import mysql, { RowDataPacket } from 'mysql2/promise';
 import { Blog } from '@BlogsShared/model/Blog';
 import { I_BlogDAO } from '@BlogsBack/DAO/Interface/I_BlogDAO';
 import { Utilisateur } from '@BlogsShared/model/Utilisateur';
-import { getDbPool } from '@BlogsBack/config/MySQL/dbPoolMySql';
+import { getDbPool } from '@BlogsBack/config/dbPoolMySql';
 import { ElementSupprime } from '@BlogsShared/model/ElementSupprime';
 import { dateFormatUtil } from '@BlogsShared/utils/dateFormatUtil';
 

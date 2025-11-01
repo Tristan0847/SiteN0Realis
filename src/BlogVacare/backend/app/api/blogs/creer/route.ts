@@ -39,7 +39,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
     }
     catch (error) {
         return NextResponse.json(
-            { error: (error as Error).message },
+            { error: "Erreur lors de la création du blog, veuillez renseigner au moins un titre au blog" },
             { status: 500 }
         );
     }

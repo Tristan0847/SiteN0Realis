@@ -23,18 +23,21 @@ export function DossierList({ dossiers, suppressionHandler }: DossierListProps) 
   const variant = useVariant();
   const styles = getVariantStyles(variant);
 
-  return (
-    <section className="mx-auto px-4">
-      <div className={ styles.listeDossiersDiv }>
-        <ul className={ styles.listeDossiersUl }>
-          {dossiers.map(d => (
-            <li key={d.getId()} className={ styles.listeDossiersLi }>
-              <DossierItem dossier={d} suppressionHandler={ suppressionHandler } />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-  );
+  if (dossiers.length > 0) {
+    return (
+        <section className="mx-auto px-4">
+          <div className={ styles.listeDossiersDiv }>
+            <ul className={ styles.listeDossiersUl }>
+              {dossiers.map(d => (
+                <li key={d.getId()} className={ styles.listeDossiersLi }>
+                  <DossierItem dossier={d} suppressionHandler={ suppressionHandler } />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      );
+  }
+  
 }
 

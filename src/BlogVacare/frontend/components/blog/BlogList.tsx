@@ -26,11 +26,13 @@ export function BlogList({ blogs, slugDossier, suppressionHandler }: BlogListPro
     const variant = useVariant();
     const styles = getVariantStyles(variant);
 
-    return (
-        <div className={ styles.listeBlogsConteneur }>
-            {blogs.map(b => (
-                <BlogItem key={b.getId()} blog={b} slugDossier={slugDossier} suppressionHandler={ suppressionHandler } />
-            ))}
-        </div>
-    );
+    if (blogs.length > 0) {
+        return (
+                <div className={ styles.listeBlogsConteneur }>
+                    {blogs.map(b => (
+                        <BlogItem key={b.getId()} blog={b} slugDossier={slugDossier} suppressionHandler={ suppressionHandler } />
+                    ))}
+                </div>
+            );
+    }
 }

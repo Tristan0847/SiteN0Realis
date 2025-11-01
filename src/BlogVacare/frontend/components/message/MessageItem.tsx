@@ -47,7 +47,8 @@ export function MessageItem({ message, suppressionHandler }: MessageItemProps) {
                     className={ styles.messageImg }
                     src={avatarSrc}
                     alt={`Avatar de ${message.getUtilisateur().getUsername()}`}
-                    width={96} height={96}
+                    width={64}
+                    height={64}
                     onError={() => setAvatarSrc(avatarDefaut)}
                 />
             </div>

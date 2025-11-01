@@ -1,8 +1,8 @@
 # Site Web N0Realis
 
-Résonance après résonance, le secret de Vince sera dévoilé.
-Pourquoi il a aimé, pourquoi il a haï.
-Pourquoi il a créé, pourquoi il a détruit.
+Résonance après résonance, le secret de Vince sera dévoilé.  
+Pourquoi il a aimé, pourquoi il a haï.  
+Pourquoi il a créé, pourquoi il a détruit.  
 
 Le dernier pardon, le renoncement originel.
 
@@ -28,3 +28,9 @@ Ce projet Next.js en comprend 3 différents regroupés sous le même nom de doma
 
 Documentation des projets :
 - [Architecture Blog Vacare](./Documentation/BlogVacare/Architecture.md)
+
+## Guides d'utilisation
+
+Vous trouverez ci-dessous le guide d'utilisation de chaque projet : 
+* [Guide d'utilisation du Blog de Vacare](./Documentation/BlogVacare/GuideUtilisation.md)
+* [Guide d'utilisation de l'API du Blog de Vacare](./Documentation/BlogVacare/GuideAPI.md)

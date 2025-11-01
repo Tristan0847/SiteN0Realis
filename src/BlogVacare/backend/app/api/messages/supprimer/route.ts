@@ -45,7 +45,7 @@ export async function DELETE(request: NextRequest) : Promise<NextResponse> {
     }
     catch (error) {
         return NextResponse.json(
-            { error: (error as Error).message },
+            { error: "Erreur lors de la suppression du message" },
             { status: 500 }
         );
     }

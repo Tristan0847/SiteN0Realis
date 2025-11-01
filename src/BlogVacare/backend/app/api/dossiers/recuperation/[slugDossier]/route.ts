@@ -29,7 +29,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     catch (error) {
         // On retourne une réponse d'erreur avec le message
         return NextResponse.json(
-            { error: (error as Error).message },
+            { error: "Erreur lors de la récupération des données du dossier demandées" },
             { status: 500 }
         );
     }

@@ -38,7 +38,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
     }
     catch (error) {
         return NextResponse.json(
-            { error: (error as Error).message },
+            { error: "Erreur lors de la création du dossier, veuillez renseigner au moins un titre à celui-ci" },
             { status: 500 }
         );
     }

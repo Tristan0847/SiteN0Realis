@@ -1,6 +1,6 @@
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 import { I_UtilisateurDAO } from "@BlogsBack/DAO/Interface/I_UtilisateurDAO";
-import { getDbPool } from '@BlogsBack/config/MySQL/dbPoolMySql';
+import { getDbPool } from '@BlogsBack/config/dbPoolMySql';
 import mysql, { RowDataPacket } from 'mysql2/promise';
 
 /**

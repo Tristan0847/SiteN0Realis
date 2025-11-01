@@ -22,7 +22,7 @@ interface PageWrapperProps {
 export function PageWrapper({chargement, erreur, estVide, chargementMessage = "Chargement en cours...", messageVide = "Aucune donnée disponible", children}: PageWrapperProps) {
   if (chargement) return <MessageBox message={chargementMessage} type="loading" />;
   if (erreur) return <MessageBox message={`Erreur : ${erreur.message}`} type="error" />;
-  if (estVide) return <MessageBox message={messageVide} type="info" />;
+  if (estVide) return <div>{children}<MessageBox message={messageVide} type="info" /></div>;
   
   return <div>{children}</div>;
 }

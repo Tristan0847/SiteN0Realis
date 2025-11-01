@@ -1,5 +1,5 @@
 import mysql, { ResultSetHeader, RowDataPacket } from 'mysql2/promise';
-import { getDbPool } from "@BlogsBack/config/MySQL/dbPoolMySql";
+import { getDbPool } from "@BlogsBack/config/dbPoolMySql";
 import { I_ElementSupprimeDAO } from "@BlogsBack/DAO/Interface/I_ElementSupprimeDAO";
 import { ElementSupprime } from '@BlogsShared/model/ElementSupprime';
 import { Utilisateur } from '@BlogsShared/model/Utilisateur';

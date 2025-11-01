@@ -5,7 +5,7 @@
 Pour configurer votre projet, commencez par créer un fichier [.env à partir de l'exemple fourni](../../src/BlogVacare/frontend/.env.sample), vous n'aurez qu'à configurer le lien du [backend](../../src/BlogVacare/backend/) du projet dans la ligne "NEXT_PUBLIC_LIEN_API_BACKEND" ainsi que le mode de fonctionnement du site dans la ligne "NEXT_PUBLIC_NEXT_ENV".
 
 Modes de fonctionnements du site : 
-* **NEXT_PUBLIC_NEXT_ENV=export** : Mode servant à l'exportation du site sous forme de pages HTML, nécessitant d'autres ajustements comme décrit ci-dessous
+* **NEXT_PUBLIC_NEXT_ENV=export** : Mode servant à l'exportation du site sous forme de pages HTML, nécessitant d'autres ajustements comme décrit ci-dessous (actuellement : connexion et inscription désactivés en mode exportation, le site est en "lecture seule")
 * **NEXT_PUBLIC_NEXT_ENV=production** : Mode servant à l'hébergement du site de façon dynamique (interactions en direct avec le backend, ajout et suppression de contenu, ...)
 
 ## Configurer l'exportation du site

@@ -1,4 +1,4 @@
-import { getDbPool } from "@BlogsBack/config/MySQL/dbPoolMySql";
+import { getDbPool } from "@BlogsBack/config/dbPoolMySql";
 import { I_DossierDAO } from "@BlogsBack/DAO/Interface/I_DossierDAO";
 import mysql from 'mysql2/promise';
 import { RowDataPacket } from 'mysql2/promise';

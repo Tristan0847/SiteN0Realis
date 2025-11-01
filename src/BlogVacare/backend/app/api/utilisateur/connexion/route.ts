@@ -39,7 +39,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
     }
     catch (error) {
         return NextResponse.json(
-            { error : "Paramètres invalides - " },
+            { error : "Connexion échouée, entrez le bon nom d'utilisateur et le bon mot de passe" },
             { status: 401 }
         )
     }

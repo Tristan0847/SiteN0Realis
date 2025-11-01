@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     
   } catch (error) {
     return NextResponse.json(
-      { error: 'Token invalide ou expiré' },
+      { error: 'Vous n\'êtes plus authentifié, veuillez vous reconnecter' },
       { status: 401 }
     );
   }

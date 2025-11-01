@@ -1,5 +1,5 @@
 import mysql, { RowDataPacket } from 'mysql2/promise';
-import { getDbPool } from "@BlogsBack/config/MySQL/dbPoolMySql";
+import { getDbPool } from "@BlogsBack/config/dbPoolMySql";
 import { I_MessageDAO } from "@BlogsBack/DAO/Interface/I_MessageDAO";
 import { Message } from '@BlogsShared/model/Message';
 import { Utilisateur } from '@BlogsShared/model/Utilisateur';
