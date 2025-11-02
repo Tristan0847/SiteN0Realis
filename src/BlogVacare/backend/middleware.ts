@@ -30,10 +30,14 @@ export async function middleware(requete : NextRequest) {
 
         '/api/dossiers/liste',
         '/api/dossiers/recuperation',
-        '/api/blogs/liste',
-        '/api/blogs/recuperation',
-        '/api/messages/liste'
+        '/api/blogs/recuperation'
     ];
+
+    // Routes publiques nécessitant les données de connexion pour des options admin
+    const routesPubliquesOptionAdmin = [
+        '/api/blogs/liste',
+        '/api/messages/liste'
+    ]
 
     const routesAdmin = [
         '/api/dossiers/supprimer',
@@ -54,6 +58,14 @@ export async function middleware(requete : NextRequest) {
     // Récupération des réponses selon le niveau d'authentification requis
     if (routesPubliques.some(route => chemin.startsWith(route))) {
         reponse = NextResponse.next();
+    }
+    else if (routesPubliquesOptionAdmin.some(route => chemin.startsWith(route))) {
+        // On fournit le headers avec l'authentification si on est connecté
+        reponse = await authMiddleware.authentification(requete);
+        
+        if (reponse.status == 401) {
+            reponse = NextResponse.next();
+        }
     }
     else if (routesAdmin.some(route => chemin.startsWith(route))) {
         reponse = await authMiddleware.verifierAdmin(requete);

@@ -17,7 +17,9 @@ export class MessageServiceApi implements I_MessageService {
 
     async recupererMessagesDuBlog(slugDossier : string, slugBlog : string) : Promise<Message[]> {
         const url = this.apiBaseUrl + "/messages/liste/" + slugDossier + "/" + slugBlog;
-        const reponse = await fetch(url);
+        const reponse = await fetch(url, {
+            credentials: "include"
+        });
 
         if (!reponse.ok) {
             throw new Error("Erreur lors de la récupération des messages : " + reponse.statusText);

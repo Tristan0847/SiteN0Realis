@@ -28,7 +28,7 @@ export default async function Page({ params }: PageProps) {
   
     const { slugDossier } = await params;
   
-    const blogsSerialises = await getBlogsPrecharges(slugDossier);
+    const blogsSerialises = await getBlogsPrecharges(slugDossier, "modern");
     
     // La page transmet l'idDossier au composant client (vue)
     return <PageBlogsClient slugDossier={slugDossier} blogsPrecharges={ (blogsSerialises?.length > 0) ? blogsSerialises : undefined } />;

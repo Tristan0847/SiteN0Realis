@@ -17,7 +17,9 @@ export class BlogServiceApi implements I_BlogService {
 
     async recupererBlogsDuDossier(slugDossier : string) : Promise<Blog[]> {
         const url = this.apiBaseUrl + "/blogs/liste/" + slugDossier;
-        const reponse = await fetch(url);
+        const reponse = await fetch(url, {
+            credentials: "include"
+        });
 
         if (!reponse.ok) {
             throw new Error("Erreur lors de la récupération des blogs du dossier " + slugDossier);

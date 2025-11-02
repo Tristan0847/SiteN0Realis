@@ -1,6 +1,6 @@
 import { AuthReponse, DonneesInscription, DonneesUtilisateur } from "@BlogsShared/model/Auth";
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
-import { JwtPayload } from "jsonwebtoken";
+import { JwtPayload } from "@BlogsShared/model/Auth";
 
 /**
  * Interface de service d'authentification

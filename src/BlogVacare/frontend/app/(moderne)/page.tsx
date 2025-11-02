@@ -16,7 +16,7 @@ export function generateMetadata(): Metadata {
  */
 export default async function Page() {
 
-    const dossiersSerialises : DossierJSON[] = await getDossiersPrecharges();
+    const dossiersSerialises : DossierJSON[] = await getDossiersPrecharges('modern');
 
     return(
         <PageDossiersClient dossiersPrecharges={ dossiersSerialises.length > 0 ? dossiersSerialises : undefined } />
