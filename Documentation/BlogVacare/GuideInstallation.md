@@ -25,7 +25,7 @@ Votre projet devrait ensuite se trouver dans un dossier **out** sous forme de pa
 Le choix de la base de données se fera dans la [Factory de services du backend](../../src/BlogVacare/backend/services/ServiceFactory.ts). Il vous suffira de décommenter la ligne correspondant à votre base de données et à commenter celle qui ne l'était pas au préalable.
 
 La configuration diffèrera selon votre choix de Base de données : 
-* [Configuration MySQL](BDD/MySQL.md)
+* [Configuration MySQL](BDD/MySQL.md), [tests unitaires MySQL](BDD/TestsUnitairesMySQL.md)
 
 
 ## Modèle Conceptuel des Données

@@ -14,7 +14,7 @@ interface UtilisateurMdpRow extends RowDataPacket {
  * Lignes attendues à la demande du rôle d'un utilisateur
  */
 interface UtilisateurRoleRow extends RowDataPacket {
-    estAdmin: boolean;
+    estAdmin: string;
 }
 
 /**
@@ -68,7 +68,7 @@ export class UtilisateurDAOMySQL implements I_UtilisateurDAO {
                 throw new Error("Utilisateur introuvable");
             }
             
-            const estAdmin = rows[0].estAdmin;
+            const estAdmin : boolean = (rows[0].estAdmin == "1");
 
             let utilisateur = new Utilisateur();
             utilisateur.setUsername(username);

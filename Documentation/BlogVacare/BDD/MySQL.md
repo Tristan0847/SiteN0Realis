@@ -146,3 +146,7 @@ Dans [ServiceFactory](../../../src/BlogVacare/backend/services/ServiceFactory.ts
         }
     }
 ```
+
+# Tests unitaires
+
+[Si vous souhaitez testez votre connexion à la BDD](./TestsUnitairesMySQL.md)

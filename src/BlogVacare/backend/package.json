@@ -7,7 +7,8 @@
     "build": "next build --turbopack",
     "start": "next start -p 3001",
     "export" : "next export",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest"
   },
   "dependencies": {
     "react": "*",
@@ -20,6 +21,9 @@
     "uuid": "*"
   },
   "devDependencies": {
+    "c8": "*",
+    "@vitest/ui": "*",
+    "vitest": "*",
     "typescript": "*",
     "@types/node": "*",
     "@types/react": "*",

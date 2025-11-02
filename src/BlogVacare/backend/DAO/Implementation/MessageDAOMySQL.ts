@@ -60,7 +60,10 @@ export class MessageDAOMySQL implements I_MessageDAO {
             const params = [idBlog];
 
             const [rows] = await this.pool.execute<MessageRow[]>(requete, params);
-
+            if (rows.length == 0) {
+                throw new Error("Blog vide");
+            }
+            
             const messages : Message[] = [];
 
             for (const row of rows) {
