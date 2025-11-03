@@ -5,6 +5,7 @@ import { ServiceFactory, INTERFACESSERVICE } from '@BlogsFront/services/ServiceF
 import { useApiMutation } from '@BlogsFront/hooks/useApiMutation';
 import { useApiQuery } from '@BlogsFront/hooks/useApiQuery';
 import { Blog } from '@BlogsShared/model/Blog';
+import { SiteVariant } from '@BlogsShared/model/Variant';
 
 const blogService = ServiceFactory.get<I_BlogService>(INTERFACESSERVICE.I_BlogService);
 
@@ -12,11 +13,12 @@ const blogService = ServiceFactory.get<I_BlogService>(INTERFACESSERVICE.I_BlogSe
 /**
  * Méthode de hook pour récupérer les blogs d'un dossier
  * @param slugDossier Slug du dossier contenant le blog
+ * @param variante Variante du site
  * @returns Objet contenant les blogs, l'état de chargement et une éventuelle erreur
  */
-export function useBlogs(slugDossier : string) {
+export function useBlogs(slugDossier : string, variante : SiteVariant) {
     return useApiQuery<Blog[], [string]>(
-        (slug : string) => blogService.recupererBlogsDuDossier(slug),
+        (slug : string) => blogService.recupererBlogsDuDossier(slug, variante),
         [slugDossier],
         {
             // Relance la requête si slugDossier est défini

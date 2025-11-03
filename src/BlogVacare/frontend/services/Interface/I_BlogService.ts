@@ -1,4 +1,5 @@
 import { Blog } from '@BlogsShared/model/Blog';
+import { SiteVariant } from '@BlogsShared/model/Variant';
 
 /**
  * Interface de gestion de services de blogs
@@ -8,9 +9,10 @@ export interface I_BlogService {
     /**
      * Méthode de récupération de blogs d'un dossier
      * @param slugDossier Slug du dossier concerné
+     * @param variante Variante du site utilisée
      * @returns Liste de blogs du dossier
      */
-    recupererBlogsDuDossier(slugDossier : string) : Promise<Blog[]>;
+    recupererBlogsDuDossier(slugDossier : string, variante : SiteVariant) : Promise<Blog[]>;
 
     /**
      * Méthode de récupération de blogs à partir de slugs fournis

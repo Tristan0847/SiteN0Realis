@@ -28,13 +28,13 @@ export async function middleware(requete : NextRequest) {
         '/api/utilisateur/inscription',
         '/api/utilisateur/refresh',
 
-        '/api/dossiers/liste',
         '/api/dossiers/recuperation',
         '/api/blogs/recuperation'
     ];
 
     // Routes publiques nécessitant les données de connexion pour des options admin
     const routesPubliquesOptionAdmin = [
+        '/api/dossiers/liste',
         '/api/blogs/liste',
         '/api/messages/liste'
     ]

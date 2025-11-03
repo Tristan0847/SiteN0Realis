@@ -23,6 +23,18 @@ export interface I_DossierDAO {
      * @return Liste des dossiers
      */
     recupererDossiers(): Promise<Dossier[]>;
+    
+    /**
+     * Méthode permettant de récupérer les dossiers avec éléments cachés
+     * @returns Liste des dossiers avec éléments cachés
+     */
+    recupererDossiersCaches() : Promise<Dossier[]>;
+
+    /**
+     * Méthode permettant de récupérer les dossiers avec éléments supprimés non cachés
+     * @returns Liste des dossiers avec éléments supprimés non cachés
+     */
+    recupererDossiersElementsSuppr() : Promise<Dossier[]>;
 
     /**
      * Méthode de suppression d'un dossier

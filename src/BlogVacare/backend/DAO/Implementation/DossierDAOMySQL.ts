@@ -101,6 +101,27 @@ export class DossierDAOMySQL implements I_DossierDAO {
 
     async recupererDossiers(): Promise<Dossier[]> {
         try {
+            const requete = "SELECT d.id, d.titre, d.slug, d.description, d.nomUtilisateur, d.dateCreation, idSuppression FROM Dossier d WHERE idSuppression IS NULL ORDER BY dateCreation DESC";
+
+            const [rows] = await this.pool.query<DossierRow[]>(requete);
+            
+            const dossiers : Dossier[] = [];
+            
+            for (const row of rows) {
+                const dossier : Dossier = this.rowToDossier(row);
+                dossiers.push(dossier);
+            }
+
+            return dossiers;
+        }
+        catch (error) {
+            console.error("Erreur lors de la récupération des dossiers : " + error);
+            throw new Error("Impossible de récupérer les dossiers" + error);
+        }
+    }
+    
+    async recupererDossiersCaches() : Promise<Dossier[]> {
+        try {
             const requete = "SELECT d.id, d.titre, d.slug, d.description, d.nomUtilisateur, d.dateCreation, idSuppression, es.nomUtilisateur AS utilisateurSuppression, es.raisonSuppression, es.datesuppression, es.cache FROM Dossier d LEFT JOIN elementsupprime es ON d.idSuppression = es.id ORDER BY dateCreation DESC";
 
             const [rows] = await this.pool.query<DossierRow[]>(requete);
@@ -108,37 +129,28 @@ export class DossierDAOMySQL implements I_DossierDAO {
             const dossiers : Dossier[] = [];
             
             for (const row of rows) {
-                const dossier = new Dossier();
-                dossier.setId(row.id);
-                dossier.setTitre(row.titre);
-                dossier.setSlug(row.slug);
-                dossier.setDescription(row.description);
+                const dossier : Dossier = this.rowToDossier(row);
+                dossiers.push(dossier);
+            }
 
-                // Création de l'utilisateur à partir de son nom
-                const utilisateur = new Utilisateur();
-                utilisateur.setUsername(row.nomUtilisateur);
-                dossier.setUtilisateur(utilisateur);
+            return dossiers;
+        }
+        catch (error) {
+            console.error("Erreur lors de la récupération des dossiers : " + error);
+            throw new Error("Impossible de récupérer les dossiers" + error);
+        }
+    }
 
-                // Chargement des données de suppression si le dossier l'est
-                if (row.idSuppression !== null && row.datesuppression != null) {
-                    const elementSupprime = new ElementSupprime();
-                    elementSupprime.setId(row.idSuppression);
-                    elementSupprime.setRaisonSuppression(row.raisonSuppression ?? "");
+    async recupererDossiersElementsSuppr() : Promise<Dossier[]> {
+        try {
+            const requete = "SELECT d.id, d.titre, d.slug, d.description, d.nomUtilisateur, d.dateCreation, idSuppression, es.nomUtilisateur AS utilisateurSuppression, es.raisonSuppression, es.datesuppression, es.cache FROM Dossier d LEFT JOIN elementsupprime es ON d.idSuppression = es.id WHERE (es.cache = 0 OR d.idSuppression IS NULL) ORDER BY dateCreation DESC";
 
-                    // Création de l'utilisateur à partir de son nom
-                    const utilisateurSuppression = new Utilisateur();
-                    utilisateurSuppression.setUsername(row.utilisateurSuppression ?? "");
-                    elementSupprime.setUtilisateur(utilisateurSuppression);
-
-                    const dateSuppr = new Date(row.datesuppression)
-                    elementSupprime.setDateSuppression(dateSuppr);
-                    elementSupprime.setCache(row.cache ?? false);
-                    dossier.setElementSupprime(elementSupprime);
-                }
-
-                const date = new Date(row.dateCreation);
-                dossier.setDateCreation(date);
-
+            const [rows] = await this.pool.query<DossierRow[]>(requete);
+            
+            const dossiers : Dossier[] = [];
+            
+            for (const row of rows) {
+                const dossier : Dossier = this.rowToDossier(row);
                 dossiers.push(dossier);
             }
 
@@ -168,5 +180,40 @@ export class DossierDAOMySQL implements I_DossierDAO {
             console.error("Erreur lors de la suppression du dossier : " + error);
             throw new Error("Impossible de supprimer le dossier " + error);
         }
+    }
+
+    private rowToDossier(row : DossierRow) : Dossier {
+        const dossier = new Dossier();
+        dossier.setId(row.id);
+        dossier.setTitre(row.titre);
+        dossier.setSlug(row.slug);
+        dossier.setDescription(row.description);
+
+        // Création de l'utilisateur à partir de son nom
+        const utilisateur = new Utilisateur();
+        utilisateur.setUsername(row.nomUtilisateur);
+        dossier.setUtilisateur(utilisateur);
+
+        // Chargement des données de suppression si le dossier l'est
+        if (row.idSuppression !== null && row.datesuppression != null) {
+            const elementSupprime = new ElementSupprime();
+            elementSupprime.setId(row.idSuppression);
+            elementSupprime.setRaisonSuppression(row.raisonSuppression ?? "");
+
+            // Création de l'utilisateur à partir de son nom
+            const utilisateurSuppression = new Utilisateur();
+            utilisateurSuppression.setUsername(row.utilisateurSuppression ?? "");
+            elementSupprime.setUtilisateur(utilisateurSuppression);
+
+            const dateSuppr = new Date(row.datesuppression)
+            elementSupprime.setDateSuppression(dateSuppr);
+            elementSupprime.setCache(row.cache ?? false);
+            dossier.setElementSupprime(elementSupprime);
+        }
+
+        const date = new Date(row.dateCreation);
+        dossier.setDateCreation(date);
+
+        return dossier;
     }
 }

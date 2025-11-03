@@ -46,7 +46,7 @@ export class AuthMiddleware {
         }
         catch (erreur) {
             const message = erreur instanceof Error ? erreur.message : "Token invalide";
-
+            
             return NextResponse.json(
                 { error: 'Non authentifié - ' + message },
                 { status: 401 }

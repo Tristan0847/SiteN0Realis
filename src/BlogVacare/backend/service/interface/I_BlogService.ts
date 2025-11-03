@@ -1,4 +1,5 @@
 import { Blog } from "@BlogsShared/model/Blog";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 /**
  * Interface de service de gestion de blogs
@@ -17,9 +18,11 @@ export interface I_BlogService {
     /**
      * Méthode de récupération des blogs d'un dossier
      * @param slugDossier Slug du dossier
+     * @param variante Variante du site
+     * @param estAdmin Variable définissant si l'utilisateur est admin ou non
      * @return Liste des blogs du dossier
      */
-    recupererBlogsDuDossier(slugDossier : string) : Promise<Blog[]>;
+    recupererBlogsDuDossier(slugDossier : string, variante : SiteVariant, estAdmin : boolean) : Promise<Blog[]>;
 
     /**
      * Méthode de récupération d'un blog à partir des slugs associés

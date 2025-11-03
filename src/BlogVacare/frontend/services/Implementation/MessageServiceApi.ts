@@ -1,5 +1,6 @@
 import { I_MessageService } from "@BlogsFront/services/Interface/I_MessageService";
 import { Message, MessageJSON } from "@BlogsShared/model/Message";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 /**
  * Service de messages par l'API backend
@@ -15,11 +16,23 @@ export class MessageServiceApi implements I_MessageService {
         this.apiBaseUrl = process.env.NEXT_PUBLIC_LIEN_API_BACKEND ?? "http://localhost:3000/api";
     }
 
-    async recupererMessagesDuBlog(slugDossier : string, slugBlog : string) : Promise<Message[]> {
-        const url = this.apiBaseUrl + "/messages/liste/" + slugDossier + "/" + slugBlog;
-        const reponse = await fetch(url, {
-            credentials: "include"
+    async recupererMessagesDuBlog(slugDossier : string, slugBlog : string, variante : SiteVariant) : Promise<Message[]> {
+        const url = this.apiBaseUrl + "/messages/liste";
+        const body = JSON.stringify({
+            slugDossier: slugDossier,
+            slugBlog: slugBlog,
+            variante: variante
         });
+
+        const requete : RequestInit = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: body
+        };
+        const reponse = await fetch(url, requete);
 
         if (!reponse.ok) {
             throw new Error("Erreur lors de la récupération des messages : " + reponse.statusText);

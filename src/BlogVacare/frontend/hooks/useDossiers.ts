@@ -5,17 +5,19 @@ import { I_DossierService } from '@BlogsFront/services/Interface/I_DossierServic
 import { useApiMutation } from '@BlogsFront/hooks/useApiMutation';
 import { useApiQuery } from '@BlogsFront/hooks/useApiQuery';
 import { Dossier } from '@BlogsShared/model/Dossier';
+import { SiteVariant } from '@BlogsShared/model/Variant';
 
 const dossierService = ServiceFactory.get<I_DossierService>(INTERFACESSERVICE.I_DossierService);
 
 
 /**
  * Méthode de hook pour récupérer les dossiers du projet
+ * @param variante Variante du site
  * @returns Objet contenant les dossiers, l'état de chargement et une éventuelle erreur
  */
-export function useDossiers() {
+export function useDossiers(variante : SiteVariant) {
     return useApiQuery<Dossier[], []>(
-        () => dossierService.recupererDossiers(),
+        () => dossierService.recupererDossiers(variante),
         []
     )
 }

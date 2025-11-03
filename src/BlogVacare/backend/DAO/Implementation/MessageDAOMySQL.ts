@@ -56,7 +56,59 @@ export class MessageDAOMySQL implements I_MessageDAO {
 
     async recupererMessages(idBlog : string): Promise<Message[]> {
         try {
-            const requete = "SELECT m.id, m.contenu, m.nomUtilisateur, m.datePublication, idSuppression, es.nomUtilisateur AS utilisateurSuppression, es.raisonSuppression, es.datesuppression, es.cache FROM Message m LEFT JOIN elementsupprime es ON m.idSuppression = es.id WHERE idBlog = ? ORDER BY datePublication ASC";
+            const requete = "SELECT m.id, m.contenu, m.nomUtilisateur, m.datePublication, m.idSuppression FROM Message m WHERE idBlog = ? AND idSuppression IS NULL ORDER BY datePublication ASC";
+            const params = [idBlog];
+
+            const [rows] = await this.pool.execute<MessageRow[]>(requete, params);
+            if (rows.length == 0) {
+                throw new Error("Blog vide");
+            }
+            
+            const messages : Message[] = [];
+
+            for (const row of rows) {
+                const message = this.transformerRowEnMessage(row);
+
+                messages.push(message);
+            }
+
+            return messages;
+        }
+        catch (error) {
+            console.error("Erreur lors de la récupération des messages : " + error);
+            throw new Error("Impossible de récupérer les messages" + error);
+        }
+    }
+
+    async recupererMessagesCaches(idBlog : string) : Promise<Message[]> {
+        try {
+            const requete = "SELECT m.id, m.contenu, m.nomUtilisateur, m.datePublication, m.idSuppression, es.nomUtilisateur AS utilisateurSuppression, es.raisonSuppression, es.datesuppression, es.cache FROM Message m LEFT JOIN elementsupprime es ON m.idSuppression = es.id WHERE idBlog = ? ORDER BY datePublication ASC";
+            const params = [idBlog];
+
+            const [rows] = await this.pool.execute<MessageRow[]>(requete, params);
+            if (rows.length == 0) {
+                throw new Error("Blog vide");
+            }
+            
+            const messages : Message[] = [];
+
+            for (const row of rows) {
+                const message = this.transformerRowEnMessage(row);
+
+                messages.push(message);
+            }
+
+            return messages;
+        }
+        catch (error) {
+            console.error("Erreur lors de la récupération des messages : " + error);
+            throw new Error("Impossible de récupérer les messages" + error);
+        }
+    }
+    
+    async recupererMessagesElementsSuppr(idBlog : string) : Promise<Message[]> {
+        try {
+            const requete = "SELECT m.id, m.contenu, m.nomUtilisateur, m.datePublication, m.idSuppression, es.nomUtilisateur AS utilisateurSuppression, es.raisonSuppression, es.datesuppression, es.cache FROM Message m LEFT JOIN elementsupprime es ON m.idSuppression = es.id WHERE idBlog = ? AND (es.cache = 0 OR idSuppression IS NULL) ORDER BY datePublication ASC";
             const params = [idBlog];
 
             const [rows] = await this.pool.execute<MessageRow[]>(requete, params);

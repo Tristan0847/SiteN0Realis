@@ -30,6 +30,20 @@ export interface I_BlogDAO {
     recupererBlogsDuDossier(slugDossier: string): Promise<Blog[]>;
 
     /**
+     * Méthode permettant de récupérer les blogs d'un dossier avec les éléments supprimés non cachés
+     * @param slugDossier Slug du dossier
+     * @return Liste des blogs du dossier
+     */
+    recupererBlogsDuDossierElementsSuppr(slugDossier: string) : Promise<Blog[]>;
+
+    /**
+     * Méthode permettant de récupérer les blogs d'un dossier avec les éléments supprimés cachés
+     * @param slugDossier Slug du dossier
+     * @return Liste des blogs du dossier
+     */
+    recupererBlogsDuDossierCache(slugDossier: string) : Promise<Blog[]>;
+
+    /**
      * Méthode de suppression d'un blog
      * @param blog Blog à supprimer avec l'objet ElementSupprime ajusté en conséquence
      */

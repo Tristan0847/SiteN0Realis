@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 /**
  * Hook de requête sélectionnant des données de l'API
@@ -26,7 +26,8 @@ export function useApiQuery<TData, TParams extends any[] = []>(
     const [erreur, setErreur] = useState<Error|null>(null);
 
     // Sérialisation des paramètres pour une meilleure comparaison
-    const paramsKey = JSON.stringify(params);
+    const paramsRef = useRef<string>('');
+    const paramsActuels = JSON.stringify(params);
 
     // Récupération des données manuellement
     const refetch = useCallback(async () : Promise<TData|null> => {
@@ -48,17 +49,21 @@ export function useApiQuery<TData, TParams extends any[] = []>(
         finally {
             setChargement(false);
         }
-    }, [paramsKey]);
+    }, [queryFn, ...paramsActuels]);
 
     // Exécution de la requête et au changement des paramètres
     useEffect(() => {
-        if (actif) {
-            refetch();
-        }
-        else {
+        if (!actif) {
             setChargement(false);
         }
-    }, [actif, refetch]);
+        // Si les paramètres ont changé, on met à jour la référence et on re-récupère les données
+        
+        if (paramsRef.current !== paramsActuels) {
+            paramsRef.current = paramsActuels;
+
+            refetch();
+        }
+    }, [actif, paramsActuels]);
 
     return {
         donnees, chargement, erreur, refetch, 

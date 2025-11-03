@@ -7,6 +7,7 @@ import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 import { SlugsUtil } from "@BlogsShared/utils/SlugsUtil";
 import { I_DossierService } from "@BlogsBack/service/interface/I_DossierService";
 import { v4 as uuidv4 } from 'uuid';
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 /**
  * Classe de service de gestion de dossiers
@@ -50,9 +51,21 @@ export class DossierService implements I_DossierService {
         }
     }
 
-    async recupererDossiers() : Promise<Dossier[]> {
+    async recupererDossiers(variante : SiteVariant, estAdmin : boolean) : Promise<Dossier[]> {
         try {
-            return await this.dao.recupererDossiers();
+            let dossiers : Dossier[] = [];
+
+            if (estAdmin) {
+                dossiers = await this.dao.recupererDossiersCaches();
+            }
+            else if (variante == "old") {
+                dossiers  = await this.dao.recupererDossiersElementsSuppr();
+            }
+            else {
+                dossiers  = await this.dao.recupererDossiers();
+            }
+                    
+            return dossiers;
         }
         catch (error) {
             throw error;

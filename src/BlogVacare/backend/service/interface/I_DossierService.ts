@@ -1,4 +1,5 @@
 import { Dossier } from "@BlogsShared/model/Dossier";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 /**
  * Interface de service de gestion de dossiers
@@ -15,9 +16,11 @@ export interface I_DossierService {
 
     /**
      * Méthode de récupération de tous les dossiers du projet
+     * @param variante Variante du site
+     * @param estAdmin Variable définissant si l'utilisateur est admin ou non
      * @return Liste des dossiers
      */
-    recupererDossiers() : Promise<Dossier[]>;
+    recupererDossiers(variante : SiteVariant, estAdmin : boolean) : Promise<Dossier[]>;
 
     /**
      * Méthode de récupération d'un dossier à partir d'un slug fourni

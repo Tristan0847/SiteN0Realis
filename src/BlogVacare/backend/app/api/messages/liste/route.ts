@@ -4,6 +4,7 @@ import { INTERFACESSERVICE, ServiceFactory } from "@BlogsBack/service/ServiceFac
 import { I_MessageService } from "@BlogsBack/service/interface/I_MessageService";
 import { I_DossierService } from "@BlogsBack/service/interface/I_DossierService";
 import { I_BlogService } from "@BlogsBack/service/interface/I_BlogService";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 const service : I_MessageService = ServiceFactory.get<I_MessageService>(INTERFACESSERVICE.I_MessageService);
 const dossierService : I_DossierService = ServiceFactory.get<I_DossierService>(INTERFACESSERVICE.I_DossierService);
@@ -12,26 +13,39 @@ const blogService : I_BlogService = ServiceFactory.get<I_BlogService>(INTERFACES
 /**
  * Route pour récupérer les messages d'un blog dans un dossier
  * @param request Requête entrante
- * @param param Objet contenant les paramètres de la route
  * @returns Réponse HTTP avec la liste des messages ou une erreur
  */
-export async function GET(request: NextRequest, { params }: { params: Promise<{ slugDossier: string; slugBlog: string }> }) {
+export async function POST(request: NextRequest) : Promise<NextResponse> {
   try {
+    // Récupération des paramètres
+    const body = await request.json();
+    const slugDossier : string = body.slugDossier;
+    const slugBlog : string = body.slugBlog;
+    const variante : SiteVariant = body.variante;
+    if (variante !== "old" && variante !== "modern") {
+        return NextResponse.json(
+            { error: "Variante invalide" },
+            { status: 400 }
+        );
+    }
+
     // On récupère les messages pour le blog et le dossier spécifiés
-    const { slugDossier, slugBlog } = await params;
     const dossier = await dossierService.recupererDossierParSlug(slugDossier);
     const blog = await blogService.recupererBlogParSlug(slugBlog, slugDossier);
 
     const dossierSupprime = dossier.getElementSupprime() !== null;
     const blogSupprime = blog.getElementSupprime() !== null;
-    const estAdmin : boolean = request.headers.get("x-est-admin") === "true";
+    const estAdmin : boolean = (request.headers.has("x-est-admin") && request.headers.get("x-est-admin") === "true");
 
-    if ((dossierSupprime || blogSupprime) && !estAdmin) {
-        throw new Error("Vous n'avez pas accès à ce blog");
+    if ((dossierSupprime || blogSupprime) && (!estAdmin && (!blog.getElementSupprime()?.getCache() && variante != "old"))) {
+        return NextResponse.json(
+            { error: "Vous n'avez pas accès à ce blog" },
+            { status: 405 }
+        )
     }
 
     // Récupération des messages
-    const messages = await service.recupererMessages(slugBlog, slugDossier);
+    const messages = await service.recupererMessages(slugBlog, slugDossier, variante, estAdmin);
 
     // On crée la réponse JSON avec les messages et on ajoute les en-têtes CORS
     let response = NextResponse.json(messages);

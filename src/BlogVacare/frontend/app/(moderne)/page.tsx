@@ -16,7 +16,7 @@ export function generateMetadata(): Metadata {
  */
 export default async function Page() {
 
-    const dossiersSerialises : DossierJSON[] = await getDossiersPrecharges('modern');
+    const dossiersSerialises : DossierJSON[] = await getDossiersPrecharges("modern");
 
     return(
         <PageDossiersClient dossiersPrecharges={ dossiersSerialises.length > 0 ? dossiersSerialises : undefined } />
@@ -31,5 +31,5 @@ export default async function Page() {
 export async function generateStaticParams() {
   return await getPageAccueilParams();
 }
-// Désactive les paramètres dynamiques
+// Active les paramètres dynamiques
 export const dynamicParams = true;

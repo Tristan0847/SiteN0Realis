@@ -40,7 +40,7 @@ export default async function Page({ params }: PageProps) {
  * @returns Liste de paramètres pour la génération statique
  */
 export async function generateStaticParams() {
-  return await getMessagesParams();
+  return await getMessagesParams("modern");
 }
-// Désactive les paramètres dynamiques
+// Active les paramètres dynamiques
 export const dynamicParams = true;

@@ -1,5 +1,6 @@
 import { I_BlogService } from '@BlogsFront/services/Interface/I_BlogService';
 import { Blog, BlogJSON } from '@BlogsShared/model/Blog';
+import { SiteVariant } from '@BlogsShared/model/Variant';
 
 /**
  * Service de gestion de blogs (réception par API)
@@ -15,11 +16,22 @@ export class BlogServiceApi implements I_BlogService {
         this.apiBaseUrl = process.env.NEXT_PUBLIC_LIEN_API_BACKEND ?? "http://localhost:3000/api";
     }
 
-    async recupererBlogsDuDossier(slugDossier : string) : Promise<Blog[]> {
-        const url = this.apiBaseUrl + "/blogs/liste/" + slugDossier;
-        const reponse = await fetch(url, {
-            credentials: "include"
+    async recupererBlogsDuDossier(slugDossier : string, variante : SiteVariant) : Promise<Blog[]> {
+        const url = this.apiBaseUrl + "/blogs/liste";
+        const body = JSON.stringify({
+            slugDossier: slugDossier,
+            variante: variante
         });
+
+        const requete : RequestInit = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: body
+        };
+        const reponse = await fetch(url, requete);
 
         if (!reponse.ok) {
             throw new Error("Erreur lors de la récupération des blogs du dossier " + slugDossier);

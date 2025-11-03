@@ -39,7 +39,7 @@ export default async function Page({ params }: PageProps) {
  * @returns Liste de paramètres pour la génération statique
  */
 export async function generateStaticParams() {
-  return await getDossierBlogsParams();
+  return await getDossierBlogsParams("old");
 }
-// Désactive les paramètres dynamiques
+// Active les paramètres dynamiques
 export const dynamicParams = true;

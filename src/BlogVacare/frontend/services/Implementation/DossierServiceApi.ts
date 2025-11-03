@@ -1,5 +1,6 @@
 import { I_DossierService } from "@BlogsFront/services/Interface/I_DossierService";
 import { Dossier, DossierJSON } from "@BlogsShared/model/Dossier";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 /**
  * Classe de service de dossier utilisant l'API de backend
@@ -12,10 +13,21 @@ export class DossierServiceApi implements I_DossierService {
         this.apiBaseUrl = process.env.NEXT_PUBLIC_LIEN_API_BACKEND ?? "http://localhost:3000/api";
     }
 
-
-    async recupererDossiers() : Promise<Dossier[]> {
+    async recupererDossiers(variante : SiteVariant) : Promise<Dossier[]> {
         const url = this.apiBaseUrl + "/dossiers/liste";
-        const reponse = await fetch(url);
+        const body = JSON.stringify({
+            variante: variante
+        });
+
+        const requete : RequestInit = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: body
+        };
+        const reponse = await fetch(url, requete);
 
         if (!reponse.ok) {
             throw new Error("Erreur lors de la récupération des dossiers : " + reponse.statusText);

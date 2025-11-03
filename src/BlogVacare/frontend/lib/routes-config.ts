@@ -5,8 +5,8 @@ import type { Blog } from '@BlogsShared/model/Blog';
 import type { Message } from '@BlogsShared/model/Message';
 import { I_DossierService } from '@BlogsFront/services/Interface/I_DossierService';
 import { I_MessageService } from '@BlogsFront/services/Interface/I_MessageService';
-import { filtrerElements } from '@BlogsFront/app/_shared/pageMethodes';
 import { SiteVariant } from "@BlogsShared/model/Variant";
+import { useVariant } from '@BlogsFront/contexts/VariantContext';
 
 /**
  * Interface de structuration des routes
@@ -27,21 +27,22 @@ interface DossierAvecBlogs {
 
 /**
  * Récupère tous les dossiers, blogs et messages depuis le backend
+ * @param variante Variante du site
  */
-export async function getAllRoutes() {
+export async function getAllRoutes(variante : SiteVariant) {
   try {
     const dossierService = ServiceFactory.get<I_DossierService>(INTERFACESSERVICE.I_DossierService);
     const blogService = ServiceFactory.get<I_BlogService>(INTERFACESSERVICE.I_BlogService);
     const messageService = ServiceFactory.get<I_MessageService>(INTERFACESSERVICE.I_MessageService);
 
     // Récupération des dossiers
-    const dossiers = await dossierService.recupererDossiers();
+    const dossiers = await dossierService.recupererDossiers(variante);
 
     // Pour chaque dossier, on récupère le blog
     const routesWithBlogs: DossierAvecBlogs[] = await Promise.all(
       dossiers.map(async (dossier) => {
         try {
-          const blogs = await blogService.recupererBlogsDuDossier(dossier.getSlug());
+          const blogs = await blogService.recupererBlogsDuDossier(dossier.getSlug(), variante);
           return { dossier, blogs };
         } catch (error) {
           console.log(`Erreur lors de la recherche de blogs pour le dossier ${dossier.getSlug()}`);
@@ -55,7 +56,7 @@ export async function getAllRoutes() {
       routesWithBlogs.flatMap(({ dossier, blogs }) =>
         blogs.map(async (blog) => {
           try {
-            const messages = await messageService.recupererMessagesDuBlog(dossier.getSlug(), blog.getSlug());
+            const messages = await messageService.recupererMessagesDuBlog(dossier.getSlug(), blog.getSlug(), variante);
             return {slugDossier: dossier.getSlug(), slugBlog: blog.getSlug(), messages};
           } catch (error) {
             console.log(`Erreur lors de la récupération de messages pour le blog ${blog.getSlug()}:`, error);
@@ -81,10 +82,11 @@ export async function getPageAccueilParams() {
 
 /**
  * Génère les paramètres pour la page des dossiers et blogs
+ * @param variante Variante du site
  */
-export async function getDossierBlogsParams() {
+export async function getDossierBlogsParams(variante : SiteVariant) {
   try {
-    const { dossiers } = await getAllRoutes();
+    const { dossiers } = await getAllRoutes(variante);
     
     const params = dossiers.map((dossier) => ({
       slugDossier: dossier.getSlug(),
@@ -99,10 +101,11 @@ export async function getDossierBlogsParams() {
 
 /**
  * Génère les paramètres pour la page des messages
+ * @param variante Variante du site
  */
-export async function getMessagesParams() {
+export async function getMessagesParams(variante : SiteVariant) {
   try {
-    const { routesCompletes } = await getAllRoutes();
+    const { routesCompletes } = await getAllRoutes(variante);
     
     const params = routesCompletes.map((route) => ({
       slugDossier: route.slugDossier,
@@ -118,10 +121,11 @@ export async function getMessagesParams() {
 
 /**
  * Récupère les infos d'une route spécifique
+ * @param variante Variante du site
  */
-export async function getRouteData(slugDossier: string, slugBlog: string) {
+export async function getRouteData(slugDossier: string, slugBlog: string, variante : SiteVariant) {
   try {
-    const { routesCompletes } = await getAllRoutes();
+    const { routesCompletes } = await getAllRoutes(variante);
     
     return routesCompletes.find(
       (route) => route.slugDossier === slugDossier && route.slugBlog === slugBlog
@@ -135,14 +139,13 @@ export async function getRouteData(slugDossier: string, slugBlog: string) {
 
 /**
  * Récupère tous les dossiers pour la page d'accueil
- * @param variant Variante du site (old ou moderne)
+ * @param variante Variante du site
  */
-export async function getRouteDossiers(variant : SiteVariant) {
+export async function getRouteDossiers(variante : SiteVariant) : Promise<Dossier[]> {
   try {
-    const { dossiers } = await getAllRoutes();
-    const dossiersAffiches = filtrerElements(dossiers, false, variant);
+    const { dossiers } = await getAllRoutes(variante);
     
-    return dossiersAffiches;
+    return dossiers;
   } catch (error) { 
     console.error('Erreur lors de la récupération des dossiers (getRouteDossiers)');
     return [];
@@ -153,11 +156,11 @@ export async function getRouteDossiers(variant : SiteVariant) {
  * Récupère les messages pour une route spécifique
  * @param slugDossier Slug du dossier récupéré
  * @param slugBlog Slug du blog récupéré
- * @param variant Variante du site (old ou moderne)
+ * @param variante Variante du site
  */
-export async function getRouteMessages(slugDossier: string, slugBlog: string, variant : SiteVariant) {
+export async function getRouteMessages(slugDossier: string, slugBlog: string, variante : SiteVariant) {
   try {
-    const { routesCompletes } = await getAllRoutes();
+    const { routesCompletes } = await getAllRoutes(variante);
     
     const route = routesCompletes.find(
       (r) => r.slugDossier === slugDossier && r.slugBlog === slugBlog
@@ -166,9 +169,8 @@ export async function getRouteMessages(slugDossier: string, slugBlog: string, va
       throw new Error("Route inconnue");
     }
     const messages : Message[] = route.messages;
-    const messagesAffiches : Message[] = filtrerElements(messages, false, variant);
 
-    return messagesAffiches;
+    return messages;
   } catch (error) {
     console.error('Erreur lors de la récupération de messages pour une route (getRouteMessages) pour :' + slugDossier + "/" + slugBlog);
     return [];
@@ -178,20 +180,19 @@ export async function getRouteMessages(slugDossier: string, slugBlog: string, va
 /**
  * Récupère les blogs pour un dossier spécifique
  * @param slugDossier Slug du dossier récupéré
- * @param variant Variante du site (old ou moderne)
+ * @param variante Variante du site
  */
-export async function getRouteBlogsForDossier(slugDossier: string, variant : SiteVariant) {
+export async function getRouteBlogsForDossier(slugDossier: string, variante : SiteVariant) {
   try {
-    const { routesWithBlogs } = await getAllRoutes();
+    const { routesWithBlogs } = await getAllRoutes(variante);
     
     const route = routesWithBlogs.find((r) => r.dossier.getSlug() === slugDossier);
     if (!route) {
       throw new Error("Route inconnue");
     }
     const blogs : Blog[] = route.blogs;
-    const blogsAffiches : Blog[] = filtrerElements(blogs, false, variant);
 
-    return blogsAffiches;
+    return blogs;
   } catch (error) {
     console.error('Erreur lors de la récupération de blogs pour un dossier (getRouteBlogsForDossier) pour : ' + slugDossier);
     return [];

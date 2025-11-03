@@ -1,4 +1,5 @@
 import { Dossier } from "@BlogsShared/model/Dossier";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 /**
  * Interface de Service de dossiers
@@ -7,9 +8,10 @@ export interface I_DossierService {
 
     /**
      * Méthode de récupération des dossiers du projet
+     * @param variante Variante du site
      * @returns Liste de dossiers du projet
      */
-    recupererDossiers() : Promise<Dossier[]>;
+    recupererDossiers(variante : SiteVariant) : Promise<Dossier[]>;
 
     /**
      * Méthode de récupération d'un dossier à partir de son slug

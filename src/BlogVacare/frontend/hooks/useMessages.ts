@@ -5,6 +5,7 @@ import { useApiMutation } from '@BlogsFront/hooks/useApiMutation';
 import { I_MessageService } from '@BlogsFront/services/Interface/I_MessageService';
 import { useApiQuery } from '@BlogsFront/hooks/useApiQuery';
 import { Message } from '@BlogsShared/model/Message';
+import { SiteVariant } from '@BlogsShared/model/Variant';
 
 const messageService = ServiceFactory.get<I_MessageService>(INTERFACESSERVICE.I_MessageService);
 
@@ -13,11 +14,12 @@ const messageService = ServiceFactory.get<I_MessageService>(INTERFACESSERVICE.I_
  * Méthode de hook pour récupérer les dossiers du projet
  * @param slugDossier Slug du dossier contenant le blog
  * @param slugBlog Slug du blog contenant le message
+ * @param variante Variante du site
  * @returns Objet contenant les dossiers, l'état de chargement et une éventuelle erreur
  */
-export function useMessages(slugDossier: string, slugBlog: string) {
+export function useMessages(slugDossier: string, slugBlog: string, variante : SiteVariant) {
     return useApiQuery<Message[], [string, string]>(
-        (slugDossier : string, slugBlog :string) => messageService.recupererMessagesDuBlog(slugDossier, slugBlog),
+        (slugDossier : string, slugBlog :string) => messageService.recupererMessagesDuBlog(slugDossier, slugBlog, variante),
         [slugDossier, slugBlog],
         {
             actif: !!slugDossier && !!slugBlog

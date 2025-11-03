@@ -18,7 +18,7 @@ interface BlogRow extends RowDataPacket {
     slug: string;
     dateCreation: Date;
     nomUtilisateur: string;
-    idSuppression: number|null;
+    idSuppressionBlog: number|null;
     utilisateurSuppression: string|null;
     raisonSuppression: string|null;
     datesuppression: string|null;
@@ -63,7 +63,7 @@ export class BlogDAOMySQL implements I_BlogDAO {
     
     async recupererBlogParSlug(slugBlog : string, slugDossier : string) : Promise<Blog> {
         try {
-            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression FROM Blog b JOIN Dossier d ON b.idDossier = d.id WHERE b.slug = ? AND d.slug = ?";
+            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression AS idSuppressionBlog FROM Blog b JOIN Dossier d ON b.idDossier = d.id WHERE b.slug = ? AND d.slug = ?";
             const params = [slugBlog, slugDossier];
 
             const [rows] = await this.pool.execute<BlogRow[]>(requete, params);
@@ -87,9 +87,9 @@ export class BlogDAOMySQL implements I_BlogDAO {
             blog.setUtilisateur(utilisateur);
 
             // Création de l'objet de suppression si le blog l'est
-            if (row.idSuppression !== null) {
+            if (row.idSuppressionBlog !== null) {
                 const elementSupprime = new ElementSupprime();
-                elementSupprime.setId(row.idSuppression);
+                elementSupprime.setId(row.idSuppressionBlog);
                 blog.setElementSupprime(elementSupprime);
             }
 
@@ -103,7 +103,7 @@ export class BlogDAOMySQL implements I_BlogDAO {
 
     async recupererBlogsDuDossier(slugDossier: string): Promise<Blog[]> {
         try {
-            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression, es.nomUtilisateur AS utilisateurSuppression, es.raisonSuppression, es.datesuppression, es.cache FROM Blog b LEFT JOIN elementsupprime es ON b.idSuppression = es.id INNER JOIN Dossier d ON d.id = b.idDossier WHERE d.slug = ? ORDER BY b.dateCreation DESC";
+            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression AS idSuppressionBlog FROM Blog b INNER JOIN Dossier d ON d.id = b.idDossier WHERE d.slug = ? AND b.idSuppression IS NULL ORDER BY b.dateCreation DESC";
             const params = [slugDossier];
 
             const [rows] = await this.pool.query<BlogRow[]>(requete, params);
@@ -111,34 +111,52 @@ export class BlogDAOMySQL implements I_BlogDAO {
             const blogs: Blog[] = [];
 
             for (const row of rows) {
-                const blog = new Blog();
-                blog.setId(row.id);
-                blog.setNom(row.titre);
-                blog.setSlug(row.slug);
-                blog.setDateCreation(new Date(row.dateCreation));
+                const blog : Blog = this.rowToBlog(row);
+                blogs.push(blog);
+            }
 
-                // Chargement des données de suppression si le blog l'est
-                if (row.idSuppression !== null && row.datesuppression != null) {
-                    const elementSupprime = new ElementSupprime();
-                    elementSupprime.setId(row.idSuppression);
-                    elementSupprime.setRaisonSuppression(row.raisonSuppression ?? "");
+            return blogs;
+        }
+        catch (error) {
+            console.error("Erreur lors de la récupération des blogs du dossier : " + error);
+            throw new Error("Impossible de récupérer les blogs du dossier" + error);
+        }
+    }
+    
+    async recupererBlogsDuDossierElementsSuppr(slugDossier: string) : Promise<Blog[]> {
+        try {
+            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression AS idSuppressionBlog, es.nomUtilisateur AS utilisateurSuppression, es.raisonSuppression, es.datesuppression, es.cache FROM Blog b LEFT JOIN elementsupprime es ON b.idSuppression = es.id INNER JOIN Dossier d ON d.id = b.idDossier WHERE d.slug = ? AND (es.cache = 0 OR b.idSuppression IS NULL) ORDER BY b.dateCreation DESC";
+            const params = [slugDossier];
 
-                    // Création de l'utilisateur à partir de son nom
-                    const utilisateurSuppression = new Utilisateur();
-                    utilisateurSuppression.setUsername(row.utilisateurSuppression ?? "");
-                    elementSupprime.setUtilisateur(utilisateurSuppression);
+            const [rows] = await this.pool.query<BlogRow[]>(requete, params);
 
-                    const dateSuppr = new Date(row.datesuppression)
-                    elementSupprime.setDateSuppression(dateSuppr);
-                    elementSupprime.setCache(row.cache ?? false);
-                    blog.setElementSupprime(elementSupprime);
-                }
+            const blogs: Blog[] = [];
 
-                // Création de l'utilisateur associé
-                const utilisateur = new Utilisateur();
-                utilisateur.setUsername(row.nomUtilisateur);
-                blog.setUtilisateur(utilisateur);
+            for (const row of rows) {
+                const blog : Blog = this.rowToBlog(row);
+                blogs.push(blog);
+            }
 
+            return blogs;
+        }
+        catch (error) {
+            console.error("Erreur lors de la récupération des blogs du dossier : " + error);
+            throw new Error("Impossible de récupérer les blogs du dossier" + error);
+        }
+
+    }
+
+    async recupererBlogsDuDossierCache(slugDossier: string) : Promise<Blog[]> {
+        try {
+            const requete = "SELECT b.id, b.titre, b.slug, b.dateCreation, b.nomUtilisateur, b.idSuppression AS idSuppressionBlog, es.nomUtilisateur AS utilisateurSuppression, es.raisonSuppression, es.datesuppression, es.cache FROM Blog b LEFT JOIN elementsupprime es ON b.idSuppression = es.id INNER JOIN Dossier d ON d.id = b.idDossier WHERE d.slug = ? ORDER BY b.dateCreation DESC";
+            const params = [slugDossier];
+
+            const [rows] = await this.pool.query<BlogRow[]>(requete, params);
+
+            const blogs: Blog[] = [];
+
+            for (const row of rows) {
+                const blog : Blog = this.rowToBlog(row);
                 blogs.push(blog);
             }
 
@@ -168,6 +186,39 @@ export class BlogDAOMySQL implements I_BlogDAO {
             console.error("Erreur lors de la suppression du blog : " + error);
             throw new Error("Impossible de supprimer le blog " + error);
         }
+    }
+
+    // Méthode de conversion d'un blog en ligne
+    private rowToBlog(row : BlogRow) : Blog {
+        const blog = new Blog();
+        blog.setId(row.id);
+        blog.setNom(row.titre);
+        blog.setSlug(row.slug);
+        blog.setDateCreation(new Date(row.dateCreation));
+
+        // Chargement des données de suppression si le blog l'est
+        if (row.idSuppressionBlog !== null && row.datesuppression != null) {
+            const elementSupprime = new ElementSupprime();
+            elementSupprime.setId(row.idSuppressionBlog);
+            elementSupprime.setRaisonSuppression(row.raisonSuppression ?? "");
+
+            // Création de l'utilisateur à partir de son nom
+            const utilisateurSuppression = new Utilisateur();
+            utilisateurSuppression.setUsername(row.utilisateurSuppression ?? "");
+            elementSupprime.setUtilisateur(utilisateurSuppression);
+
+            const dateSuppr = new Date(row.datesuppression)
+            elementSupprime.setDateSuppression(dateSuppr);
+            elementSupprime.setCache(row.cache ?? false);
+            blog.setElementSupprime(elementSupprime);
+        }
+
+        // Création de l'utilisateur associé
+        const utilisateur = new Utilisateur();
+        utilisateur.setUsername(row.nomUtilisateur);
+        blog.setUtilisateur(utilisateur);
+
+        return blog;
     }
 
 }

@@ -6,6 +6,7 @@ import { I_MessageService } from "@BlogsBack/service/interface/I_MessageService"
 import { Utilisateur } from "@BlogsShared/model/Utilisateur";
 import { ElementSupprime } from "@BlogsShared/model/ElementSupprime";
 import { I_BlogDAO } from "@BlogsBack/DAO/Interface/I_BlogDAO";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 /**
  * Interface de service de gestion de messages
@@ -44,7 +45,7 @@ export class MessageService implements I_MessageService {
         }
     }
 
-    async recupererMessages(slugBlog : string, slugDossier : string) : Promise<Message[]> {
+    async recupererMessages(slugBlog : string, slugDossier : string, variante : SiteVariant, estAdmin : boolean) : Promise<Message[]> {
         try {
             if (!slugDossier || slugDossier.trim() === '') {
                 throw new Error("Slug du dossier invalide");
@@ -58,7 +59,18 @@ export class MessageService implements I_MessageService {
             const blog = await this.daoBlogs.recupererBlogParSlug(slugBlog, slugDossier);
             const idBlog = blog.getId();
 
-            return await this.dao.recupererMessages(idBlog);
+            let messages : Message[] = [];
+            if (estAdmin) {
+                messages = await this.dao.recupererMessagesCaches(idBlog);
+            }
+            else if (variante == "old") {
+                messages = await this.dao.recupererMessagesElementsSuppr(idBlog);
+            }
+            else {
+                messages = await this.dao.recupererMessages(idBlog);
+            }
+
+            return messages;
         }
         catch (error) {
             throw error;

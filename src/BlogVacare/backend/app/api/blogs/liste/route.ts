@@ -11,26 +11,35 @@ const dossierService : I_DossierService = ServiceFactory.get<I_DossierService>(I
 /**
  * Route pour récupérer les blogs d'un dossier
  * @param request Requête entrante
- * @param param Objet contenant les paramètres de la route 
  * @returns Réponse HTTP avec la liste des blogs ou une erreur
  */
-export async function GET(request: NextRequest, { params }: { params: Promise<{ slugDossier: string }> }) {
+export async function POST(request: NextRequest) : Promise<NextResponse> {
     
     try {
-        // On récupère les blogs pour le dossier spécifié
-        const { slugDossier } = await params;
+        // Récupération des paramètres
+        const body = await request.json();
+        const slugDossier : string = body.slugDossier;
+        const variante : SiteVariant = body.variante;
+        if (variante !== "old" && variante !== "modern") {
+            return NextResponse.json(
+                { error: "Variante invalide" },
+                { status: 400 }
+            );
+        }
         
         const dossier = await dossierService.recupererDossierParSlug(slugDossier);
         
         // Vérification qu'on a les droits d'ouvrir le dossier (s'il est supprimé et que l'on n'est pas admin, on ne peut pas l'ouvrir)
         const estAdmin : boolean = (request.headers.has("x-est-admin") && request.headers.get("x-est-admin") === "true");
-        const variant : SiteVariant = (request.headers.get("x-variante-site") === "old") ? "old" : "modern";
         
-        if (dossier.getElementSupprime() !== null && (!estAdmin || (!dossier.getElementSupprime()?.getCache() && variant == "old"))) {
-            throw new Error("Vous n'avez pas accès à ce dossier");
+        if (dossier.getElementSupprime() !== null && (!estAdmin && (!(dossier.getElementSupprime()?.getCache()) && variante != "old"))) {
+            return NextResponse.json(
+                { error: "Vous n'avez pas accès à ce dossier" },
+                { status: 401 }
+            )
         }
 
-        const blogs = await service.recupererBlogsDuDossier(slugDossier);
+        const blogs = await service.recupererBlogsDuDossier(slugDossier, variante, estAdmin);
 
         // On crée la réponse JSON avec les blogs et on ajoute les en-têtes CORS
         let response = NextResponse.json(blogs);

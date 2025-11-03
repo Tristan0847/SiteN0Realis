@@ -1,4 +1,5 @@
 import { Message } from "@BlogsShared/model/Message";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 /**
  * Interface de service de messages
@@ -9,9 +10,10 @@ export interface I_MessageService {
      * Méthode de récupération des messages d'un blog
      * @param slugDossier Slug du dossier contenant le blog
      * @param slugBlog Slug du blog contenant les messages
+     * @param variante Variante du site
      * @returns Liste de messages du projet
      */
-    recupererMessagesDuBlog(slugDossier : string, slugBlog : string) : Promise<Message[]>;
+    recupererMessagesDuBlog(slugDossier : string, slugBlog : string, variante : SiteVariant) : Promise<Message[]>;
 
     /**
      * Méthode de création d'un message

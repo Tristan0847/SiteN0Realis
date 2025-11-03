@@ -21,6 +21,20 @@ export interface I_MessageDAO {
     recupererMessages(idBlog : string): Promise<Message[]>;
 
     /**
+     * Méthode permettant de récupérer tous les messages du blog demandé avec messages cachés
+     * @param idBlog Identifiant du blog demandé
+     * @return Liste des messages
+     */
+    recupererMessagesCaches(idBlog : string) : Promise<Message[]>;
+    
+    /**
+     * Méthode permettant de récupérer tous les messages du blog demandé avec messages supprimés mais non cachés
+     * @param idBlog Identifiant du blog demandé
+     * @return Liste des messages
+     */
+    recupererMessagesElementsSuppr(idBlog : string) : Promise<Message[]>;
+    
+    /**
      * Méthode de récupération du premier message d'un blog
      * @param idBlog Identifiant du blog dont on veut récupérer le premier message
      * @returns Premier message du blog

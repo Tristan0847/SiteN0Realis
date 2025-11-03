@@ -69,12 +69,23 @@ export class BlogService implements I_BlogService {
         }        
     }
 
-    async recupererBlogsDuDossier(slugDossier : string) : Promise<Blog[]> {
+    async recupererBlogsDuDossier(slugDossier : string, variante : string, estAdmin : boolean) : Promise<Blog[]> {
         try {
             if (!slugDossier || slugDossier.trim() === '') {
                 throw new Error("Slug du dossier invalide");
             }
-            const blogs : Blog[] = await this.dao.recupererBlogsDuDossier(slugDossier);
+
+            let blogs : Blog[] = [];
+            if (estAdmin) {
+                blogs = await this.dao.recupererBlogsDuDossierCache(slugDossier);
+            }
+            else if (variante == "old") {
+                blogs  = await this.dao.recupererBlogsDuDossierElementsSuppr(slugDossier);
+            }
+            else {
+                blogs  = await this.dao.recupererBlogsDuDossier(slugDossier);
+            }
+            
             for (const blog of blogs) {
                 const message : Message = await this.messageService.recupererPremierMessage(blog.getId());
                 const messages : Message[] = [];
