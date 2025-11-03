@@ -118,15 +118,28 @@ INSERT INTO Message (idBlog, contenu, nomUtilisateur, datePublication, idSuppres
 -- Élément supprimé (pour tester les fonctionnalités de modération)
 INSERT INTO ElementSupprime (id, nomUtilisateur, raisonSuppression, datesuppression, cache) VALUES
 (1, 'admin', 'Contenu inapproprié', '2024-01-04 10:00:00', false),
-(2, 'admin', 'Spam', '2024-01-04 10:05:00', true);
+(2, 'admin', 'Spam', '2024-01-04 10:05:00', true),
+(3, "admin", "Pour le fun", "2021-05-07 14:08:00", true),
+(4, "admin", "J'aime pas ce truc", "2002-04-30 15:42:24", false),
+(5, "admin", "Je garde ce dossier pour moi", "2022-01-20 05:00:00", true),
+(6, "admin", "Test suppression", "2025-04-30 15:42:24", false),
+(7, "admin", "Cache les preuves", "2025-01-20 05:00:00", true);
+
+-- Dossiers supprimés
+INSERT INTO Dossier (id, titre, slug, dateCreation, description, nomUtilisateur, idSuppression) VALUES
+('d3', 'Dossier supprimé test', 'dossier-supprime-test', '2024-04-08 17:30:00', 'Espace voué à être supprimé', 'admin', 4),
+('d4', 'Dossier supprimé caché test', 'dossier-supprime-cache-test', '2024-01-03 12:00:00', 'Espace de l\'admin', 'testuser', 5);
 
 -- Blog supprimé (visible pour admin)
 INSERT INTO Blog (id, titre, slug, idDossier, nomUtilisateur, dateCreation, idSuppression) VALUES
-('b5', 'Blog supprimé test', 'blog-supprime-test', 'd1', 'testuser', '2024-01-04 09:00:00', 1);
+('b5', 'Blog supprimé test', 'blog-supprime-test', 'd1', 'testuser', '2024-01-04 09:00:00', 1),
+('b6', 'Blog supprimé caché test', 'blog-supprime-cache-test', 'd1', 'testuser', '2020-01-04 09:00:00', 3);
 
 -- Message dans le blog supprimé
 INSERT INTO Message (idBlog, contenu, nomUtilisateur, datePublication, idSuppression) VALUES
-('b5', 'Ceci est un message dans un blog supprimé.', 'testuser', '2024-01-04 09:05:00', NULL);
+('b5', 'Ceci est un message dans un blog supprimé.', 'testuser', '2024-01-04 09:05:00', NULL),
+('b1', 'Ceci est un message supprimé dans un blog normal.', 'testuser', '2024-01-04 09:55:00', 6),
+('b1', 'Ceci est un message caché dans un blog normal.', 'admin', '2024-01-04 09:45:00', 7);
 
 -- Message supprimé et caché
 INSERT INTO Message (idBlog, contenu, nomUtilisateur, datePublication, idSuppression) VALUES

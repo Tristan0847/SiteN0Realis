@@ -125,8 +125,17 @@ Cookie: tokenAcces=xxx
 
 ## Dossiers
 
-### GET /dossiers/liste
+### POST /dossiers/liste
 Récupère tous les dossiers.
+
+**Prérequis (non obligatoire):** Cookie `tokenAcces` valide (définissant si l'on récupère éléments cachés ou non selon si on est connecté en tant qu'admin)
+
+**Body:**
+```json
+{
+  "variante": "SiteVariante"
+}
+```
 
 **Réponse (200):**
 ```json
@@ -226,11 +235,18 @@ Cookie: tokenAcces=xxx (admin)
 
 ## Blogs
 
-### GET /blogs/liste/[slugDossier]
+### POST /blogs/liste
 Récupère les blogs d'un dossier ainsi que leur premier message.
 
-**Paramètres URL:**
-- `slugDossier` (string)
+**Prérequis (non obligatoire):** Cookie `tokenAcces` valide (définissant si l'on récupère éléments cachés ou non selon si on est connecté en tant qu'admin)
+
+**Body:**
+```json
+{
+  "slugDossier": "string",
+  "variante": "SiteVariante"
+}
+```
 
 **Réponse (200):**
 ```json
@@ -305,8 +321,19 @@ Supprime un blog (admin uniquement).
 
 ## Messages
 
-### GET /messages/liste/[slugDossier]/[slugBlog]
+### POST /messages/liste
 Récupère les messages d'un blog.
+
+**Prérequis (non obligatoire):** Cookie `tokenAcces` valide (définissant si l'on récupère éléments cachés ou non selon si on est connecté en tant qu'admin)
+
+**Body:**
+```json
+{
+  "slugDossier": "string",
+  "slugBlog": "string",
+  "variante": "SiteVariante"
+}
+```
 
 **Réponse (200):**
 ```json

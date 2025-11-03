@@ -47,7 +47,6 @@ Sinon, les commandes suivantes sont mises à votre disposition à la racine du p
 # Lancement du projet Blog de Vacare (front et back à la fois)
 npm run "build:BlogVacare"
 npm run "start:BlogVacare"
-npm run "buildAndStart:BlogVacare"
 ```
 
 **Si vous souhaitez arrêter vos serveurs, exécutez `Ctrl + C` au clavier sur le terminal l'ayant initialisé.**

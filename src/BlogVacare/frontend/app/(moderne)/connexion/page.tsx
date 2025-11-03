@@ -15,7 +15,7 @@ export async function generateMetadata(): Promise<Metadata> {
  */
 export default async function Page() {
   
-  const mode = process.env.NEXT_PUBLIC_NEXT_ENV;
+  const mode = process.env.NEXT_BUILD_MODE;
   if (mode == 'export') {
     return <FakePageConnexion />
   }

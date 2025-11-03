@@ -28,6 +28,56 @@ describe('DossierDAOMySQL.test - Méthodes GET', () => {
   });
 
   
+  describe("recupererDossiersElementsSuppr", () => {
+    it("Retourne les dossiers du projet dont celui supprimé mais pas caché", async () => {
+        const dossiers : Dossier[] = await dao.recupererDossiersElementsSuppr();
+        
+        expect(dossiers).toBeDefined();
+        expect(dossiers.length).equal(3);
+        const dossier1 : Dossier = dossiers[0];
+
+        expect(dossier1.getId()).equal("d3");
+        expect(dossier1.getTitre()).equal("Dossier supprimé test");
+        expect(dossier1.getSlug()).equal("dossier-supprime-test");
+        expect(dossier1.getDateCreation().toLocaleString()).equal("08/04/2024 17:30:00");
+        expect(dossier1.getDescription()).equal("Espace voué à être supprimé");
+        expect(dossier1.getUtilisateur().getUsername()).equal("admin");
+
+        expect(dossier1.getElementSupprime()).toBeDefined();
+        expect(dossier1.getElementSupprime()?.getId()).equal(4);
+        expect(dossier1.getElementSupprime()?.getUtilisateur().getUsername()).equal("admin");
+        expect(dossier1.getElementSupprime()?.getRaisonSuppression()).equal("J'aime pas ce truc");
+        expect(dossier1.getElementSupprime()?.getCache()).toBeFalsy();
+        expect(dossier1.getElementSupprime()?.getDateSuppression().toLocaleString()).equal("30/04/2002 15:42:24");
+    });
+  });
+
+  
+  describe("recupererDossiersCaches", () => {
+    it("Retourne les dossiers du projet dont ceux supprimés voire cachés", async () => {
+        const dossiers : Dossier[] = await dao.recupererDossiersCaches();
+        
+        expect(dossiers).toBeDefined();
+        expect(dossiers.length).equal(4);
+        const dossier1 : Dossier = dossiers[2];
+
+        expect(dossier1.getId()).equal("d4");
+        expect(dossier1.getTitre()).equal("Dossier supprimé caché test");
+        expect(dossier1.getSlug()).equal("dossier-supprime-cache-test");
+        expect(dossier1.getDateCreation().toLocaleString()).equal("03/01/2024 12:00:00");
+        expect(dossier1.getDescription()).equal("Espace de l'admin");
+        expect(dossier1.getUtilisateur().getUsername()).equal("testuser");
+
+        expect(dossier1.getElementSupprime()).toBeDefined();
+        expect(dossier1.getElementSupprime()?.getId()).equal(5);
+        expect(dossier1.getElementSupprime()?.getUtilisateur().getUsername()).equal("admin");
+        expect(dossier1.getElementSupprime()?.getRaisonSuppression()).equal("Je garde ce dossier pour moi");
+        expect(dossier1.getElementSupprime()?.getCache()).toBeTruthy();
+        expect(dossier1.getElementSupprime()?.getDateSuppression().toLocaleString()).equal("20/01/2022 05:00:00");
+    });
+  });
+
+  
   describe("recupererDossierParSlug", () => {
     it("Retourne les données complètes d'un dossier demandé", async () => {
         const dossier : Dossier = await dao.recupererDossierParSlug("aide-support");
