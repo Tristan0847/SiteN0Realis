@@ -1,12 +1,20 @@
 'use client';
 
+import { useVariant } from '@BlogsFront/contexts/VariantContext';
+import { getVariantStyles } from '@BlogsFront/lib/variant-styles';
 import { Message } from '@BlogsShared/model/Message';
+import Image from "next/image";
+import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import SuppressionBox from '@BlogsFront/components/SuppressionBox';
+import ElementSupprimeBox from '@BlogsFront/components/ElementSupprimeBox';
 
 /**
  * Props du composant MessageItem
  */
 type MessageItemProps = {
     message: Message;
+    suppressionHandler?: (id: string, raison: string, cache: boolean) => Promise<void>;
 }
 
 /**
@@ -14,26 +22,82 @@ type MessageItemProps = {
  * @param message Message à afficher
  * @returns Composant React
  */
-export function MessageItem({ message }: MessageItemProps) {
+export function MessageItem({ message, suppressionHandler }: MessageItemProps) {
     // Chemin vers l'avatar
-    const avatarSrc = `/assets/BlogVacare/Icones/${message.getUtilisateur()}.jpg`;
+    const avatarDefaut = `/assets/BlogVacare/Icones/Vince.jpg`;
+    const avatarUtilisateur = `/assets/BlogVacare/Icones/${message.getUtilisateur().getUsername()}.jpg`;
+    const [avatarSrc, setAvatarSrc] = useState(avatarUtilisateur);
+    const [afficherSupprime, setAfficherSupprime] = useState(false);
+
     // Formatage de la date
     const dateString = message.getDate().toLocaleString('fr-FR');
 
+    // Récupération des styles
+    const variant = useVariant();
+    const styles = getVariantStyles(variant);
+
+    // Mise en place de la dialog box de suppression
+    const [dialogBoxOuverte, setDialogBox] = useState(false);
+    const suppression = message.getElementSupprime();
+
     return (
-        <div className="flex gap-4 rounded-lg bg-white shadow-sm transition-transform duration-300 hover:scale-[1.01] hover:shadow-lg">
-            <div className="flex-none w-2/12 bg-gradient-to-r from-gray-300/50 to-white flex justify-center p-1">
-                <img
-                    className="w-24 h-24 rounded-full object-cover p-4"
+        <div className={ styles.messageItem }>
+            <div className={ styles.messageImgConteneur }>
+                <Image
+                    className={ styles.messageImg }
                     src={avatarSrc}
-                    alt={`Avatar de ${message.getUtilisateur()}`}
+                    alt={`Avatar de ${message.getUtilisateur().getUsername()}`}
+                    width={64}
+                    height={64}
+                    onError={() => setAvatarSrc(avatarDefaut)}
                 />
             </div>
 
-            <div className="flex-1 flex flex-col pr-2 p-4">
-                <span className="font-semibold text-primary-dark col border-b-2 border-gray-400/15">{message.getUtilisateur()}</span>
-                <p className="bg-white p-2 rounded-md text-neutral-dark pr-5 whitespace-pre-line">{message.getContenu()}</p>
-                <span className="text-xs text-neutral dark:text-neutral-dark mt-1 pl-2">Posté le {dateString}</span>
+            <div className={ styles.messageConteneur }>
+                <span className={ styles.messagecontenuPseudo + " columns-2"}>
+                    <div className='text-left'>
+                        {message.getUtilisateur().getUsername()}
+                    </div>
+
+                    {suppressionHandler && !suppression && (
+                      <div className="text-right">
+                        <button onClick={() => setDialogBox(true)} className={ styles.supprimerBtn }>Supprimer</button>
+                
+                        <SuppressionBox id={ message.getId().toString() } type={ "message" } suppressionHandler={ suppressionHandler } dialogBoxOuverte={ dialogBoxOuverte } setDialogBox={ setDialogBox } />
+                      </div>
+                    )}
+
+                </span>
+                {suppression ? (
+                    <div className={ styles.messageSupprimeBox }>
+                        <ElementSupprimeBox type={ "message" } donnees= { suppression }/>
+                        <button onClick={() => setAfficherSupprime(!afficherSupprime)} className={ styles.messageSupprimeBtn }>{afficherSupprime ? "Masquer" : "Voir quand même"}</button>
+                        {afficherSupprime && (
+                            <div className={`${styles.messageContenu} mt-3 opacity-90`}>
+                                <ReactMarkdown
+                                    components={{
+                                        a: ({...props}) => (
+                                            <a {...props} className="underline hover:font-bold" target='_blank' rel="noopener noreferrer" />
+                                        )
+                                    }}>
+                                {message.getContenu()}
+                                </ReactMarkdown>
+                            </div>
+                        )}
+                    </div>
+                ) : (
+                    <div className={styles.messageContenu}>
+                        <ReactMarkdown
+                                    components={{
+                                        a: ({...props}) => (
+                                            <a {...props} className="underline hover:font-bold" target='_blank' rel="noopener noreferrer" />
+                                        )
+                                    }}>
+                                {message.getContenu()}
+                        </ReactMarkdown>
+                    </div>
+                )}
+                <span className={ styles.messageDate }>Posté le {dateString}</span>
             </div>
         </div>
     );

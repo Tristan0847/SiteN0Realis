@@ -1,6 +1,5 @@
-import { Dossier } from '@BlogsShared/model/Dossier';
 import { Blog } from '@BlogsShared/model/Blog';
-import { Message } from '@BlogsShared/model/Message';
+import { SiteVariant } from '@BlogsShared/model/Variant';
 
 /**
  * Interface de gestion de services de blogs
@@ -8,24 +7,35 @@ import { Message } from '@BlogsShared/model/Message';
 export interface I_BlogService {
 
     /**
-     * Méthode permettant de récupérer tous les dossiers du projet
-     * @return Liste des dossiers
+     * Méthode de récupération de blogs d'un dossier
+     * @param slugDossier Slug du dossier concerné
+     * @param variante Variante du site utilisée
+     * @returns Liste de blogs du dossier
      */
-    getAllDossiers(): Promise<Dossier[]>;
+    recupererBlogsDuDossier(slugDossier : string, variante : SiteVariant) : Promise<Blog[]>;
 
     /**
-     * Méthode permettant de récupérer les blogs d'un dossier
-     * @param dossierId Identifiant du dossier
-     * @return Liste des blogs du dossier
+     * Méthode de récupération de blogs à partir de slugs fournis
+     * @param slugBlog Slug du blog recherché
+     * @param slugDossier Slug du dossier contenant le blog
+     * @returns Blog enrichi
      */
-    getBlogsForDossier(dossierId: string): Promise<Blog[]>;
+    recupererBlogParSlug(slugBlog : string, slugDossier : string) : Promise<Blog>;
 
     /**
-     * Méthode permettant de récupérer les messages d'un blog
-     * @param blogId Identifiant du blog
-     * @param dossierId Identifiant du dossier
-     * @return Liste des messages du blog
+     * Méthode de création d'un blog
+     * @param nom Nom du blog
+     * @param contenuPremierMessage Contenu du premier message 
+     * @param idDossier Identifiant du dossier dans lequel le blog sera créé
      */
-    getMessagesForBlog(blogId: string, dossierId : string): Promise<Message[]>;
-        
+    creerBlog(nom : string, contenuPremierMessage : string, idDossier : string) : Promise<void>;
+
+    /**
+     * Méthode de suppression d'un blog
+     * @param idBlog Identifiant du blog à supprimer
+     * @param raisonSuppression Raison de sa suppression
+     * @param cache Si le blog supprimé est à cacher ou non
+     */
+    supprimerBlog(idBlog : string, raisonSuppression : string, cache : boolean) : Promise<void>;
+    
 }

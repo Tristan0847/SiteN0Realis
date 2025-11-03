@@ -1,4 +1,4 @@
-# Guide des commandes
+# Initialisation du projet
 
 **Node.js est nécessaire à l'exécution de ce projet, trouvez un guide d'installation ci-dessous si vous ne l'avez pas, trouvez ci-dessous les commandes à exécuter sous environnement Linux :**
 ```
@@ -8,19 +8,26 @@ sudo apt install nodejs 15.5.3
 
 ## Installation des dépendances
 
-Plusieurs dépendances sont à installer avant de pouvoir lancer le projet, exécutez donc la commande suivante avant d'exécuter n'importe quel projet : 
+Plusieurs dépendances sont à installer avant de pouvoir lancer le projet, exécutez donc la commande suivante à la racine du dépôt avant d'exécuter n'importe quel projet : 
 ```
 npm install
 ```
 
+## Configuration des projets
+
+Seul le projet Blog de Vacare est actuellement disponible, vous en trouverez le [guide d'installation au lien joint](./BlogVacare/GuideInstallation.md).
+Suivez ses instructions, puis passez à la suite pour le démarrer et l'utiliser.
+
+# Lancement et utilisation des projets
+
 ## Construction et exécution du projet
 
-Une fois le projet téléchargé, placez-vous à sa racine et exécutez la commande suivante pour le construire :
+Si vous souhaitez lancer tous les projets à la fois, placez-vous à la racine du dépôt et exécutez la commande suivante pour le construire : (Des erreurs peuvent surevnir si vous n'avez pas configuré les variables d'environnement, installé les dépendances ou configuré/lancé la Base De Données)
 ```
 npm run "build:all"
 ```
 
-Une fois le site initialisé, vous pourrez le démarrer à tout moment à l'aide de la commande : 
+Une fois les différents sites initialisés, vous pourrez les démarrer à tout moment à l'aide de la commande : 
 ```
 npm run "start:all"
 ```
@@ -40,17 +47,12 @@ Sinon, les commandes suivantes sont mises à votre disposition à la racine du p
 # Lancement du projet Blog de Vacare (front et back à la fois)
 npm run "build:BlogVacare"
 npm run "start:BlogVacare"
-npm run "buildAndStart:BlogVacare"
-
-# Lancement du projet Wiki
-npm run "build:Wiki"
-npm run "start:Wiki"
-npm run "buildAndStart:Wiki"
-
-# Lancement du projet CR
-npm run "build:CR"
-npm run "start:CR"
-npm run "buildAndStart:CR"
 ```
 
 **Si vous souhaitez arrêter vos serveurs, exécutez `Ctrl + C` au clavier sur le terminal l'ayant initialisé.**
+
+## Guide d'utilisation
+
+Vous trouverez ci-dessous le guide d'utilisation de chaque projet : 
+* [Guide d'utilisation du Blog de Vacare](./BlogVacare/GuideUtilisation.md)
+* [Guide d'utilisation de l'API du Blog de Vacare](./BlogVacare/GuideAPI.md)

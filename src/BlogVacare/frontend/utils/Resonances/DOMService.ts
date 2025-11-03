@@ -13,8 +13,8 @@ export class DOMService {
         width: 100%;
         height: 100%;
         pointer-events: none;
-        z-index: -1;
-        opacity: 0.25;
+        z-index: 0;
+        opacity: 1;
         transition: opacity 0.3 ease-out;
     `;
 
@@ -25,6 +25,7 @@ export class DOMService {
     static creerResonanceOverlay(): HTMLDivElement {
         const overlay = document.createElement('div');
         overlay.style.cssText = this.OVERLAY_STYLES;
+        overlay.id = "resonances-overlay";
         return overlay;
     }
 

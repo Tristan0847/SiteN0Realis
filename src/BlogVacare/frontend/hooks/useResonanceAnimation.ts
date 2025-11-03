@@ -1,12 +1,13 @@
 import { MoteurResonance } from '@BlogsFront/utils/Resonances/MoteurResonances';
+import { RESONANCE_PRESETS, TypeConfigResonance } from '@BlogsFront/utils/Resonances/ResonanceConfig';
 import { useEffect, useRef } from 'react';
 
 /**
  * Hook d'animation des résonances
- * @param intervalle Intervalle entre les pulsations en millisecondes (défaut: 8470ms)
- * @returns Objet contenant la référence au moteur d'animation (pour usage avancé)
+ * @param preset Preset à utiliser (moderne par défaut)
+ * @returns Objet contenant la référence au moteur d'animation
  */
-export const useResonanceAnimation = (intervalle: number = 8470) => {
+export const useResonanceAnimation = (preset: TypeConfigResonance = TypeConfigResonance.modern) => {
 
     // Moteur d'animation
     const engineRef = useRef<MoteurResonance | null>(null);
@@ -16,8 +17,11 @@ export const useResonanceAnimation = (intervalle: number = 8470) => {
         // Récupération de l'élément body
         const body = document.body;
         
+        // Récupération de la configuration
+        const config = RESONANCE_PRESETS[preset];
+
         // Création et démarrage du moteur d'animation
-        engineRef.current = new MoteurResonance(body, intervalle);
+        engineRef.current = new MoteurResonance(body, config);
         engineRef.current.start();
 
         // Fonction de nettoyage à l'arrêt
@@ -25,7 +29,7 @@ export const useResonanceAnimation = (intervalle: number = 8470) => {
             engineRef.current?.stop();
             engineRef.current = null;
         };
-    }, [intervalle]);
+    }, [preset]);
     
     return {
         engine: engineRef.current

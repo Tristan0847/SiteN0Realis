@@ -3,27 +3,31 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "node scripts/setBuildMode.js dev && next dev --turbopack -p 3002",
+    "build": "node scripts/setBuildMode.js build && next build",
+    "build:export": "node scripts/setBuildMode.js export && next build",
     "start": "next start -p 3002",
     "export" : "next export",
     "lint": "eslint"
   },
   "dependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.5.3"
+    "@headlessui/react": "*",
+    "react": "*",
+    "react-dom": "*",
+    "react-markdown": "*",
+    "next": "*",
+    "dotenv": "*"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "autoprefixer": "^10",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.3",
-    "@eslint/eslintrc": "^3"
+    "typescript": "*",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "@tailwindcss/postcss": "*",
+    "tailwindcss": "*",
+    "autoprefixer": "*",
+    "eslint": "*",
+    "eslint-config-next": "*",
+    "@eslint/eslintrc": "*"
   }
 }

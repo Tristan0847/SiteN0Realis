@@ -1,4 +1,5 @@
 import { Resonance } from "@BlogsFront/utils/Resonances/Resonance";
+import { ResonanceConfig } from "@BlogsFront/utils/Resonances/ResonanceConfig";
 
 /**
  * Gestionnaire centralisé des résonances
@@ -8,22 +9,22 @@ export class ResonanceManager {
     private resonancesActuelles: Resonance[] = [];
     // Dernière résonance créée
     private derniereResonanceTemps: number = 0;
-    // Intervalle entre deux pulsations (en ms)
-    private readonly intervalle: number;
+    // Configuration des résonances
+    private readonly config: ResonanceConfig;
 
     /**
      * Constructeur de la classe
-     * @param intervalle Délai en millisecondes entre chaque résonance
+     * @param config Configuration actuelle des résonances
      */
-    constructor(intervalle: number = 8470) {
-        this.intervalle = intervalle;
+    constructor(config : ResonanceConfig) {
+        this.config = config;
     }
 
     /**
      * Crée et ajoute une nouvelle résonance à la liste
      */
     public ajouterResonance(): void {
-        this.resonancesActuelles.push(new Resonance());
+        this.resonancesActuelles.push(new Resonance(this.config));
     }
 
     /**
@@ -48,7 +49,7 @@ export class ResonanceManager {
      * @returns true si l'intervalle de résonance est dépassé
      */
     private nouvelleResonancePossible(tempsActuel: number): boolean {
-        return tempsActuel - this.derniereResonanceTemps > this.intervalle;
+        return tempsActuel - this.derniereResonanceTemps > this.config.intervalle;
     }
 
     /**

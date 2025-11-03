@@ -3,26 +3,36 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev --turbopack -p 3001",
     "build": "next build --turbopack",
     "start": "next start -p 3001",
     "export" : "next export",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test": "vitest"
   },
   "dependencies": {
-    "react": "19.1.0",
-    "react-dom": "19.1.0",
-    "next": "15.5.3"
+    "react": "*",
+    "react-dom": "*",
+    "next": "*",
+    "bcrypt": "*",
+    "jsonwebtoken": "*",
+    "mysql2": "*",
+    "dotenv": "*",
+    "uuid": "*"
   },
   "devDependencies": {
-    "typescript": "^5",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
-    "eslint": "^9",
-    "eslint-config-next": "15.5.3",
-    "@eslint/eslintrc": "^3"
+    "c8": "*",
+    "@vitest/ui": "*",
+    "vitest": "*",
+    "typescript": "*",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "@types/bcrypt": "*",
+    "@types/jsonwebtoken": "*",
+    "@types/ms": "*",
+    "eslint": "*",
+    "eslint-config-next": "*",
+    "@eslint/eslintrc": "*"
   }
 }

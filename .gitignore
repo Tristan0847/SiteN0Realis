@@ -32,6 +32,7 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.sample
 
 # vercel
 .vercel
@@ -42,5 +43,9 @@ next-env.d.ts
 
 
 /src/BlogVacare/backend/.next
+/src/BlogVacare/backend/node_modules
+/src/BlogVacare/backend/content
 /src/BlogVacare/frontend/.next
 taches.txt
+scripts.txt
+/src/BlogVacare/frontend/out

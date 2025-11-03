@@ -1,6 +1,4 @@
-import { Footer } from '@BlogsFront/components/Footer';
-import { Header } from '@BlogsFront/components/Header';
-import FondResonanceClient from '@BlogsFront/components/FondResonances';
+
 import '@BlogsFront/styles/globals.css';
 import { Metadata } from 'next';
 
@@ -22,20 +20,10 @@ export function generateMetadata(): Metadata {
  */
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-      <html lang="fr">
-        
-      <body className="bg-neutral-light text-neutral-dark font-sans flex flex-col min-h-screen">
-          <Header/>
-
-          <FondResonanceClient/>
-
-          <main className="min-h-[70vh] p-6 mx-auto w-full max-w-8xl flex-grow">
-              {children}
-          </main>
-
-          <Footer/>
+    <html lang="fr">
+      <body className="text-neutral-dark font-sans flex flex-col min-h-screen">
+        {children}
       </body>
-
-      </html>
+    </html>
   );
 }

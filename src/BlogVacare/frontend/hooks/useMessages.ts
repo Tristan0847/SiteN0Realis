@@ -1,55 +1,53 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { I_BlogService } from '@BlogsFront/services/Interface/I_BlogService';
-import { ServiceFactory, INTERFACES } from '@BlogsFront/services/ServiceFactory';
-import type { Message } from '@BlogsShared/model/Message';
+import { ServiceFactory, INTERFACESSERVICE } from '@BlogsFront/services/ServiceFactory';
+import { useApiMutation } from '@BlogsFront/hooks/useApiMutation';
+import { I_MessageService } from '@BlogsFront/services/Interface/I_MessageService';
+import { useApiQuery } from '@BlogsFront/hooks/useApiQuery';
+import { Message } from '@BlogsShared/model/Message';
+import { SiteVariant } from '@BlogsShared/model/Variant';
+
+const messageService = ServiceFactory.get<I_MessageService>(INTERFACESSERVICE.I_MessageService);
+
 
 /**
- * Hook pour récupérer les messages d'un blog
- * @param blogId Identifiant du blog concerné
- * @param dossierId Identifiant du dossier parent
- * @returns { messages, loading, error } Objet contenant les messages, l'état de chargement et une éventuelle erreur
+ * Méthode de hook pour récupérer les dossiers du projet
+ * @param slugDossier Slug du dossier contenant le blog
+ * @param slugBlog Slug du blog contenant le message
+ * @param variante Variante du site
+ * @returns Objet contenant les dossiers, l'état de chargement et une éventuelle erreur
  */
-export function useMessages(blogId: string, dossierId: string) {
-
-    // State des messages
-    const [messages, setMessages] = useState<Message[]>([]);
-    // State indiquant si le chargement est en cours
-    const [loading, setLoading] = useState(true);
-    // State pour stocker une éventuelle erreur
-    const [error, setError] = useState<Error | null>(null);
-
-    // Execution du hook au montage du composant
-    useEffect(() => {
-        // Fonction asynchrone pour récupérer les messages
-        async function fetchMessages() {
-            setLoading(true);
-            setError(null);
-
-            try {
-                const blogService = ServiceFactory.get<I_BlogService>(INTERFACES.I_BlogService);
-                const data = await blogService.getMessagesForBlog(blogId, dossierId);
-                setMessages(data);
-            } catch (err) {
-                setError(err as Error);
-            } finally {
-                setLoading(false);
-            }
+export function useMessages(slugDossier: string, slugBlog: string, variante : SiteVariant) {
+    return useApiQuery<Message[], [string, string]>(
+        (slugDossier : string, slugBlog :string) => messageService.recupererMessagesDuBlog(slugDossier, slugBlog, variante),
+        [slugDossier, slugBlog],
+        {
+            actif: !!slugDossier && !!slugBlog
         }
+    );
+}
 
-        if (!blogId) {
-            setError(new Error('Identifiant de blog non fourni'));
-            setLoading(false);
-        }
-        else if (!dossierId) {
-            setError(new Error('Identifiant de dossier non fourni'));
-            setLoading(false);
-        }
-        else {
-            fetchMessages();
-        }
-    }, [blogId, dossierId]);
 
-    return { messages, loading, error };
+/**
+ * Hook de création d'un message
+ * @returns Méthode hook de création de message
+ */
+export function useCreerMessage() {
+    return useApiMutation(
+        async(contenu : string, idBlog: string) => {
+            await messageService.creerMessage(contenu, idBlog);
+        }
+    );
+}
+
+/**
+ * Hook de suppression d'un message
+ * @returns Méthode hook de suppression de message
+ */
+export function useSupprimerMessage() {
+    return useApiMutation(
+        async(idMessage : number, idBlog : string, raisonSuppression : string, cache : boolean) => {
+            await messageService.supprimerMessage(idMessage, idBlog, raisonSuppression, cache);
+        }
+    )
 }

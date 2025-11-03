@@ -1,22 +1,36 @@
+import { Utilisateur } from "@BlogsShared/model/Utilisateur";
+import { ElementSupprime } from "@BlogsShared/model/ElementSupprime";
+
+/**
+ * Type de props pour les messages JSON préchargés
+ */
+export type MessageJSON = ReturnType<Message['toJSON']>;
+
 /**
  * Classe représentant un message dans le blog.
  */
 export class Message {
 
-    private contenu: string;
-    private date: Date;
-    private utilisateur: string;
+    private id : number = -1;
+    private contenu: string = "";
+    private date: Date = new Date();
+    private utilisateur: Utilisateur = new Utilisateur();
+    private elementSupprime : ElementSupprime|null = null;
 
     /**
-     * Constructeur de la classe Message.
-     * @param contenu Contenu du message.
-     * @param date Date du message.
-     * @param utilisateur Utilisateur ayant posté le message.
+     * Getter de l'identifiant
+     * @returns 
      */
-    constructor(contenu?: string, date?: string | Date, utilisateur?: string) {
-        this.contenu = contenu || '';
-        this.date = date ? (typeof date === 'string' ? new Date(date) : date) : new Date();
-        this.utilisateur = utilisateur || '';
+    getId(): number {
+        return this.id;
+    }
+
+    /**
+     * Setter de l'identifiant
+     * @param id Identifiant du dossier
+     */
+    setId(id: number): void {
+        this.id = id;
     }
 
     /**
@@ -55,7 +69,7 @@ export class Message {
      * Getter de l'utilisateur ayant posté le message
      * @returns 
      */
-    getUtilisateur(): string {
+    getUtilisateur(): Utilisateur {
         return this.utilisateur;
     }
 
@@ -63,7 +77,55 @@ export class Message {
      * Setter de l'utilisateur ayant posté le message
      * @param utilisateur 
      */
-    setUtilisateur(utilisateur: string): void {
+    setUtilisateur(utilisateur: Utilisateur): void {
         this.utilisateur = utilisateur;
+    }
+
+    /**
+     * Getter de si l'élément est supprimé
+     * @returns 
+     */    
+    public getElementSupprime(): ElementSupprime | null {
+        return this.elementSupprime;
+    }
+
+    /**
+     * Setter de si l'élément est supprimé
+     * @param value 
+     */
+    public setElementSupprime(value: ElementSupprime | null) {
+        this.elementSupprime = value;
+    }
+    
+
+    /**
+     * Méthode de génération d'un objet JSON à partir de l'objet actuel
+     * @returns JSON généré
+     */
+    toJSON() {
+        return {
+            id: this.id,
+            contenu: this.contenu,
+            date: this.date.toISOString(),
+            utilisateur: this.utilisateur.toJSON(),
+            elementSupprime: this.elementSupprime?.toJSON() ?? null
+        };
+    }
+
+    /**
+     * Méthode de création d'un objet message à partir d'un JSON
+     * @param json JSON du messa
+     * @returns Message créé
+     */
+    static fromJSON(json: MessageJSON): Message {
+        let message = new Message();
+        message.setId(json.id);
+        message.setContenu(json.contenu);
+        message.setDate(new Date(json.date));
+        message.setUtilisateur(Utilisateur.fromJSON(json.utilisateur));
+        if (json.elementSupprime) {
+            message.setElementSupprime(ElementSupprime.fromJSON(json.elementSupprime));
+        }
+        return message;
     }
 }
