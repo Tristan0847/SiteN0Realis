@@ -1,8 +1,7 @@
 'use client';
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 import { createContext, useContext, ReactNode } from 'react';
-
-export type SiteVariant = 'modern' | 'old';
 
 const VariantContext = createContext<SiteVariant>('modern');
 

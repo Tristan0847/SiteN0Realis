@@ -1,4 +1,4 @@
-import { SiteVariant } from "@BlogsFront/contexts/VariantContext";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 /**
  * Helper pour récupérer les classes CSS selon la variante du site, permet aussi de centraliser les styles du site

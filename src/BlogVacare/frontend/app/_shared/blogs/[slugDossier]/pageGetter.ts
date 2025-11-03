@@ -1,4 +1,4 @@
-import { SiteVariant } from "@BlogsFront/contexts/VariantContext";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 import { getRouteBlogsForDossier } from "@BlogsFront/lib/routes-config";
 import { BlogJSON } from "@BlogsShared/model/Blog";
 

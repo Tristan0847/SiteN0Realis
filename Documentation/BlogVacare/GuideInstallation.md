@@ -15,7 +15,13 @@ Remplacez [next.config.ts](../../src/BlogVacare/frontend/next.config.ts) par le 
 Dans le [fichier de variables d'environnement](../../src/BlogVacare/frontend/.env.sample), modifiez **NEXT_PUBLIC_NEXT_ENV** de la façon suivante : 
 ``NEXT_PUBLIC_NEXT_ENV=export```
 
-Enfin, exécutez la commande suivante [à la racine du projet frontend](../../src/BlogVacare/frontend) :
+Initialisez dans un premier lieu le backend en vous plaçant [à la racine de celui-ci](../../src/BlogVacare/backend/) et en exécutant la commande suivante : 
+```
+npm run build
+npm run start
+```
+
+Enfin, dans un terminal différent, exécutez la commande suivante [à la racine du projet frontend](../../src/BlogVacare/frontend) :
 ```npm run build```
 
 Votre projet devrait ensuite se trouver dans un dossier **out** sous forme de pages HTML.

@@ -6,7 +6,7 @@ import type { Message } from '@BlogsShared/model/Message';
 import { I_DossierService } from '@BlogsFront/services/Interface/I_DossierService';
 import { I_MessageService } from '@BlogsFront/services/Interface/I_MessageService';
 import { filtrerElements } from '@BlogsFront/app/_shared/pageMethodes';
-import { SiteVariant } from '@BlogsFront/contexts/VariantContext';
+import { SiteVariant } from "@BlogsShared/model/Variant";
 
 /**
  * Interface de structuration des routes

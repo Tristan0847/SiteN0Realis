@@ -1,4 +1,4 @@
-import { SiteVariant } from "@BlogsFront/contexts/VariantContext";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 import { ElementSupprime } from "@BlogsShared/model/ElementSupprime";
 
 /**

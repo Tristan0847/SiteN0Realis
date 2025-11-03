@@ -1,4 +1,4 @@
-import { SiteVariant } from "@BlogsFront/contexts/VariantContext";
+import { SiteVariant } from "@BlogsShared/model/Variant";
 import { getRouteMessages } from "@BlogsFront/lib/routes-config";
 import { MessageJSON } from "@BlogsShared/model/Message";
 
