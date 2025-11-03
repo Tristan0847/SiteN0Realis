@@ -38,6 +38,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
         );
     }
     catch (error) {
+        console.error("[Erreur API]", error);
         return NextResponse.json(
             { error: "Erreur lors de la création du blog, veuillez renseigner au moins un titre au blog" },
             { status: 500 }

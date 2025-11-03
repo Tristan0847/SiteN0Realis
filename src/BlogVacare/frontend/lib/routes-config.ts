@@ -6,7 +6,6 @@ import type { Message } from '@BlogsShared/model/Message';
 import { I_DossierService } from '@BlogsFront/services/Interface/I_DossierService';
 import { I_MessageService } from '@BlogsFront/services/Interface/I_MessageService';
 import { SiteVariant } from "@BlogsShared/model/Variant";
-import { useVariant } from '@BlogsFront/contexts/VariantContext';
 
 /**
  * Interface de structuration des routes
@@ -45,7 +44,7 @@ export async function getAllRoutes(variante : SiteVariant) {
           const blogs = await blogService.recupererBlogsDuDossier(dossier.getSlug(), variante);
           return { dossier, blogs };
         } catch (error) {
-          console.log(`Erreur lors de la recherche de blogs pour le dossier ${dossier.getSlug()}`);
+          console.error(`Erreur lors de la recherche de blogs pour le dossier ${dossier.getSlug()} ` + error);
           return { dossier, blogs: [] };
         }
       })
@@ -59,7 +58,7 @@ export async function getAllRoutes(variante : SiteVariant) {
             const messages = await messageService.recupererMessagesDuBlog(dossier.getSlug(), blog.getSlug(), variante);
             return {slugDossier: dossier.getSlug(), slugBlog: blog.getSlug(), messages};
           } catch (error) {
-            console.log(`Erreur lors de la récupération de messages pour le blog ${blog.getSlug()}:`, error);
+            console.error(`Erreur lors de la récupération de messages pour le blog ${blog.getSlug()}:`, error);
             return {slugDossier: dossier.getSlug(), slugBlog: blog.getSlug(), messages: []};
           }
         })
@@ -68,7 +67,7 @@ export async function getAllRoutes(variante : SiteVariant) {
 
     return {dossiers, routesWithBlogs, routesCompletes};
   } catch (error) {
-    console.log('Erreur lors de la récupération des routes du projet : ', error);
+    console.error('Erreur lors de la récupération des routes du projet : ', error);
     return { dossiers: [], routesWithBlogs: [], routesCompletes: [] };
   }
 }
@@ -94,7 +93,7 @@ export async function getDossierBlogsParams(variante : SiteVariant) {
 
     return params;
   } catch (error) {
-    console.error('Erreur lors de la récupération de paramètres pour les blogs (getDossierBlogsParams)');
+    console.error('Erreur lors de la récupération de paramètres pour les blogs (getDossierBlogsParams).' + error);
     return [];
   }
 }
@@ -114,7 +113,7 @@ export async function getMessagesParams(variante : SiteVariant) {
 
     return params;
   } catch (error) {
-    console.error('Erreur lors de la récupération de paramètres pour les messages (getMessagesParams)');
+    console.error('Erreur lors de la récupération de paramètres pour les messages (getMessagesParams). ' + error);
     return [];
   }
 }
@@ -131,7 +130,7 @@ export async function getRouteData(slugDossier: string, slugBlog: string, varian
       (route) => route.slugDossier === slugDossier && route.slugBlog === slugBlog
     );
   } catch (error) {
-    console.error('Erreur lors de la récupération de données d\'une route (getRouteData) pour :' + slugDossier + "/" + slugBlog);
+    console.error('Erreur lors de la récupération de données d\'une route (getRouteData) pour :' + slugDossier + "/" + slugBlog + ". " + error);
     return null;
   }
 }
@@ -147,7 +146,7 @@ export async function getRouteDossiers(variante : SiteVariant) : Promise<Dossier
     
     return dossiers;
   } catch (error) { 
-    console.error('Erreur lors de la récupération des dossiers (getRouteDossiers)');
+    console.error('Erreur lors de la récupération des dossiers (getRouteDossiers). ' + error);
     return [];
   }
 }
@@ -172,7 +171,7 @@ export async function getRouteMessages(slugDossier: string, slugBlog: string, va
 
     return messages;
   } catch (error) {
-    console.error('Erreur lors de la récupération de messages pour une route (getRouteMessages) pour :' + slugDossier + "/" + slugBlog);
+    console.error('Erreur lors de la récupération de messages pour une route (getRouteMessages) pour :' + slugDossier + "/" + slugBlog + ". " + error);
     return [];
   }
 }
@@ -194,7 +193,7 @@ export async function getRouteBlogsForDossier(slugDossier: string, variante : Si
 
     return blogs;
   } catch (error) {
-    console.error('Erreur lors de la récupération de blogs pour un dossier (getRouteBlogsForDossier) pour : ' + slugDossier);
+    console.error('Erreur lors de la récupération de blogs pour un dossier (getRouteBlogsForDossier) pour : ' + slugDossier + ". " + error);
     return [];
   }
 }

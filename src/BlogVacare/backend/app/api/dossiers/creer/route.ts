@@ -37,6 +37,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
         );
     }
     catch (error) {
+        console.error("[Erreur API]", error);
         return NextResponse.json(
             { error: "Erreur lors de la création du dossier, veuillez renseigner au moins un titre à celui-ci" },
             { status: 500 }

@@ -30,6 +30,7 @@ export async function GET(request: NextRequest) {
     });
     
   } catch (error) {
+    console.error("[Erreur API]", error);
     return NextResponse.json(
       { error: 'Vous n\'êtes plus authentifié, veuillez vous reconnecter' },
       { status: 401 }

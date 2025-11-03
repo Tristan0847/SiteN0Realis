@@ -37,6 +37,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
         );
     }
     catch (error) {
+        console.error("[Erreur API]", error);
         return NextResponse.json(
             { error: "Erreur lors de la création du message, veuillez entrer un contenu à celui-ci" },
             { status: 500 }

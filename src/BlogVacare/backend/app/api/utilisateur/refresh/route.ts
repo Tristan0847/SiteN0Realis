@@ -40,6 +40,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
         return reponse;
     }
     catch (error) {
+        console.error("[Erreur API]", error);
 
         const reponse = NextResponse.json(
             { error : "Erreur lors du rafraîchissement du token" },

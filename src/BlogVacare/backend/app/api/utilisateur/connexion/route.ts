@@ -38,6 +38,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
         return reponse;
     }
     catch (error) {
+        console.error("[Erreur API]", error);
         return NextResponse.json(
             { error : "Connexion échouée, entrez le bon nom d'utilisateur et le bon mot de passe" },
             { status: 401 }

@@ -76,7 +76,7 @@ export function MessageItem({ message, suppressionHandler }: MessageItemProps) {
                             <div className={`${styles.messageContenu} mt-3 opacity-90`}>
                                 <ReactMarkdown
                                     components={{
-                                        a: ({node, ...props}) => (
+                                        a: ({...props}) => (
                                             <a {...props} className="underline hover:font-bold" target='_blank' rel="noopener noreferrer" />
                                         )
                                     }}>
@@ -89,7 +89,7 @@ export function MessageItem({ message, suppressionHandler }: MessageItemProps) {
                     <div className={styles.messageContenu}>
                         <ReactMarkdown
                                     components={{
-                                        a: ({node, ...props}) => (
+                                        a: ({...props}) => (
                                             <a {...props} className="underline hover:font-bold" target='_blank' rel="noopener noreferrer" />
                                         )
                                     }}>

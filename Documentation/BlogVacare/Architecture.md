@@ -9,6 +9,7 @@ __**API REST, servant à la logique de l'application**__
 - **[utils](../../src/BlogVacare/backend/utils/)** : Helpers réutilisables (hachage de mot de passe, JWT, ...)
 - **[DAO](../../src/BlogVacare/backend/DAO/)** : Package d'interaction avec la base de données du projet
 - **[config](../../src/BlogVacare/backend/config/)** : Package de configuration de bases de données du projet
+- **[tests](../../src/BlogVacare/backend/tests/)** : Package de configuration des tests unitaires
 
 ## Front-end
 
@@ -19,6 +20,7 @@ __**Visuels du site récupérant les données de l'API**__
 - **[hooks](../../src/BlogVacare/frontend/hooks/)** : permet d'appeler des données à récupérer depuis des services et de les mettre en forme ou de les réarranger pour une utilisation en components
 - **[services](../../src/BlogVacare/frontend/services/)** : Interactions avec un back permettant de récupérer les données demandées par le front (appels API, appels du back-end,...)
 - **[utils](../../src/BlogVacare/frontend/utils/)** : Helpers réutilisables (résonances en fond de page)
+- **[lib](../../src/BlogVacare/frontend/lib/)** : Utils de génération/configuration (routes statiques, styles et variantes du site)
 
 - **[public/assets](../../src/BlogVacare/frontend/public/assets/)** : Images, sons, vidéos, ... contenu statique du site
 - **[styles](../../src/BlogVacare/frontend/styles/)** : CSS, XCSS, ...

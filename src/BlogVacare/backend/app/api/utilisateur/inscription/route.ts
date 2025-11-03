@@ -38,6 +38,7 @@ export async function POST(request : NextRequest) : Promise<NextResponse> {
         return reponse;
     }
     catch (error) {
+        console.error("[Erreur API]", error);
         return NextResponse.json(
             { error : "Paramètres d'inscription invalides, veuillez à bien respecter les conditions de mot de passe" },
             { status: 401 }

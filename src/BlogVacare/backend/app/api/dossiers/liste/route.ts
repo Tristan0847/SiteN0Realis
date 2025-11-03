@@ -39,6 +39,7 @@ export async function POST(request: NextRequest) {
     }
     // En cas d'erreur
     catch (error) {
+        console.error("[Erreur API]", error);
         // On retourne une réponse d'erreur avec le message
         return NextResponse.json(
             { error: "Erreur lors de la récupération des dossiers du projets" },
