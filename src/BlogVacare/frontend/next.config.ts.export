@@ -7,6 +7,10 @@ const nextConfig: NextConfig = {
   // Pas d'optimisation des images en export statique
   images: {
     unoptimized: true,
+  },
+  
+  env: {
+    NEXT_BUILD_MODE: "export"
   }
 };
 

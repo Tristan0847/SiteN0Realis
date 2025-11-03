@@ -10,7 +10,7 @@ import { SiteVariant } from "@BlogsShared/model/Variant";
 export async function getDossiersPrecharges(variante : SiteVariant) : Promise<DossierJSON[]> {
 
     let dossiersSerialises : DossierJSON[] = [];
-    const mode = process.env.NEXT_PUBLIC_NEXT_ENV;
+    const mode = process.env.NEXT_BUILD_MODE;
     if (mode == 'export') {
       const dossiersPrecharges = await getRouteDossiers(variante);
       dossiersSerialises = dossiersPrecharges.map(dossier => dossier.toJSON());

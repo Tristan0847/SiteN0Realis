@@ -12,7 +12,7 @@ import { SiteVariant } from "@BlogsShared/model/Variant";
 export async function getMessagesPrecharges(slugDossier : string, slugBlog : string, variante : SiteVariant) : Promise<MessageJSON[]> {
 
     let messagesSerialises : MessageJSON[] = [];
-    const mode = process.env.NEXT_PUBLIC_NEXT_ENV;
+    const mode = process.env.NEXT_BUILD_MODE;
     if (mode == 'export') {
         const messagesPrecharges = await getRouteMessages(slugDossier, slugBlog, variante);
         messagesSerialises = messagesPrecharges.map(message => message.toJSON());
