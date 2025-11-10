@@ -47,5 +47,6 @@ next-env.d.ts
 /src/BlogVacare/backend/content
 /src/BlogVacare/frontend/.next
 taches.txt
+taches.md
 scripts.txt
 /src/BlogVacare/frontend/out
