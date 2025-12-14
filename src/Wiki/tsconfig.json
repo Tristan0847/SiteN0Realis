@@ -1,0 +1,22 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true,
+    "paths": {
+      "@Wiki/*": [
+        "../Wiki/*"
+      ],
+      "contentlayer2/generated": [
+        "./.contentlayer/generated"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".contentlayer/generated"
+  ]
+}

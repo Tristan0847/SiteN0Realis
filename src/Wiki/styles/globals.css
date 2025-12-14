@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+
+@theme {
+  --color-primary-light: #B8F5D1;
+  --color-primary: #12B74E;
+  --color-primary-dark: #0F9F43;
+  --color-neutral-light: #f3f4f6;
+  --color-neutral: #6b7280;
+  --color-neutral-dark: #374151;
+}
+
+/* Styles des liens de titres */
+.prose h1 a,
+.prose h2 a,
+.prose h3 a,
+.prose h4 a,
+.prose h5 a,
+.prose h6 a {
+  color: inherit !important;
+  text-decoration: none !important;
+  pointer-events: none;
+}
+
+.prose h1 a:hover,
+.prose h2 a:hover,
+.prose h3 a:hover,
+.prose h4 a:hover {
+  color: inherit !important;
+  text-decoration: none !important;
+}
