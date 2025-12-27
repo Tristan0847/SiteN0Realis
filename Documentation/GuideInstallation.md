@@ -15,21 +15,16 @@ npm install
 
 ## Configuration des projets
 
-Seul le projet Blog de Vacare est actuellement disponible, vous en trouverez le [guide d'installation au lien joint](./BlogVacare/GuideInstallation.md).
+Seul le projet Blog de Vacare nécessite actuellement de réelles configurations, vous en trouverez le [guide d'installation au lien joint](./BlogVacare/GuideInstallation.md).
 Suivez ses instructions, puis passez à la suite pour le démarrer et l'utiliser.
 
 # Lancement et utilisation des projets
 
 ## Construction et exécution du projet
 
-Si vous souhaitez lancer tous les projets à la fois, placez-vous à la racine du dépôt et exécutez la commande suivante pour le construire : (Des erreurs peuvent surevnir si vous n'avez pas configuré les variables d'environnement, installé les dépendances ou configuré/lancé la Base De Données)
+Si vous souhaitez lancer tous les projets à la fois, placez-vous à la racine du dépôt et exécutez la commande suivante pour les gérer : (Des erreurs peuvent surevnir si vous n'avez pas configuré les variables d'environnement, installé les dépendances ou configuré/lancé la Base De Données)
 ```
-npm run "build:all"
-```
-
-Une fois les différents sites initialisés, vous pourrez les démarrer à tout moment à l'aide de la commande : 
-```
-npm run "start:all"
+npm run "dev:all"
 ```
 
 **Si vous souhaitez arrêter vos serveurs, exécutez `Ctrl + C` au clavier sur le terminal l'ayant initialisé.**
@@ -56,3 +51,4 @@ npm run "start:BlogVacare"
 Vous trouverez ci-dessous le guide d'utilisation de chaque projet : 
 * [Guide d'utilisation du Blog de Vacare](./BlogVacare/GuideUtilisation.md)
 * [Guide d'utilisation de l'API du Blog de Vacare](./BlogVacare/GuideAPI.md)
+* [Guide d'utilisation de l'Oeil de l'Occulte](./Wiki/GuideUtilisation.md)

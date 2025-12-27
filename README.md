@@ -17,7 +17,7 @@ Le dernier pardon, le renoncement originel.
 
 Ce projet Next.js en comprend 3 différents regroupés sous le même nom de domaine (https://BlogVacare.com) : 
 * [Blog Vacare](./Documentation/BlogVacare/Architecture.md) : Page de blogs multi-utilisateurs, divisée en un [projet back-end](./src/BlogVacare/backend/), un [projet front-end](./src/BlogVacare/frontend/) et un [projet partagé](./src/BlogVacare/shared/)
-* Wiki : À venir
+* [Wiki / Oeil de l'Occulte](./Documentation/Wiki/Architecture.md) : Site de lecture d'articles rédigés au format MDX au préalable
 * CR : À venir
 
 # Index de documentation
@@ -31,3 +31,6 @@ Documentation et guides des projets :
   * [Guide d'utilisation du Blog de Vacare](./Documentation/BlogVacare/GuideUtilisation.md)
   * [Guide d'utilisation de l'API du Blog de Vacare](./Documentation/BlogVacare/GuideAPI.md)
   * [Configuration MySQL](./Documentation/BlogVacare/BDD/MySQL.md) ~ [Tests unitaires MySQL](./Documentation/BlogVacare/BDD/TestsUnitairesMySQL.md)
+- **Documentation Oeil de l'Occulte** :
+  * [Architecture du Wiki](./Documentation/Wiki/Architecture.md)
+  * [Guide d'utilisation](./Documentation/Wiki/GuideUtilisation.md)

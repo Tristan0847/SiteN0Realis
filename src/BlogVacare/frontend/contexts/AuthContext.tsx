@@ -28,6 +28,17 @@ export function AuthProvider({ children } : { children: ReactNode}) {
     const { refetch: fetchUtilisateur } = useRecupererUtilisateurConnecte();
 
     const verifierAuth = async () => {
+        const mode = process.env.NEXT_BUILD_MODE;
+
+        // Si on est en mode export, on a pas besoin de vérifier l'authentification
+        if (mode == 'export') {
+            setChargement(false);
+            setUtilisateur(null);
+            setEstConnecte(false);
+
+            return { succes: true }
+        }
+        
         try {
             setChargement(true);
 
@@ -56,6 +67,7 @@ export function AuthProvider({ children } : { children: ReactNode}) {
         finally {
             setChargement(false);
         }
+        
     }
 
     // Exécution de la vérification à la création du provider
