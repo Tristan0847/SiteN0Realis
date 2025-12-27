@@ -43,4 +43,4 @@ export async function generateStaticParams() {
   return await getMessagesParams("modern");
 }
 // Active les paramètres dynamiques
-export const dynamicParams = false;
+export const dynamicParams = true;

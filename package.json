@@ -13,9 +13,9 @@
     "build:BlogVacare": "npm run build --workspace src/BlogVacare/backend && npm run build --workspace src/BlogVacare/frontend",
     "start:BlogVacare": "concurrently \"npm run start --workspace src/BlogVacare/backend\" \"npm run start --workspace src/BlogVacare/frontend\"",
     "dev:BlogVacare": "concurrently \"npm run dev --workspace src/BlogVacare/backend\" \"npm run dev --workspace src/BlogVacare/frontend\"",
-    "build:all": "npm run build --workspace src/BlogVacare/backend && npm run build --workspace src/BlogVacare/frontend",
-    "start:all": "concurrently \"npm run start --workspace src/BlogVacare/backend\" \"npm run start --workspace src/BlogVacare/frontend\"",
-    "dev:all": "concurrently \"npm run dev --workspace src/BlogVacare/backend\" \"npm run dev --workspace src/BlogVacare/frontend\""
+    "build:all": "npm run build --workspace src/BlogVacare/backend && npm run build --workspace src/BlogVacare/frontend && npm run build --workspace src/Wiki",
+    "start:all": "concurrently \"npm run start --workspace src/BlogVacare/backend\" \"npm run start --workspace src/BlogVacare/frontend\" \"npm run start --workspace src/Wiki\"",
+    "dev:all": "concurrently \"npm run dev --workspace src/BlogVacare/backend\" \"npm run dev --workspace src/BlogVacare/frontend\" \"npm run dev --workspace src/Wiki\""
   },
   "dependencies": {
     "@dagrejs/dagre": "^1.1.8",
