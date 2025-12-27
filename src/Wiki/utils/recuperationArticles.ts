@@ -38,16 +38,16 @@ export function recupererRelationsDeArticle(article : Article) : Article[] {
         for (const relation of article.relations.explicit) {
             // On cherche les articles qui sont dans une relation de l'article actuel
             const articleLie = allArticles.find(a => a.slug === relation.slug);
-            if (articleLie) {
+            if (articleLie && !articleLie.cache) {
                 relationsRecuperees.push(articleLie);
             }
         }
     }
     // Recherche des articles qui référencent l'article actuel
     for (const autreArticle of allArticles) {
-        if (autreArticle.relations && autreArticle.relations.explicit) {
+        if (!autreArticle.cache && autreArticle.relations && autreArticle.relations.explicit) {
             for (const relation of autreArticle.relations.explicit) {
-                if (relation.slug === article.slug) {
+                if (relation.slug === article.slug && !relation.cache) {
                     relationsRecuperees.push(autreArticle);
                 }
             }

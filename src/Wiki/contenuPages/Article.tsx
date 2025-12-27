@@ -23,9 +23,8 @@ export function PageArticle({ article } : PageArticleProps) {
 
     // État ouvert/fermé de la table des matières
     const tableDesMatieresExistante = article.headings && article.headings.length > 0;
-    const [estOuvert, setEstOuvert] =  useState<boolean>(tableDesMatieresExistante);
-
-    
+    const [estOuvert, setEstOuvert] =  useState<boolean>(false);
+ 
     return (
         <div className="min-h-screen bg-gray-900">
             {tableDesMatieresExistante && (

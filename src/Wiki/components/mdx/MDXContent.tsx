@@ -7,6 +7,8 @@ import { ArbreGenealogique } from "@Wiki/components/Wiki/ArbreGenealogique";
 import { ComposantsCustom } from "@Wiki/components/Wiki/ComposantsCustom";
 import { NDA } from "@Wiki/components/Wiki/NDA";
 import { ImageFlottante, SectionAvecImageFlottante } from "@Wiki/components/Wiki/ImageFlottante";
+import { ImageCustom } from "../Wiki/Image";
+import { Audio } from "../Wiki/Audio";
 
 /**
  * Props pour le composant MDXContent
@@ -22,7 +24,8 @@ const components = {
     NDA,
     ArticlesLies,
     ArbreGenealogique,
-    ImageFlottante, SectionAvecImageFlottante,
+    ImageFlottante, SectionAvecImageFlottante, ImageCustom,
+    Audio,
     
     // Titres personnalisés
     ...ComposantsCustom

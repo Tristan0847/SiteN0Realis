@@ -1,13 +1,26 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 
+/**
+ * Props de base pour chaque composant, contenant les noeuds enfants et un id possible (utile pour les headers)
+ */
 interface BaseProps {
     children: string | ReactNode;
     id?: string;
 }
 
+/**
+ * Props pour les URL dont la source doit être fournie
+ */
 interface LinkProps extends BaseProps {
     href: string;
+}
+
+/**
+ * Props pour les éléments à qui on veut attribuer un style différent
+ */
+interface StyleProps extends BaseProps {
+    className : string;
 }
 
 // Composants de titres
@@ -68,6 +81,18 @@ export const P = ({ children }: BaseProps) => (
         {children}
     </p>
 );
+
+/**
+ * Composant pour le gros texte
+ * @param children Contenu du texte
+ * @param className Taille du texte
+ * @returns 
+ */
+export const GrosTexte = ({ children, className = "text-xl"} : StyleProps) => (
+    <span className= { className }>
+        { children }
+    </span>
+)
 
 /**
  * composant pour centrer le contenu
@@ -204,5 +229,6 @@ export const ComposantsCustom = {
     code: Code,
     pre: Pre,
     strong: Strong,
-    em: Em
+    em: Em,
+    GrosTexte: GrosTexte
 };

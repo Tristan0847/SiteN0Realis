@@ -30,9 +30,9 @@ const edgeTypes = {
 
 // Variables D3-force
 // Variable définissant la distance entre 2 noeuds
-const DISTANCE_ENTRE_NOEUDS = 100;
+const DISTANCE_ENTRE_NOEUDS = 10;
 // Force de distance globale
-const FORCE_DISTANCE = 0.7;
+const FORCE_DISTANCE = 0.5;
 // Force de répulsion entre les noeuds
 const FORCE_REPULSION = -40;
 // Force de collision entre les noeuds

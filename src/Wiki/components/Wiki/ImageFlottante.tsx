@@ -8,7 +8,7 @@ import { ReactNode } from "react";
 interface ImageFlottanteProps {
     src: string;
     alt: string;
-    position?: "left" | "right";
+    position?: "left" | "right" | "";
     width?: string;
 }
 
@@ -21,7 +21,10 @@ interface ImageFlottanteProps {
  * @returns Composant ImageFlottante
  */
 export function ImageFlottante ({ src, alt, position = "right", width = "300px" }: ImageFlottanteProps) {
-    const floatClass = position === "left" ? "float-left mr-6" : "float-right ml-6";
+    let floatClass = "";
+    if (position !== "") {
+        floatClass = position === "left" ? "float-left mr-6" : "float-right ml-6";
+    }
     
     return (
         <figure className={`${floatClass} mb-4 border border-gray-600 rounded-lg bg-gray-800 shadow-lg`} style={{ width }}>

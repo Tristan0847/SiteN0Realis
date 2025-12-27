@@ -53,6 +53,9 @@ next-env.d.ts
 /src/Wiki/public/assets/articles
 /src/Wiki/public/assets/journal antiR
 /src/Wiki/contenuPages/JournalAntiR
+/src/Wiki/public/assets/journal Rat
+/src/Wiki/contenuPages/JournalRat
 /src/Wiki/app/journal-d-anti-r
+/src/Wiki/app/journal-du-rat
 /src/Wiki/out
 /brouillon
