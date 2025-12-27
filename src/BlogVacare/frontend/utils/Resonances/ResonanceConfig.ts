@@ -22,7 +22,8 @@ export interface ResonanceConfig {
 
 export enum TypeConfigResonance {
     old = "old",
-    modern = "modern"
+    modern = "modern",
+    vacare = "vacare"
 }
 
 /**
@@ -51,5 +52,16 @@ export const RESONANCE_PRESETS: Record<TypeConfigResonance, ResonanceConfig> = {
         couleurs: ['186, 179, 194', '144, 155, 161'],
         direction: 'horizontal',
         intensiteEcho:0.65
+    },
+    vacare: {
+        intervalle: 4700,
+        duree: 8470,
+        opaciteMax: 0.87,
+        positionCentre: 50,
+        tailleResonance: 87,
+        // Résonances blanches
+        couleurs: ['187, 187, 187'],
+        direction: 'horizontal',
+        intensiteEcho:0.75
     }
 };

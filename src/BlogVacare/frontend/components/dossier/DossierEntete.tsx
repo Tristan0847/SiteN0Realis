@@ -26,7 +26,7 @@ export function DossierEntete() {
     <section className="mx-auto px-4">
       <div className="text-center mb-10">
         <h1 className="text-6xl font-extrabold text-primary-dark drop-shadow-md leading-tight">
-          Bienvenue sur le Blog de Vacare
+          Bienvenue sur le Blog de <Link href="/vacare" className="text-primary-dark/40 hover:bg-green-800/10 hover:text-primary-dark/90 transition">Vacare</Link>
         </h1>
         <p className="mt-4 max-w-xl mx-auto text-lg text-neutral-700 leading-relaxed px-2">
           <Link href="/old" className="underline hover:bg-green-800 hover:text-white">Anciennement</Link> blog de Vince et de son meilleur ami, ce forum est aujourd&apos;hui celui de Vacare et, par conséquent, de <strong>N0Realis</strong>.<br/>
