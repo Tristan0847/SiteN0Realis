@@ -4,7 +4,8 @@ import { PageVacareArrive } from "./pageclient";
 export async function generateMetadata(): Promise<Metadata> {
 
     return {
-        title: `Vacare arrive.`,
+        title: `Dernier avertissement`,
+        description: '2c6f 4qn jel 7bhlcbh 8pbhrcpicgbdr. F7 5mcp fpi978ck4, j8 Gke8j4ln A4phf4p mbh8 lbdbo.'
     };
 }
 
