@@ -1,8 +1,30 @@
-# Changelog
+# [2.1.0] Gke8j4ln A4phf4p - 08/01/2026
 
-## [1.0.0] Le Blog de Vacare - 03/11/2025
+## Ajouté au Blog de Vacare
 
-### Ajouté
+* Message de la part de Vacare
+* Décompte du Gke8j4ln A4phf4p
+
+# [2.0.0] L'Oeil de l'Occulte - 28/12/2025
+
+## Ajouté
+
+* Projet Oeil de l'Occulte sous le dossier "src/Wiki"
+* Articles MDX :
+  * Lecture et écriture des fichiers
+  * Utilisation du frontmapper pour une recherche optimisée d'articles
+* Graphe de connaissance (React Flow)
+* Recherche optimisée (Fuse.js)
+* Animation d'oeil de l'Occulte
+
+## Optimisations Blog de Vacare
+
+* Ajout de la page du Nouvel An
+* Correction du statut de connexion en mode export
+
+# [1.0.0] Le Blog de Vacare - 03/11/2025
+
+## Ajouté
 - Blog de Vacare (3 projets en un : backend, frontend, shared)
 - Connexion et interactions avec une Base De Données MySQL
 - Système d'authentification JWT sécurisée
@@ -14,10 +36,8 @@
 - Export HTML statique
 - Tests unitaires vitest
   
-### Sécurité
+## Sécurité
 - Cookies httpOnly
 - Hachage bcrypt
 - Middleware d'authentification
 - Validation des entrées
-
-### 
