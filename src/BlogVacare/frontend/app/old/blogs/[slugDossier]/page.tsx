@@ -42,4 +42,4 @@ export async function generateStaticParams() {
   return await getDossierBlogsParams("old");
 }
 // Active les paramètres dynamiques
-export const dynamicParams = true;
+export const dynamicParams = false;
