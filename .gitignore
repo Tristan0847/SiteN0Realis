@@ -58,4 +58,14 @@ next-env.d.ts
 /src/Wiki/app/journal-d-anti-r
 /src/Wiki/app/journal-du-rat
 /src/Wiki/out
+
+/src/Rats/.next
+/src/Rats/out
 /brouillon
+!/src/Rats/app/layout.tsx
+/src/Rats/app/page.tsx
+/src/Rats/app/dossiers/*
+!/src/Rats/app/dossiers/layout.tsx
+/src/Rats/contenuPages
+/src/Rats/public/assets/*
+!/src/Rats/public/assets/SourceSans3-Regular.ttf

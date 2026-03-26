@@ -1,0 +1,29 @@
+{
+  "name": "rats",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "export": "next export",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "bcryptjs" : "*",
+    "react": "*",
+    "react-dom": "*",
+    "next": "*"
+  },
+  "devDependencies": {
+    "typescript": "*",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "@tailwindcss/postcss": "*",
+    "tailwindcss": "*",
+    "autoprefixer": "*",
+    "eslint": "*",
+    "eslint-config-next": "*",
+    "@eslint/eslintrc": "*"
+  }
+}

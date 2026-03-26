@@ -18,6 +18,7 @@ Le dernier pardon, le renoncement originel.
 Ce projet Next.js en comprend 3 différents regroupés sous le même nom de domaine (https://BlogVacare.com) : 
 * [Blog Vacare](./Documentation/BlogVacare/Architecture.md) : Page de blogs multi-utilisateurs, divisée en un [projet back-end](./src/BlogVacare/backend/), un [projet front-end](./src/BlogVacare/frontend/) et un [projet partagé](./src/BlogVacare/shared/)
 * [Wiki / Oeil de l'Occulte](./Documentation/Wiki/Architecture.md) : Site de lecture d'articles rédigés au format MDX au préalable
+* [Rats](./Documentation/Rats/Architecture.md) : Site des Rats de N0Realis
 * CR : À venir
 
 # Index de documentation

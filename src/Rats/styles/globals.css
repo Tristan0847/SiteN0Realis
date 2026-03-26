@@ -1,0 +1,12 @@
+@import "tailwindcss";
+
+@font-face {
+    font-family: "Source Sans 3";
+    src: url("/rats/assets/SourceSans3-Regular.ttf");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@theme {
+    --font-sourcesans: "Source Sans 3"
+}
