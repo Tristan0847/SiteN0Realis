@@ -1,6 +1,6 @@
 # Architecture de l'Oeil de l'Occulte
 
-__**API REST, servant à la logique de l'application**__
+__**Site 100% Front-End, utilisant du contenu MDX généré automatiquement**__
 - **[app](../../src/Wiki/app/)** : Pages et routes Next.js (assemblage UI à partir des components)
 - **[components](../../src/Wiki/components/)** : Composants UI visuels de mise en forme des données d'articles importés
 - **[contenu/articles](../../src/Wiki/contenu/articles)** : Articles MDX importés par le site
