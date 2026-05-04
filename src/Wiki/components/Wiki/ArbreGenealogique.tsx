@@ -301,12 +301,19 @@ function calculerArbre(membres: MembreFamille[]) : { personnes: PersonnePos[]; u
         });
     });
 
+    // Evite les doublons
+    const sousArbresFiltres = sousArbres.filter(sa =>
+    !sousArbres.some(autre =>
+        autre.id !== sa.id &&
+        [...sa.membres].every(m => autre.membres.has(m))
+    ));
+
     // On place chaque sous-arbre
     const personnes: PersonnePos[] = [];
     const toutesLesUnions: Union[] = [];
     let xOffset = 100;
     
-    sousArbres.forEach((sousArbre) => {
+    sousArbresFiltres.forEach((sousArbre) => {
         const membresSousArbre = Array.from(sousArbre.membres)
             .map(id => membresMap.get(id))
             .filter(Boolean) as MembreFamille[];

@@ -66,11 +66,11 @@ export function TableDesMatieres({ headings, estOuvert, setEstOuvert }: TableDes
                 <Menu size={24} />
             </button>
 
-            <aside
+            <aside onClick={() => !estOuvert && setEstOuvert(true)}
                 className={`
                     fixed top-0 left-0 h-screen bg-gray-800 border-r border-gray-700
                     transition-transform duration-500 ease-in-out lg:z-10 z-40
-                    ${estOuvert ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-16'}
+                    ${estOuvert ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-16 hover:bg-gray-200/10'}
                     ${estOuvert ? 'w-80' : 'w-0 lg:w-16'}
                 `}
             >
@@ -85,7 +85,6 @@ export function TableDesMatieres({ headings, estOuvert, setEstOuvert }: TableDes
 
                 <nav className={`h-full overflow-y-auto py-8 lg:py-20 px-6 ${estOuvert ? 'block' : 'hidden lg:hidden'}`}>
                     <h2 className="text-lg font-bold mb-6 text-white flex items-center gap-2">
-                        <Menu size={20} />
                         Table des matières
                     </h2>
                     <ul className="space-y-2">
@@ -124,7 +123,7 @@ export function TableDesMatieres({ headings, estOuvert, setEstOuvert }: TableDes
                 </nav>
 
                 {!estOuvert && (
-                    <div className="hidden lg:flex flex-col items-center pt-20 px-2">
+                    <div className="hidden lg:flex flex-col items-center pt-21 px-2">
                         <Menu size={24} className="text-gray-400" />
                     </div>
                 )}

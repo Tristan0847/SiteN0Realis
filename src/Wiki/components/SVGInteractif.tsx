@@ -69,7 +69,7 @@ export function SVGinteractif({ children, width = "100%", height = "600px", view
 
     // Rendu du conteneur SVG
     return (
-        <div  ref={containerRef} style={{ width, height, border: '1px solid #ccc', position: 'relative' }}>
+        <div ref={containerRef} style={{ width, height, border: '1px solid #ccc', position: 'relative', pointerEvents: 'all'  }}>
             <svg width="100%" height="100%"
                 viewBox={viewBox} preserveAspectRatio="xMidYMid meet" className={className}>
                 {children}
