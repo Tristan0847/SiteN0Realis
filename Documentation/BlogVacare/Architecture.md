@@ -28,7 +28,7 @@ __**Visuels du site récupérant les données de l'API**__
 ## Partagés
 
 __**Code partagé par les projets frontend et backend**__
-- **[model](../../src/BlogVacare/shared/model/)** : Objets utilisés aussi bien par le front que le back
+- **[model](../../src/BlogVacare/frontend/model/)** : Objets utilisés aussi bien par le front que le back
 - **[utils](../../src/BlogVacare/shared/utils/)** : Méthodes communes aux 2 projets
 
 # MCD du projet 
