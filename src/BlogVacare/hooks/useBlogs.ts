@@ -4,7 +4,8 @@ import {SiteVariant} from '@BlogsFront/model/Variant';
 import {Blog} from "@BlogsFront/model/Blog";
 import {apiPost} from "@BlogsFront/lib/apiFetch";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {getBlogs} from "@BlogsFront/hooks/getters";
+import {blogGetters} from "@BlogsFront/service/ServiceFactory";
+import {BlogGettersInterface} from "@BlogsFront/service/interface/BlogGettersInterface";
 
 const queryKey = (id_dossier: string) => ['blogs', id_dossier] as const;
 
@@ -17,9 +18,11 @@ const queryKey = (id_dossier: string) => ['blogs', id_dossier] as const;
  * @returns Objet contenant les blogs, l'état de chargement et une éventuelle erreur
  */
 export function useBlogs(slug_dossier: string, variant: SiteVariant, blogsPrecharges: Blog[] = []) {
+    const getter: BlogGettersInterface = blogGetters();
+
     const {data, isLoading, error} = useQuery({
         queryKey: queryKey(slug_dossier),
-        queryFn: () => getBlogs(slug_dossier, variant),
+        queryFn: () => getter.getBlogs(slug_dossier, variant),
         enabled: !!variant && !!slug_dossier,
         initialData: blogsPrecharges.length > 0 ? blogsPrecharges : undefined,
         staleTime: 5 * 60 * 1000
@@ -55,7 +58,11 @@ export function useCreerBlog() {
     const queryClient = useQueryClient();
 
     const {isPending, error, mutate, mutateAsync} = useMutation({
-        mutationFn: ({slug_dossier, nom, contenuPremierMessage}: CreerBlogParams) => creerBlog({slug_dossier, nom, contenuPremierMessage}),
+        mutationFn: ({slug_dossier, nom, contenuPremierMessage}: CreerBlogParams) => creerBlog({
+            slug_dossier,
+            nom,
+            contenuPremierMessage
+        }),
         onSuccess: async (_data, {slug_dossier}) => {
             await queryClient.invalidateQueries({queryKey: queryKey(slug_dossier)});
         }
@@ -92,7 +99,11 @@ export function useSupprimerBlog() {
     const queryClient = useQueryClient();
 
     const {isPending, error, mutate, mutateAsync} = useMutation({
-        mutationFn: ({id, raison, cache = false, slug_dossier}: SupprimerBlogParams) => supprimerBlog({id, raison, cache}),
+        mutationFn: ({id, raison, cache = false, slug_dossier}: SupprimerBlogParams) => supprimerBlog({
+            id,
+            raison,
+            cache
+        }),
         onSuccess: async (_data, {slug_dossier}) => {
             slug_dossier && await queryClient.invalidateQueries({queryKey: queryKey(slug_dossier)});
         }

@@ -4,7 +4,8 @@ import {SiteVariant} from '@BlogsFront/model/Variant';
 import {apiPost} from "@BlogsFront/lib/apiFetch";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {Message} from "@BlogsFront/model/Blog";
-import {getMessages} from "@BlogsFront/hooks/getters";
+import {blogGetters} from "@BlogsFront/service/ServiceFactory";
+import {BlogGettersInterface} from "@BlogsFront/service/interface/BlogGettersInterface";
 
 const queryKey = (slug_dossier: string, slug_blog: string) => ['messages', slug_dossier, slug_blog] as const;
 
@@ -17,9 +18,11 @@ const queryKey = (slug_dossier: string, slug_blog: string) => ['messages', slug_
  * @returns Objet contenant les messages, l'état de chargement et une éventuelle erreur
  */
 export function useMessages(slug_dossier: string, slug_blog: string, variant: SiteVariant, messagesPrecharges: Message[] = []) {
+    const getter : BlogGettersInterface = blogGetters();
+
     const {data, isLoading, error} = useQuery({
         queryKey: queryKey(slug_dossier, slug_blog),
-        queryFn: () => getMessages(slug_dossier, slug_blog, variant),
+        queryFn: () => getter.getMessages(slug_dossier, slug_blog, variant),
         enabled: !!variant && !!slug_dossier || !!slug_blog,
         initialData: messagesPrecharges.length > 0 ? messagesPrecharges : undefined,
         staleTime: 5 * 60 * 1000

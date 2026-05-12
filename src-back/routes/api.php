@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DossierController;
+use App\Http\Controllers\ExportController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UtilisateurController;
 
@@ -34,4 +35,9 @@ Route::middleware(["auth.optional"])->group(function () {
     Route::get("/dossier", [DossierController::class, "index"]);
     Route::get("/blogs/{slug_dossier}", [BlogController::class, "index"]);
     Route::get("/messages/{slug_dossier}/{slug_blog}", [MessageController::class, "index"]);
+});
+
+Route::prefix('export')->group(function () {
+    Route::get("/dossiers", [ExportController::class, "getDossiers"]);
+    Route::get("/blogs", [ExportController::class, "getBlogs"]);
 });

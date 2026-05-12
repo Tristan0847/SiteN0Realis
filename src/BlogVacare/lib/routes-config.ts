@@ -1,69 +1,20 @@
-import type {Dossier} from '@BlogsFront/model/Blog';
-import type {Blog} from '@BlogsFront/model/Blog';
-import type {Message} from '@BlogsFront/model/Blog';
+import 'server-only';
+
 import {SiteVariant} from "@BlogsFront/model/Variant";
-import {index, getBlogs, getMessages} from "@BlogsFront/hooks/getters";
+import {BlogRouteParam, DossierRouteParam, Params, RouteParams} from "@BlogsFront/model/ExportParams";
+import {BASE_DATA_PATH} from "@BlogsFront/lib/constants";
+import path from "node:path";
+import * as fs from "node:fs";
 
 /**
- * Interface de structuration des routes
+ * Méthode de récupération des routes de l'application pour une variante donnée
+ * @param variant
  */
-interface RouteComplete {
-    slugDossier: string;
-    slugBlog: string;
-    messages: Message[];
-}
-
-/**
- * Interface de structuration de dossier à blogs
- */
-interface DossierAvecBlogs {
-    dossier: Dossier;
-    blogs: Blog[];
-}
-
-/**
- * Récupère tous les dossiers, blogs et messages depuis le backend
- * @param variante Variante du site
- */
-export async function getAllRoutes(variante: SiteVariant) {
-    try {
-        const init : RequestInit = {credentials: "omit"};
-        // Récupération des dossiers
-        const dossiers : Dossier[] = await index(variante, init);
-
-        // Pour chaque dossier, on récupère le blog
-        const routesWithBlogs: DossierAvecBlogs[] = await Promise.all(
-            dossiers.map(async (dossier) => {
-                try {
-                    const blogs = await getBlogs(dossier.slug, variante, init);
-                    return {dossier, blogs};
-                } catch (error) {
-                    console.error(`Erreur lors de la recherche de blogs pour le dossier ${dossier.slug} ` + error);
-                    return {dossier, blogs: []};
-                }
-            })
-        );
-
-        // Pour chaque blog, on récupère ses messages
-        const routesCompletes: RouteComplete[] = await Promise.all(
-            routesWithBlogs.flatMap(({dossier, blogs}) =>
-                blogs.map(async (blog) => {
-                    try {
-                        const messages = await getMessages(dossier.slug, blog.slug, variante, init);
-                        return {slugDossier: dossier.slug, slugBlog: blog.slug, messages};
-                    } catch (error) {
-                        console.error(`Erreur lors de la récupération de messages pour le blog ${blog.slug}:`, error);
-                        return {slugDossier: dossier.slug, slugBlog: blog.slug, messages: []};
-                    }
-                })
-            )
-        );
-
-        return {dossiers, routesWithBlogs, routesCompletes};
-    } catch (error) {
-        console.error('Erreur lors de la récupération des routes du projet : ', error);
-        return {dossiers: [], routesWithBlogs: [], routesCompletes: []};
-    }
+async function recupererRoutes(variant: SiteVariant): Promise<RouteParams> {
+    const filePath = path.join(process.cwd(), BASE_DATA_PATH, 'routes.json');
+    const content = await fs.promises.readFile(filePath, 'utf-8');
+    const params = JSON.parse(content) as Params;
+    return params[variant];
 }
 
 /**
@@ -77,17 +28,12 @@ export async function getPageAccueilParams() {
  * Génère les paramètres pour la page des dossiers et blogs
  * @param variante Variante du site
  */
-export async function getDossierBlogsParams(variante: SiteVariant) {
+export async function getDossierBlogsParams(variante: SiteVariant) : Promise<DossierRouteParam[]> {
     try {
-        const {dossiers} = await getAllRoutes(variante);
-
-        const params = dossiers.map((dossier) => ({
-            slugDossier: dossier.slug,
-        }));
-
-        return params;
+        const paramsRoute = await recupererRoutes(variante);
+        return paramsRoute.dossiers;
     } catch (error) {
-        console.error('Erreur lors de la récupération de paramètres pour les blogs (getDossierBlogsParams).' + error);
+        console.error('Erreur lors de la récupération de paramètres pour les blogs.' + error);
         return [];
     }
 }
@@ -96,100 +42,12 @@ export async function getDossierBlogsParams(variante: SiteVariant) {
  * Génère les paramètres pour la page des messages
  * @param variante Variante du site
  */
-export async function getMessagesParams(variante: SiteVariant) {
+export async function getMessagesParams(variante: SiteVariant) : Promise<BlogRouteParam[]> {
     try {
-        const {routesCompletes} = await getAllRoutes(variante);
-
-        const params = routesCompletes.map((route) => ({
-            slugDossier: route.slugDossier,
-            slugBlog: route.slugBlog,
-        }));
-
-        return params;
+        const paramsRoute = await recupererRoutes(variante);
+        return paramsRoute.blogs;
     } catch (error) {
         console.error('Erreur lors de la récupération de paramètres pour les messages (getMessagesParams). ' + error);
-        return [];
-    }
-}
-
-/**
- * Récupère les infos d'une route spécifique
- * @param slugDossier Slug du dossier
- * @param slugBlog Slug du blog
- * @param variante Variante du site
- */
-export async function getRouteData(slugDossier: string, slugBlog: string, variante: SiteVariant) {
-    try {
-        const {routesCompletes} = await getAllRoutes(variante);
-
-        return routesCompletes.find(
-            (route) => route.slugDossier === slugDossier && route.slugBlog === slugBlog
-        );
-    } catch (error) {
-        console.error('Erreur lors de la récupération de données d\'une route (getRouteData) pour :' + slugDossier + "/" + slugBlog + ". " + error);
-        return null;
-    }
-}
-
-
-/**
- * Récupère tous les dossiers pour la page d'accueil
- * @param variante Variante du site
- */
-export async function getRouteDossiers(variante: SiteVariant): Promise<Dossier[]> {
-    try {
-        const {dossiers} = await getAllRoutes(variante);
-
-        return dossiers;
-    } catch (error) {
-        console.error('Erreur lors de la récupération des dossiers (getRouteDossiers). ' + error);
-        return [];
-    }
-}
-
-/**
- * Récupère les messages pour une route spécifique
- * @param slugDossier Slug du dossier récupéré
- * @param slugBlog Slug du blog récupéré
- * @param variante Variante du site
- */
-export async function getRouteMessages(slugDossier: string, slugBlog: string, variante: SiteVariant) {
-    try {
-        const {routesCompletes} = await getAllRoutes(variante);
-
-        const route = routesCompletes.find(
-            (r) => r.slugDossier === slugDossier && r.slugBlog === slugBlog
-        );
-        if (!route) {
-            throw new Error("Route inconnue");
-        }
-        const messages: Message[] = route.messages;
-
-        return messages;
-    } catch (error) {
-        console.error('Erreur lors de la récupération de messages pour une route (getRouteMessages) pour :' + slugDossier + "/" + slugBlog + ". " + error);
-        return [];
-    }
-}
-
-/**
- * Récupère les blogs pour un dossier spécifique
- * @param slugDossier Slug du dossier récupéré
- * @param variante Variante du site
- */
-export async function getRouteBlogsForDossier(slugDossier: string, variante: SiteVariant) {
-    try {
-        const {routesWithBlogs} = await getAllRoutes(variante);
-
-        const route = routesWithBlogs.find((r) => r.dossier.slug === slugDossier);
-        if (!route) {
-            throw new Error("Route inconnue");
-        }
-        const blogs: Blog[] = route.blogs;
-
-        return blogs;
-    } catch (error) {
-        console.error('Erreur lors de la récupération de blogs pour un dossier (getRouteBlogsForDossier) pour : ' + slugDossier + ". " + error);
         return [];
     }
 }

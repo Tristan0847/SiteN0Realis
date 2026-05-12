@@ -24,9 +24,12 @@ export function MessageList({messages, suppressionHandler}: MessageListProps) {
     const variant = useVariant();
     const styles = getVariantStyles(variant);
 
+    // Affichage dans l'ordre chronologique
+    const messagesTries : Message[] = messages.sort((a, b) => new Date(a.date_publication).getTime() - new Date(b.date_publication).getTime());
+
     return (
         <div className={styles.messageList}>
-            {messages.map((m) => (
+            {messagesTries.map((m) => (
                 <MessageItem key={new Date(m.date_publication).toISOString() + m.nom_utilisateur} message={m}
                              suppressionHandler={suppressionHandler}/>
             ))}

@@ -24,12 +24,15 @@ export function DossierList({dossiers, suppressionHandler}: DossierListProps) {
     const variant = useVariant();
     const styles = getVariantStyles(variant);
 
+    // Dossiers dans l'ordre chronologique
+    const dossiersTries : Dossier[] = dossiers.sort((a, b) => new Date(b.date_creation).getTime() - new Date(a.date_creation).getTime());
+
     if (dossiers.length > 0) {
         return (
             <section className="mx-auto px-4">
                 <div className={styles.listeDossiersDiv}>
                     <ul className={styles.listeDossiersUl}>
-                        {dossiers.map(d => (
+                        {dossiersTries.map(d => (
                             <li key={d.id} className={styles.listeDossiersLi}>
                                 <DossierItem dossier={d} suppressionHandler={suppressionHandler}/>
                             </li>

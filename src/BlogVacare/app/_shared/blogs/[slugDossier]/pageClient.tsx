@@ -2,7 +2,6 @@
 
 import {useBlogs, useCreerBlog, useSupprimerBlog} from '@BlogsFront/hooks/useBlogs';
 import {BlogList} from '@BlogsFront/components/blog/BlogList';
-import {Blog} from '@BlogsFront/model/Blog';
 import {BlogFormCreation} from '@BlogsFront/components/blog/BlogFormCreation';
 import {useAuthContexte} from '@BlogsFront/contexts/AuthContext';
 import {PageWrapper} from '@BlogsFront/components/PageWrapper';
@@ -13,25 +12,22 @@ import {useVariant} from '@BlogsFront/contexts/VariantContext';
  */
 interface PageBlogsClientProps {
     slugDossier: string;
-    blogsPrecharges?: Blog[];
 }
 
 /**
  * Page affichant les blogs d'un dossier spécifique
  * @param slugDossier ID du dossier dont les blogs doivent être affichés
- * @param blogsPrecharges Blogs JSON préchargés en cas d'export statique
  * @returns {JSX.Element} Composant React pour la page des blogs d'un dossier
  */
-export default function PageBlogsClient({slugDossier, blogsPrecharges}: PageBlogsClientProps) {
+export default function PageBlogsClient({slugDossier}: PageBlogsClientProps) {
 
     // Hook de blogs affichés à l'écran, du dossier correspondant, de création de blog, d'authentification et de données affichées sur la page
     const variante = useVariant();
 
-    const {data: blogs, isLoading: hookLoading, error: hookError} = useBlogs(slugDossier, variante, blogsPrecharges);
+    const {data: blogs, isLoading: hookLoading, error: hookError} = useBlogs(slugDossier, variante);
     const {mutateAsync: mutationCreation, isPending: chargementCreation, error: erreurCreation} = useCreerBlog();
     const {mutateAsync: mutationSuppression} = useSupprimerBlog();
     const {utilisateur} = useAuthContexte();
-    // const { donnees: blogs, chargement, erreur } = useDonneesPage(hookBlogs, hookLoading, hookError, blogsPrecharges, Blog.fromJSON );
 
     // Une fois un blog créé, on re-récupère la page
     const handleCreation = async (nom: string, premierMessage: string) => {

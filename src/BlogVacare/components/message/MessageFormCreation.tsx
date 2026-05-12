@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { AccesRestreint } from "@BlogsFront/components/auth/AccesRestreint";
 import { useVariant } from "@BlogsFront/contexts/VariantContext";
 import { getVariantStyles } from "@BlogsFront/lib/variant-styles";
 
@@ -12,14 +11,13 @@ interface FormulaireMessageProps {
     onSubmit: (contenu: string) => Promise<void>;
     chargement: boolean;
     erreur: Error|null;
-    estConnecte: boolean;
 }
 
 /**
  * Composant de formulaire de création de message
  * @param param0 Méthode à exécuter à la création du message, état de chargement ou d'erreur et si l'utilisateur est connecté ou non
  */
-export function MessageFormCreation({onSubmit, chargement, erreur, estConnecte} : FormulaireMessageProps) {
+export function MessageFormCreation({onSubmit, chargement, erreur} : FormulaireMessageProps) {
 
     const [message, setMessage] = useState("");
 
@@ -37,11 +35,6 @@ export function MessageFormCreation({onSubmit, chargement, erreur, estConnecte} 
         await onSubmit(message);
 
         setMessage("");
-    }
-
-    // Il faut être connecté pour créer le dossier
-    if (!estConnecte) {
-        return <AccesRestreint message={'Vous devez être connecté pour répondre à un blog.'} />;
     }
 
     return(

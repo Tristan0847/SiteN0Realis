@@ -7,6 +7,7 @@ import {useAuthContexte} from '@BlogsFront/contexts/AuthContext';
 import {useVariant} from '@BlogsFront/contexts/VariantContext';
 import {useCreerMessage, useMessages, useSupprimerMessage} from '@BlogsFront/hooks/useMessages';
 import {Message} from "@BlogsFront/model/Blog";
+import {AccesRestreint} from "@BlogsFront/components/auth/AccesRestreint";
 
 /**
  * Props pour le composant PageMessagesClient
@@ -14,22 +15,20 @@ import {Message} from "@BlogsFront/model/Blog";
 interface PageBlogsClientProps {
     slugDossier: string;
     slugBlog: string;
-    messagesPrecharges?: Message[];
 }
 
 /**
  * Page affichant les messages d'un blog spécifique
  * @returns {JSX.Element} Composant React pour la page des messages d'un blog
  */
-export default function PageMessagesClient({slugDossier, slugBlog, messagesPrecharges}: PageBlogsClientProps) {
+export default function PageMessagesClient({slugDossier, slugBlog}: PageBlogsClientProps) {
 
     // Hooks de messages récupérés, du blog correspondant, de création de message, d'authentification et d'éventuels messages d'erreurs
     const variante = useVariant();
-    const { data: messages, isLoading: messagesLoading, error: hookError } = useMessages(slugDossier, slugBlog, variante, messagesPrecharges);
+    const { data: messages, isLoading: messagesLoading, error: hookError } = useMessages(slugDossier, slugBlog, variante);
     const {mutateAsync: mutationCreation, isPending: chargementCreation, error: erreurCreation} = useCreerMessage();
     const {mutateAsync: mutationSuppression} = useSupprimerMessage();
     const {estConnecte, utilisateur} = useAuthContexte();
-    // const { donnees: messages, chargement, erreur} = useDonneesPage(hookMessages, hookLoading, hookError, messagesPrecharges, () => void);
 
     // Une fois un message créé, on re-récupère la page
     const handleCreation = async (contenu: string) => {
@@ -55,8 +54,7 @@ export default function PageMessagesClient({slugDossier, slugBlog, messagesPrech
         <PageWrapper chargement={messagesLoading || chargementCreation} erreur={hookError} estVide={messages ? messages.length == 0 : true}
                      messageVide="Aucun message trouvé" chargementMessage="Chargement des messages...">
             {messages && <MessageList messages={messages} suppressionHandler={suppressionHandler}/>}
-            <MessageFormCreation onSubmit={handleCreation} chargement={chargementCreation} erreur={erreurCreation}
-                                 estConnecte={estConnecte}/>
+            {estConnecte ? <MessageFormCreation onSubmit={handleCreation} chargement={chargementCreation} erreur={erreurCreation} /> : <AccesRestreint message="Vous devez être connecté pour répondre à un blog." />}
         </PageWrapper>
     );
 }

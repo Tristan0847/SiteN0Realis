@@ -44,6 +44,7 @@ next-env.d.ts
 
 /src/BlogVacare/.next
 /src/BlogVacare/out
+/src/BlogVacare/public/data
 /src/Wiki/contenu
 /src/Wiki/.contentlayer
 /src/Wiki/.next

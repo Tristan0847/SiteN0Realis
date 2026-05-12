@@ -75,7 +75,7 @@ if (isExport) {
 
   const nextConfig: NextConfig = {
     env: {
-      NEXT_BUILD_MODE: "Production"
+      NEXT_BUILD_MODE: "production"
     }
   };
 

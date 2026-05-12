@@ -1,4 +1,5 @@
 import {ApiError} from "../model/ApiError";
+import {API_URL} from "@BlogsFront/lib/constants";
 
 /**
  * Méthode de fetch de données par API
@@ -6,7 +7,7 @@ import {ApiError} from "../model/ApiError";
  * @param init Paramètres éventuels de la requête
  */
 export async function apiFetch<T>(input: string, init?: RequestInit): Promise<T> {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_LIEN_API_BACKEND}${input}`, {
+    const response = await fetch(`${API_URL}${input}`, {
         credentials: init?.credentials || 'include',
         headers: {
             Accept: 'application/json',
@@ -17,11 +18,11 @@ export async function apiFetch<T>(input: string, init?: RequestInit): Promise<T>
     });
 
     if (!response.ok) {
-        const error = await response.json();
+        const error = await response.json();console.log(response);
         throw new ApiError(error.message || `HTTP ${response.status}`, response.status ?? 500);
     }
 
-    const data = await response.json();
+    const data = await response.json();console.log(data);
     return data as T;
 }
 
@@ -31,7 +32,7 @@ export async function apiFetch<T>(input: string, init?: RequestInit): Promise<T>
  * @param body Corps de la requête
  */
 export async function apiPost(url: string, body: Record<string, string|number|boolean|null>): Promise<void> {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_LIEN_API_BACKEND}${url}`, {
+    const response = await fetch(`${API_URL}${url}`, {
         method: 'POST',
         credentials: 'include',
         headers: {

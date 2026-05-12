@@ -32,13 +32,14 @@ export function AuthProvider({ children } : { children: ReactNode}) {
     const { data: utilisateur, isLoading: chargement, error: utilisateurError } = useUtilisateurConnecte();
     const { mutateAsync: connexion, isPending: connexionPending, error: connexionError } = useConnexion();
     const { mutateAsync: deconnexion, isPending: deconnexionPending, error: deconnexionError  } = useDeconnexion();
+    const mode = process.env.NEXT_BUILD_MODE;
 
     const error = [refreshError, utilisateurError, connexionError, deconnexionError, inscriptionError].filter(e => e !== null).join(' - ');
     const value = useMemo<AuthContexteType>(
         () => ({
-            estConnecte: utilisateur !== null,
-            utilisateur: utilisateur ?? null,
-            chargement: chargement || connexionPending || deconnexionPending || inscriptionPending,
+            estConnecte: utilisateur !== null && utilisateur !== undefined,
+            utilisateur: utilisateur !== undefined ? utilisateur : null,
+            chargement: !(mode === 'export') && (chargement || connexionPending || deconnexionPending || inscriptionPending),
             erreur: error,
             refresh: refresh,
             inscription: inscription,
@@ -47,7 +48,6 @@ export function AuthProvider({ children } : { children: ReactNode}) {
         }),
         [utilisateur, chargement, connexionPending, deconnexionPending, inscriptionPending, refreshError, utilisateurError, connexionError, deconnexionError, inscriptionError, refresh, inscription, connexion, deconnexion]
     );
-
 
     return(
         <AuthContexte.Provider value={value}>

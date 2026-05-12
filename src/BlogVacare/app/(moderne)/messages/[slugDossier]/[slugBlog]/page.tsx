@@ -1,8 +1,6 @@
 import PageMessagesClient from '@BlogsFront/app/_shared/messages/[slugDossier]/[slugBlog]/pageClient';
-import {getMessagesPrecharges} from '@BlogsFront/app/_shared/messages/[slugDossier]/[slugBlog]/pageGetter';
 import {getMessagesParams} from '@BlogsFront/lib/routes-config';
 import {Metadata} from 'next';
-import {Message} from "@BlogsFront/model/Blog";
 
 /**
  * Props pour la page des blogs
@@ -29,10 +27,7 @@ export default async function Page({params}: PageProps) {
 
     const {slugDossier, slugBlog} = await params;
 
-    const messagesSerialises: Message[] = await getMessagesPrecharges(slugDossier, slugBlog, "modern");
-
-    return <PageMessagesClient slugDossier={slugDossier} slugBlog={slugBlog}
-                               messagesPrecharges={messagesSerialises.length > 0 ? messagesSerialises : undefined}/>;
+    return <PageMessagesClient slugDossier={slugDossier} slugBlog={slugBlog} />;
 }
 
 

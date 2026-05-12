@@ -4,7 +4,8 @@ import {SiteVariant} from '@BlogsFront/model/Variant';
 import {Dossier} from "@BlogsFront/model/Blog";
 import {apiPost} from "@BlogsFront/lib/apiFetch";
 import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
-import {index} from "@BlogsFront/hooks/getters";
+import {BlogGettersInterface} from "@BlogsFront/service/interface/BlogGettersInterface";
+import {blogGetters} from "@BlogsFront/service/ServiceFactory";
 
 const queryKey = ['dossiers'];
 
@@ -15,9 +16,11 @@ const queryKey = ['dossiers'];
  * @returns Objet contenant les dossiers, l'état de chargement et une éventuelle erreur
  */
 export function useDossiers(variant: SiteVariant, dossiersPrecharges: Dossier[] = []) {
+    const getter : BlogGettersInterface = blogGetters();
+
     const {data, isLoading, error} = useQuery({
         queryKey: queryKey,
-        queryFn: () => index(variant),
+        queryFn: () => getter.getDossiers(variant),
         enabled: !!variant,
         initialData: dossiersPrecharges.length > 0 ? dossiersPrecharges : undefined,
         staleTime: 5 * 60 * 1000

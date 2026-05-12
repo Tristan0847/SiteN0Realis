@@ -19,6 +19,7 @@ export interface Dossier {
     slug: string;
     date_creation: string;
     nom_utilisateur: string;
+    blogs?: Blog[];
     element_supprime?: ElementSupprime|null;
     element_supprime_visible?: ElementSupprime|null;
     id_suppression: number;

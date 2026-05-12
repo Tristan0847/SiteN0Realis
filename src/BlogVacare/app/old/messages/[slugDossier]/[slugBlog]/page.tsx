@@ -1,8 +1,6 @@
 import PageMessagesClient from '@BlogsFront/app/_shared/messages/[slugDossier]/[slugBlog]/pageClient';
-import { getMessagesPrecharges } from '@BlogsFront/app/_shared/messages/[slugDossier]/[slugBlog]/pageGetter';
-import { getMessagesParams } from '@BlogsFront/lib/routes-config';
-import { Metadata } from 'next';
-import {Message} from "@BlogsFront/model/Blog";
+import {getMessagesParams} from '@BlogsFront/lib/routes-config';
+import {Metadata} from 'next';
 
 /**
  * Props pour la page des blogs
@@ -11,13 +9,13 @@ interface PageProps {
     params: Promise<{ slugDossier: string; slugBlog: string }>;
 }
 
-export async function generateMetadata({ params } : PageProps): Promise<Metadata> {
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 
-  const parametres = await params;
+    const parametres = await params;
 
-  return {
-    title: `Blog ${parametres.slugBlog}`,
-  };
+    return {
+        title: `Blog ${parametres.slugBlog}`,
+    };
 }
 
 /**
@@ -25,13 +23,11 @@ export async function generateMetadata({ params } : PageProps): Promise<Metadata
  * @param params Paramètres de la route, incluant l'ID du dossier
  * @returns {JSX.Element} Composant React pour la page des blogs d'un dossier
  */
-export default async function Page({ params }: PageProps) {
+export default async function Page({params}: PageProps) {
 
-  const { slugDossier, slugBlog } = await params;
+    const {slugDossier, slugBlog} = await params;
 
-  const messagesSerialises : Message[] = await getMessagesPrecharges(slugDossier, slugBlog, "old");
-  
-  return <PageMessagesClient slugDossier={slugDossier} slugBlog={slugBlog} messagesPrecharges={ messagesSerialises.length > 0 ? messagesSerialises : undefined } />;
+    return <PageMessagesClient slugDossier={slugDossier} slugBlog={slugBlog}/>;
 }
 
 
@@ -40,7 +36,8 @@ export default async function Page({ params }: PageProps) {
  * @returns Liste de paramètres pour la génération statique
  */
 export async function generateStaticParams() {
-  return await getMessagesParams("old");
+    return await getMessagesParams("old");
 }
+
 // Active les paramètres dynamiques
 export const dynamicParams = true;

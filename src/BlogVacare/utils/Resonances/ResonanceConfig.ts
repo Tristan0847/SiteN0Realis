@@ -23,7 +23,8 @@ export interface ResonanceConfig {
 export enum TypeConfigResonance {
     old = "old",
     modern = "modern",
-    vacare = "vacare"
+    vacare = "vacare",
+    neant = "neant"
 }
 
 /**
@@ -63,5 +64,15 @@ export const RESONANCE_PRESETS: Record<TypeConfigResonance, ResonanceConfig> = {
         couleurs: ['187, 187, 187'],
         direction: 'horizontal',
         intensiteEcho:0.75
+    },
+    neant: {
+        intervalle: 3000,
+        duree: 6000,
+        opaciteMax: 0.87,
+        positionCentre: 50,
+        tailleResonance: 100,
+        couleurs: ['80, 80, 80', '40, 40, 40', '70, 70, 70'],
+        direction: 'vertical',
+        intensiteEcho: 0.75
     }
 };

@@ -6,6 +6,7 @@ use Database\Factories\DossierFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * Classe représentant un dossier
@@ -35,6 +36,15 @@ class Dossier extends Model
     public function utilisateur(): BelongsTo
     {
         return $this->belongsTo(User::class, 'nom_utilisateur', 'nom_utilisateur');
+    }
+
+    /**
+     * Liaison désignant les blogs liés à un dossier
+     * @return HasMany<Blog,$this>
+     */
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blog::class, 'id_dossier', 'id');
     }
 
     /**

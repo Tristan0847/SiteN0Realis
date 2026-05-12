@@ -26,10 +26,13 @@ export function BlogList({blogs, slugDossier, suppressionHandler}: BlogListProps
     const variant = useVariant();
     const styles = getVariantStyles(variant);
 
+    // Affichage dans l'ordre chronologique
+    const blogsTries : Blog[] = blogs.sort((a, b) => new Date(b.date_creation).getTime() - new Date(a.date_creation).getTime());
+
     if (blogs.length > 0) {
         return (
             <div className={styles.listeBlogsConteneur}>
-                {blogs.map(b => (
+                {blogsTries.map(b => (
                     <BlogItem key={b.id} blog={b} slugDossier={slugDossier} suppressionHandler={suppressionHandler}/>
                 ))}
             </div>

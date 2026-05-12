@@ -1,8 +1,6 @@
 import {Metadata} from 'next';
 import PageDossiersClient from '@BlogsFront/app/_shared/pageClient';
 import {getPageAccueilParams} from '@BlogsFront/lib/routes-config';
-import {getDossiersPrecharges} from '@BlogsFront/app/_shared/pageGetter';
-import {Dossier} from "@BlogsFront/model/Blog";
 
 export function generateMetadata(): Metadata {
     return {
@@ -16,10 +14,8 @@ export function generateMetadata(): Metadata {
  */
 export default async function Page() {
 
-    const dossiersSerialises: Dossier[] = await getDossiersPrecharges("old");
-
     return (
-        <PageDossiersClient dossiersPrecharges={dossiersSerialises.length > 0 ? dossiersSerialises : undefined}/>
+        <PageDossiersClient/>
     );
 }
 
