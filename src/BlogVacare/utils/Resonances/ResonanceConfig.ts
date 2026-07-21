@@ -24,7 +24,8 @@ export enum TypeConfigResonance {
     old = "old",
     modern = "modern",
     vacare = "vacare",
-    neant = "neant"
+    neant = "neant",
+    avos = "avos"
 }
 
 /**
@@ -73,6 +74,16 @@ export const RESONANCE_PRESETS: Record<TypeConfigResonance, ResonanceConfig> = {
         tailleResonance: 100,
         couleurs: ['80, 80, 80', '40, 40, 40', '70, 70, 70'],
         direction: 'vertical',
+        intensiteEcho: 0.75
+    },
+    avos: {
+        intervalle: 8000,
+        duree: 11000,
+        opaciteMax: 0.6,
+        positionCentre: 50,
+        tailleResonance: 200,
+        couleurs: ['50,155,50', '55,200,55', '22,44,22'],
+        direction: 'radial',
         intensiteEcho: 0.75
     }
 };

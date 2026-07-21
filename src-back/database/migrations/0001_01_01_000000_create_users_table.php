@@ -15,6 +15,8 @@ return new class extends Migration
             $table->string('nom_utilisateur')->primary();
             $table->string('mot_de_passe');
             $table->boolean('est_admin');
+            $table->text("description")->nullable();
+            $table->string("banniere", 255)->nullable();
             $table->timestamps();
         });
         Schema::create('sessions', function (Blueprint $table) {

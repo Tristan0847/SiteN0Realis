@@ -69,3 +69,5 @@ next-env.d.ts
 /src/Rats/public/assets/*
 !/src/Rats/public/assets/SourceSans3-Regular.ttf
 .idea
+/src-back/src/BlogVacare/public/assets/BlogVacare/Community/post-medias
+/src/BlogVacare/public/assets/BlogVacare/Community/post-medias

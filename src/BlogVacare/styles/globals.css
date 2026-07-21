@@ -1,11 +1,20 @@
 @import "tailwindcss";
 
+@font-face {
+    font-family: 'Moogalator';
+    src: url('/assets/fonts/Moogalator.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
 
 @theme {
-  --color-primary-light: #B8F5D1;
-  --color-primary: #12B74E;
-  --color-primary-dark: #0F9F43;
-  --color-neutral-light: #f3f4f6;
-  --color-neutral: #6b7280;
-  --color-neutral-dark: #374151;
+    --color-primary-light: #B8F5D1;
+    --color-primary: #12B74E;
+    --color-primary-dark: #0F9F43;
+    --color-neutral-light: #f3f4f6;
+    --color-neutral: #6b7280;
+    --color-neutral-dark: #374151;
+
+    --font-moogalator: "Moogalator", sans-serif;
 }

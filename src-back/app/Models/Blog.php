@@ -63,6 +63,17 @@ class Blog extends Model
     }
 
     /**
+     * Récupère le premier message d'un post, supprimé ou non (message dans l'ordre chronologique)
+     * @return HasOne<Message,$this>
+     */
+    public function messagePost(): HasOne
+    {
+        return $this->messages()
+            ->one()
+            ->ofMany(["date_publication" => "min"]);
+    }
+
+    /**
      * Liaison à l'utilisateur ayant créé le blog
      * @return BelongsTo<User,$this>
      */

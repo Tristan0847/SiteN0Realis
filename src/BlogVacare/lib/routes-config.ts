@@ -2,9 +2,11 @@ import 'server-only';
 
 import {SiteVariant} from "@BlogsFront/model/Variant";
 import {BlogRouteParam, DossierRouteParam, Params, RouteParams} from "@BlogsFront/model/ExportParams";
-import {BASE_DATA_PATH} from "@BlogsFront/lib/constants";
+import {BASE_DATA_PATH, BASE_DATA_PATH_COMMUNITY, BASE_DATA_PATH_COMMUNITY_USER} from "@BlogsFront/lib/constants";
 import path from "node:path";
 import * as fs from "node:fs";
+
+//#region Blog principal
 
 /**
  * Méthode de récupération des routes de l'application pour une variante donnée
@@ -51,3 +53,40 @@ export async function getMessagesParams(variante: SiteVariant) : Promise<BlogRou
         return [];
     }
 }
+
+//#endregion
+
+//#region AVOS
+
+/**
+ * Méthode de récupération d'un fichier
+ * @param lien Lien du fichier à récupérer
+ * @returns Contenu du fichier
+ */
+async function recupererFichier<T>(lien : string): Promise<T> {
+    const content = await fs.promises.readFile(lien, 'utf-8');
+    return JSON.parse(content) as T;
+}
+
+/**
+ * Récupère les paramètres des posts
+ * @returns Liste des posts
+ */
+export async function getPostParams(): Promise<{ slug: string }[]> {
+    const params = await recupererFichier<string[]>(BASE_DATA_PATH_COMMUNITY + "/index.json");
+
+    return params.map(slug => ({ slug }));
+}
+
+/**
+ * Récupère les paramètres des utilisateurs
+ * @returns Liste des utilisateurs
+ */
+export async function getUtilisateursParams(): Promise<{ pseudo: string }[]> {
+    const files = await fs.promises.readdir(BASE_DATA_PATH_COMMUNITY_USER);
+    return files.map(file => ({
+        pseudo: file.replace(".json", "")
+    }));
+}
+
+//#endregion

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -14,6 +15,8 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
  * @property boolean $est_admin Rôle de l'utilisateur
  * @property string $created_at Date de création de l'utilisateur
  * @property string $updated_at Date de mise à jour de l'utilisateur
+ * @property string $description Description de l'utilisateur
+ * @property string $banniere Bannière de l'utilisateur
  */
 class User extends Authenticatable implements JWTSubject
 {
@@ -26,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
     public $incrementing = false;
 
     protected $hidden = ['mot_de_passe'];
-    protected $visible = ["nom_utilisateur", "est_admin", "created_at", "updated_at"];
+    protected $visible = ["nom_utilisateur", "est_admin", "created_at", "updated_at", "description", "banniere"];
     protected $guarded = [];
 
     /**
@@ -39,6 +42,15 @@ class User extends Authenticatable implements JWTSubject
         return [
             'mot_de_passe' => 'hashed',
         ];
+    }
+
+    /**
+     * Récupère tous les blogs de l'utilisateur
+     * @return HasMany<Blog,$this>
+     */
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blog::class, "nom_utilisateur", "nom_utilisateur");
     }
 
     public function getJWTIdentifier()

@@ -39,4 +39,4 @@ export async function generateStaticParams() {
 }
 
 // Active les paramètres dynamiques
-export const dynamicParams = true;
+export const dynamicParams = false;

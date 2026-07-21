@@ -21,6 +21,9 @@ return new class extends Migration
             $table->dateTime('date_publication')->default(date('Y-m-d H:i:s'));
             $table->unsignedBigInteger('id_suppression')->nullable();
             $table->foreign('id_suppression')->references('id')->on('elements_supprimes')->onDelete('set null');
+            $table->integer("likes")->default(0);
+            $table->integer("partages")->default(0);
+            $table->string("media", 500)->nullable();
         });
     }
 

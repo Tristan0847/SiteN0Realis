@@ -54,17 +54,19 @@ if (isExport) {
         `import type { NextConfig } from "next";
 
   const nextConfig: NextConfig = {
-    output: 'export',
-    trailingSlash: true,
-
-    // Pas d'optimisation des images en export statique
-    images: {
-      unoptimized: true,
-    },
+        output: 'export',
+        trailingSlash: true,
     
-    env: {
-      NEXT_BUILD_MODE: "export"
-    }
+        // Pas d'optimisation des images en export statique
+        images: {
+          unoptimized: true,
+        },
+        
+        env: {
+          NEXT_BUILD_MODE: "export"
+        },
+        
+        transpilePackages: ["lib"]
   };
 
   export default nextConfig;`;
@@ -76,7 +78,9 @@ if (isExport) {
   const nextConfig: NextConfig = {
     env: {
       NEXT_BUILD_MODE: "production"
-    }
+    },
+        
+     transpilePackages: ["lib"]
   };
 
   export default nextConfig;`;

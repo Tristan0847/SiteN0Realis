@@ -9,8 +9,15 @@ import * as fs from "node:fs";
 import path from "node:path";
 import {Blog, Dossier, Message} from "@BlogsFront/model/Blog";
 import {apiFetch} from "@BlogsFront/lib/apiFetch";
-import {BASE_DATA_PATH, BASE_DATA_PATH_BLOGS} from "@BlogsFront/lib/constants";
+import {
+    BASE_DATA_PATH,
+    BASE_DATA_PATH_BLOGS, BASE_DATA_PATH_COMMUNITY,
+    BASE_DATA_PATH_COMMUNITY_ACCUEIL, BASE_DATA_PATH_COMMUNITY_POSTS,
+    BASE_DATA_PATH_COMMUNITY_TENDANCES, BASE_DATA_PATH_COMMUNITY_USER
+} from "@BlogsFront/lib/constants";
 import {Params} from "@BlogsFront/model/ExportParams";
+import {PaginatedBlog, UserBlog} from "@BlogsFront/model/Community";
+import {DistantBlogGetters} from "@BlogsFront/service/distant/DistantBlogGetters";
 
 /**
  * Méthode d'écriture d'un fichier JSON
@@ -101,8 +108,68 @@ async function scriptBlogPrincipal() {
     await ecrireJson(path.join(BASE_DATA_PATH, "routes.json"), params);
 }
 
+/**
+ * Fonction d'export statique pour les blogs communautaires
+ */
+async function scriptBlogCommunautaire() {
+    // Nettoyage des anciennes données
+    if (fs.existsSync(BASE_DATA_PATH_COMMUNITY)) {
+        await fs.promises.rm(BASE_DATA_PATH_COMMUNITY, {recursive: true})
+    }
+
+    // Écriture des blogs par page avec ou sans tendances
+    const fetcher = new DistantBlogGetters();
+    let page = 1;
+    let lastPage = null;
+
+    // Liste de listes de blogs
+    const postsList : PaginatedBlog[] = [];
+    const tendancesList : PaginatedBlog[] = [];
+
+    // Même boucle pour récupérer les posts et ceux par tendances, les tendances ont les mêmes posts donc même nombre de pages
+    while (lastPage === null || page < lastPage + 1) {
+        const posts : PaginatedBlog = await fetcher.getCommunityPosts(page, false);
+        const tendances: PaginatedBlog = await fetcher.getCommunityPosts(page, true);
+        if (lastPage === null) {
+            lastPage = posts.last_page;
+        }
+
+        postsList.push(posts);
+        tendancesList.push(tendances);
+
+        page++;
+    }
+
+    // Écriture des pages
+    for (let i = 1; i <= lastPage; i++) {
+        await ecrireJson(path.join(BASE_DATA_PATH_COMMUNITY_ACCUEIL, "page" + i + ".json"), postsList[i - 1]);
+        await ecrireJson(path.join(BASE_DATA_PATH_COMMUNITY_TENDANCES, "page" + i + ".json"), tendancesList[i - 1]);
+    }
+
+    // Écriture des blogs individuels
+    const posts : Blog[] = await apiFetch<Blog[]>("export/blogs");
+    for (const post of posts) {
+        await ecrireJson(path.join(BASE_DATA_PATH_COMMUNITY_POSTS, post.slug + ".json"), post);
+    }
+
+    // Écriture des pages d'utilisateurs
+    const blogsParUtilisateur : UserBlog[] = await apiFetch<UserBlog[]>("export/blogs-par-utilisateur");
+    for (const blog of blogsParUtilisateur) {
+        await ecrireJson(path.join(BASE_DATA_PATH_COMMUNITY_USER, blog.utilisateur.nom_utilisateur + ".json"), blog);
+    }
+
+    // Index de recherche pour les posts aléatoires (slugs ensuite sélectionnés)
+    const postsIndex : string[] = posts.map((post) => post.slug);
+    await ecrireJson(path.join(BASE_DATA_PATH_COMMUNITY, "index.json"), postsIndex);
+}
+
 // Exécution
 scriptBlogPrincipal().catch((error) => {
+    console.error(error);
+    process.exit(1);
+});
+
+scriptBlogCommunautaire().catch((error) => {
     console.error(error);
     process.exit(1);
 });

@@ -35,11 +35,13 @@ export interface Blog {
     date_creation: Date;
     messages?: Message[]|null;
     premier_message?: Message|null;
+    message_post?: Message|null;
     id_dossier: number;
     nom_utilisateur: string;
     element_supprime?: ElementSupprime|null;
     element_supprime_visible?: ElementSupprime|null;
     id_suppression: number;
+    nombre_reponses?: number;
 }
 
 /**
@@ -54,4 +56,7 @@ export interface Message {
     element_supprime?: ElementSupprime|null;
     element_supprime_visible?: ElementSupprime|null;
     id_suppression: number;
+    likes: number;
+    partages: number;
+    media?:string;
 }

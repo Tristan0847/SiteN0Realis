@@ -40,9 +40,18 @@ export abstract class AbstractLocalGetters {
     protected async lireJson<T>(variant: SiteVariant, url: string): Promise<T> {
         const lien : string = this.buildCheminBase(variant, url);
 
-        const reponse = await fetch(lien);
+        return await this.fetchJson<T>(lien);
+    }
+
+    /**
+     * Méthode privée de lecture de fichiers JSON
+     * @param url Lien du fichier
+     * @protected
+     */
+    protected async fetchJson<T>(url : string): Promise<T> {
+        const reponse = await fetch(url);
         if (!reponse.ok) {
-            throw new Error(`Impossible de lire le fichier ${lien}`);
+            throw new Error(`Impossible de lire le fichier ${url}`);
         }
 
         return await reponse.json() as T;

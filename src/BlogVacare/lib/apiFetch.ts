@@ -18,12 +18,35 @@ export async function apiFetch<T>(input: string, init?: RequestInit): Promise<T>
     });
 
     if (!response.ok) {
-        const error = await response.json();console.log(response);
+        const error = await response.json();
         throw new ApiError(error.message || `HTTP ${response.status}`, response.status ?? 500);
     }
 
-    const data = await response.json();console.log(data);
+    const data = await response.json();
     return data as T;
+}
+
+/**
+ * Fonction transformant le corps d'une requête en un FormData
+ * @param body
+ */
+function toFormData(body: Record<string, string|number|boolean|File|Blob|null|undefined>): FormData {
+    const formData = new FormData();
+
+    for (const [key, value] of Object.entries(body)) {
+        if (value === null || value === undefined) {
+            continue;
+        }
+
+        if (value instanceof Blob) {
+            formData.append(key, value);
+            continue;
+        }
+
+        formData.append(key, String(value));
+    }
+
+    return formData;
 }
 
 /**
@@ -31,15 +54,27 @@ export async function apiFetch<T>(input: string, init?: RequestInit): Promise<T>
  * @param url URL de la requête
  * @param body Corps de la requête
  */
-export async function apiPost(url: string, body: Record<string, string|number|boolean|null>): Promise<void> {
+export async function apiPost(url: string, body: Record<string, string|number|boolean|File|Blob|null|undefined>): Promise<void> {
+
+    let requestBody : BodyInit;
+    const headers : HeadersInit = {
+        Accept: 'application/json',
+    }
+
+    // Vérification que le body ne contient pas de fichiers
+    if (Object.values(body).some((value) => value instanceof Blob)) {
+        requestBody = toFormData(body);
+    } else {
+        headers['Content-Type'] = 'application/json';
+        requestBody = JSON.stringify(body);
+    }
+
+
     const response = await fetch(`${API_URL}${url}`, {
         method: 'POST',
         credentials: 'include',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-        },
-        body: JSON.stringify(body),
+        headers,
+        body: requestBody,
     });
 
     if (!response.ok) {

@@ -1,9 +1,19 @@
 import type { NextConfig } from "next";
 
   const nextConfig: NextConfig = {
-    env: {
-      NEXT_BUILD_MODE: "production"
-    }
+        output: 'export',
+        trailingSlash: true,
+    
+        // Pas d'optimisation des images en export statique
+        images: {
+          unoptimized: true,
+        },
+        
+        env: {
+          NEXT_BUILD_MODE: "export"
+        },
+        
+        transpilePackages: ["lib"]
   };
 
   export default nextConfig;

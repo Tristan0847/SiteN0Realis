@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\BlogCommunautaireController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\DossierController;
 use App\Http\Controllers\ExportController;
+use App\Http\Controllers\GlobalController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\UtilisateurController;
 
@@ -16,6 +18,8 @@ Route::controller(UtilisateurController::class)->group(function () {
         Route::get('/me', 'me');
     });
 });
+
+Route::get("/media-link", [GlobalController::class, "getMediaLink"]);
 
 Route::middleware(["auth", "auth.admin"])->group(function () {
     Route::post("/dossier/supprimer", [DossierController::class, "supprimer"]);
@@ -37,7 +41,25 @@ Route::middleware(["auth.optional"])->group(function () {
     Route::get("/messages/{slug_dossier}/{slug_blog}", [MessageController::class, "index"]);
 });
 
-Route::prefix('export')->group(function () {
-    Route::get("/dossiers", [ExportController::class, "getDossiers"]);
-    Route::get("/blogs", [ExportController::class, "getBlogs"]);
+Route::prefix('export')->controller(ExportController::class)->group(function () {
+    Route::get("/dossiers", "getDossiers");
+    Route::get("/blogs", "getBlogs");
+    Route::get("/blogs-par-utilisateur", "getBlogsParUtilisateur");
+});
+
+Route::prefix("communaute")->controller(BlogCommunautaireController::class)->group(function () {
+    Route::prefix("blogs")->group(function () {
+        Route::get("", "index");
+        Route::get("random", "indexAleatoire");
+        Route::get("/utilisateur/{nom_utilisateur}", "indexParUtilisateur");
+    });
+
+    Route::prefix('blog')->middleware(["auth.optional"])->group(function () {
+        Route::get("{slug}", "getBlog");
+
+        Route::middleware(['auth'])->group(function () {
+            Route::post("creer", "creer");
+            Route::post("{slug}/repondre", "repondre");
+        });
+    });
 });

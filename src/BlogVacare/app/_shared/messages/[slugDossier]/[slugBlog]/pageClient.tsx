@@ -6,7 +6,6 @@ import {PageWrapper} from '@BlogsFront/components/PageWrapper';
 import {useAuthContexte} from '@BlogsFront/contexts/AuthContext';
 import {useVariant} from '@BlogsFront/contexts/VariantContext';
 import {useCreerMessage, useMessages, useSupprimerMessage} from '@BlogsFront/hooks/useMessages';
-import {Message} from "@BlogsFront/model/Blog";
 import {AccesRestreint} from "@BlogsFront/components/auth/AccesRestreint";
 
 /**

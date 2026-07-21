@@ -1,22 +1,20 @@
 import {Metadata} from "next";
-import FondResonance from "@BlogsFront/components/FondResonances";
-import {TypeConfigResonance} from "@BlogsFront/utils/Resonances/ResonanceConfig";
+import {PageAccueilCommunaute} from "@BlogsFront/pagesclient/communaute/PageAccueil";
 
 export function generateMetadata(): Metadata {
     return {
-        title: '...',
-        description: 'Vous êtes en avance',
+        title: 'AVOS Community',
+        description: 'Une communauté qui vous souhaite',
     };
 }
 
-
+/**
+ * Page d'accueil du site
+ * @constructor
+ */
 export default function Community() {
+
     return (
-        <div className="bg-black h-screen w-screen">
-            <FondResonance preset={TypeConfigResonance.neant}/>
-            <div className="flex justify-center items-center h-screen">
-                <h1 className="text-black text-lg z-10">Err. 421</h1>
-            </div>
-        </div>
-    );
+        <PageAccueilCommunaute />
+    )
 }

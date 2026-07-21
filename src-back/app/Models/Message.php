@@ -16,6 +16,9 @@ use Termwind\Components\Element;
  * @property string $contenu Contenu du message
  * @property string $date_publication Date de création du message
  * @property int|null $id_suppression ID de l'élément supprimé s'il y en a un
+ * @property int $likes Nombre de likes
+ * @property int $partages Nombre de partages
+ * @property string|null $media Media lié
  */
 class Message extends Model
 {

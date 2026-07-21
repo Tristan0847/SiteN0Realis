@@ -3,11 +3,12 @@
 import { useVariant } from '@BlogsFront/contexts/VariantContext';
 import { getVariantStyles } from '@BlogsFront/lib/variant-styles';
 import { Message } from '@BlogsFront/model/Blog';
-import Image from "next/image";
 import { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import SuppressionBox from '@BlogsFront/components/SuppressionBox';
 import ElementSupprimeBox from '@BlogsFront/components/ElementSupprimeBox';
+import {ImageDeProfil} from "@BlogsFront/components/UI/ImageDeProfil";
+import {ReactMarkdownElement} from "@BlogsFront/components/UI/ReactMarkdownElement";
 
 /**
  * Props du composant MessageItem
@@ -24,10 +25,6 @@ type MessageItemProps = {
  * @returns Composant React
  */
 export function MessageItem({ message, suppressionHandler }: MessageItemProps) {
-    // Chemin vers l'avatar
-    const avatarDefaut = `/assets/BlogVacare/Icones/Vince.jpg`;
-    const avatarUtilisateur = `/assets/BlogVacare/Icones/${message.nom_utilisateur}.jpg`;
-    const [avatarSrc, setAvatarSrc] = useState(avatarUtilisateur);
     const [afficherSupprime, setAfficherSupprime] = useState(false);
 
     // Formatage de la date
@@ -44,14 +41,7 @@ export function MessageItem({ message, suppressionHandler }: MessageItemProps) {
     return (
         <div className={ styles.messageItem }>
             <div className={ styles.messageImgConteneur }>
-                <Image
-                    className={ styles.messageImg }
-                    src={avatarSrc}
-                    alt={`Avatar de ${message.nom_utilisateur}`}
-                    width={64}
-                    height={64}
-                    onError={() => setAvatarSrc(avatarDefaut)}
-                />
+                <ImageDeProfil nom_utilisateur={message.nom_utilisateur} classNames={styles.messageImg} />
             </div>
 
             <div className={ styles.messageConteneur }>
@@ -75,14 +65,9 @@ export function MessageItem({ message, suppressionHandler }: MessageItemProps) {
                         <button onClick={() => setAfficherSupprime(!afficherSupprime)} className={ styles.messageSupprimeBtn }>{afficherSupprime ? "Masquer" : "Voir quand même"}</button>
                         {afficherSupprime && (
                             <div className={`${styles.messageContenu} mt-3 opacity-90`}>
-                                <ReactMarkdown
-                                    components={{
-                                        a: ({...props}) => (
-                                            <a {...props} className="underline hover:font-bold" target='_blank' rel="noopener noreferrer" />
-                                        )
-                                    }}>
-                                {message.contenu}
-                                </ReactMarkdown>
+                                <ReactMarkdownElement>
+                                    {message.contenu}
+                                </ReactMarkdownElement>
                             </div>
                         )}
                     </div>
