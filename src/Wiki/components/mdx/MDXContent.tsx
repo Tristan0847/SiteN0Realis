@@ -1,5 +1,6 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { useMDXComponent } from "next-contentlayer2/hooks";
 import { ArticlesLies } from "@Wiki/components/Wiki/ArticlesLies";
 import { Citation } from "@Wiki/components/Wiki/Citation";
@@ -17,6 +18,17 @@ interface MDXContentProps {
     code: string
 }
 
+const GrapheDeConnaissance = dynamic(
+  () =>
+    import("@Wiki/components/GrapheDeConnaissance").then(
+      (mod) => mod.GrapheDeConnaissance
+    ),
+  {
+    ssr: false,
+    loading: () => <div className="text-gray-400 text-sm">Chargement du graphe...</div>,
+  }
+);
+
 // Composants custom pour remplacer les éléments HTML par défaut
 const components = {
     // Composants custom
@@ -24,6 +36,7 @@ const components = {
     NDA,
     ArticlesLies,
     ArbreGenealogique,
+    GrapheDeConnaissance,
     ImageFlottante, SectionAvecImageFlottante, ImageCustom,
     Audio,
     

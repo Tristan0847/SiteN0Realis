@@ -1,0 +1,41 @@
+'use client';
+
+import {Blog} from '@BlogsFront/model/Blog';
+import {BlogItem} from '@BlogsFront/components/blog/BlogItem';
+import {getVariantStyles} from '@BlogsFront/lib/variant-styles';
+import {useVariant} from '@BlogsFront/contexts/VariantContext';
+
+/**
+ * Props du composant BlogList
+ */
+type BlogListProps = {
+    blogs: Blog[];
+    slugDossier: string;
+    suppressionHandler?: (id: number, raison: string, cache: boolean) => Promise<void>;
+}
+
+/**
+ * Méthode de composant pour afficher une liste de blogs
+ * @param blogs Liste des blogs à afficher
+ * @param slugDossier Slug du dossier contenant le blog
+ * @param suppressionHandler Handler de suppression d'un blog
+ * @returns Composant React contenant la liste de blogs
+ */
+export function BlogList({blogs, slugDossier, suppressionHandler}: BlogListProps) {
+    // Récupération des styles
+    const variant = useVariant();
+    const styles = getVariantStyles(variant);
+
+    // Affichage dans l'ordre chronologique
+    const blogsTries : Blog[] = blogs.sort((a, b) => new Date(b.date_creation).getTime() - new Date(a.date_creation).getTime());
+
+    if (blogs.length > 0) {
+        return (
+            <div className={styles.listeBlogsConteneur}>
+                {blogsTries.map(b => (
+                    <BlogItem key={b.id} blog={b} slugDossier={slugDossier} suppressionHandler={suppressionHandler}/>
+                ))}
+            </div>
+        );
+    }
+}

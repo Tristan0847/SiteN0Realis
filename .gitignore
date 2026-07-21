@@ -42,10 +42,9 @@ yarn-error.log*
 next-env.d.ts
 
 
-/src/BlogVacare/backend/.next
-/src/BlogVacare/backend/node_modules
-/src/BlogVacare/frontend/.next
-/src/BlogVacare/frontend/out
+/src/BlogVacare/.next
+/src/BlogVacare/out
+/src/BlogVacare/public/data
 /src/Wiki/contenu
 /src/Wiki/.contentlayer
 /src/Wiki/.next
@@ -69,3 +68,6 @@ next-env.d.ts
 /src/Rats/contenuPages
 /src/Rats/public/assets/*
 !/src/Rats/public/assets/SourceSans3-Regular.ttf
+.idea
+/src-back/src/BlogVacare/public/assets/BlogVacare/Community/post-medias
+/src/BlogVacare/public/assets/BlogVacare/Community/post-medias

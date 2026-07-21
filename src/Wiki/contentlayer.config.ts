@@ -46,7 +46,10 @@ export const Article = defineDocumentType(() => ({
         relations: {type: 'json', required: false },
 
         // Arbre généalogique éventuel
-        arbreGenealogique: { type: 'json', required: false }
+        arbreGenealogique: { type: 'json', required: false },
+
+        // Graphe de connaissance éventuel
+        articlesGraphe: { type: 'json', required: false }
     },
 
     // Champs calculés à partir des données reçues

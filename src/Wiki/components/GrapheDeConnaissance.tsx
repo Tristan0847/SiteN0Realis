@@ -9,11 +9,13 @@ import { DonneesArticle } from "@Wiki/utils/recuperationArticles";
 
 const couleurFond = "#f0f0f0";
 const COULEURS_CATEGORIES: Record<string, string> = {
-  Vedettes: "#3b82f6",
-  Lieu: "#10b981",
-  Événement: "#f59e0b",
-  Concepts: "#8b5cf6",
-  Defaut: "#000000"
+    Vedettes: "#3b82f6",
+    Lieu: "#10b981",
+    Événement: "#f59e0b",
+    Concepts: "#8b5cf6",
+    "Mythes et Légendes": "#222222",
+    "Autres": "#800028",
+    Defaut: "#000000"
 };
 
 // Taille des noeuds
@@ -32,7 +34,7 @@ const edgeTypes = {
 // Variable définissant la distance entre 2 noeuds
 const DISTANCE_ENTRE_NOEUDS = 10;
 // Force de distance globale
-const FORCE_DISTANCE = 0.5;
+const FORCE_DISTANCE = 0.25;
 // Force de répulsion entre les noeuds
 const FORCE_REPULSION = -40;
 // Force de collision entre les noeuds
@@ -52,6 +54,8 @@ interface GrapheConnaissanceProps {
     className?: string;
     height?: string;
     avecFiltres?: boolean;
+    liens? : boolean;
+    couleurs?: Record<string, string>;
 }
 
 /**
@@ -72,6 +76,8 @@ interface NodeData {
     label: string;
     categorie: string;
     estCentre: boolean;
+    lien? : boolean;
+    couleur? : string;
     x?: number;
     y?: number;
 }
@@ -96,9 +102,11 @@ interface EdgeData {
  * @param slugCentral Slug de l'article central du graphe (optionnel)
  * @param className Classe CSS à appliquer au conteneur du graphe (optionnel)
  * @param avecFiltres Indique si les filtres doivent être affichés (optionnel)
+ * @param liens Indique si les liens doivent être affichés (optionnel)
+ * @param couleurs Couleurs des categories (optionnel)
  * @returns Composant GrapheDeConnaissance 
  */
-export function GrapheDeConnaissance({ articles, slugCentral = "", className = "", height = "700px", avecFiltres = true }: GrapheConnaissanceProps) {
+export function GrapheDeConnaissance({ articles, slugCentral = "", className = "", height = "700px", avecFiltres = true, liens = true, couleurs = COULEURS_CATEGORIES }: GrapheConnaissanceProps) {
     // Initialisation des états pour les noeuds et arêtes du graphe
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
@@ -109,7 +117,7 @@ export function GrapheDeConnaissance({ articles, slugCentral = "", className = "
     // Génération du graphe
     useEffect(() => {
         setEnChargement(true);
-        const { nodes, edges } = genererGraphe(articles, slugCentral, filtresActifs);
+        const { nodes, edges } = genererGraphe(articles, couleurs, slugCentral, filtresActifs, liens);
         setNodes(nodes);
         setEdges(edges);
         
@@ -239,7 +247,7 @@ export function GrapheDeConnaissance({ articles, slugCentral = "", className = "
                     >
                         <Background color={ couleurFond } />
                         <Controls position="top-left"/>
-                        <MiniMap nodeColor={(node) => COULEURS_CATEGORIES[node.data.categorie] || COULEURS_CATEGORIES.Defaut} maskColor="rgba(f,f,f,0.3)" />
+                        <MiniMap nodeColor={(node) => couleurs[node.data.categorie] || couleurs.Defaut} maskColor="rgba(f,f,f,0.3)" />
 
                         { avecFiltres && (
                             <Panel position="top-right" className="bg-gray-800 p-4 rounded-lg shadow-lg border border-gray-300/80 text-white">
@@ -249,7 +257,7 @@ export function GrapheDeConnaissance({ articles, slugCentral = "", className = "
                                     { categories.map( (categorie) => (
                                         <label key={categorie} className="flex items-center gap-2 text-sm text-gray-100">
                                             <input type="checkbox" checked={filtresActifs.size === 0 || filtresActifs.has(categorie)} onChange={ () => changerCategorie(categorie) } className="rounded" />
-                                            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: COULEURS_CATEGORIES[categorie] || COULEURS_CATEGORIES.Defaut }}/>
+                                            <span className="w-3 h-3 rounded-full" style={{ backgroundColor: couleurs[categorie] || couleurs.Defaut }}/>
                                             <span>{categorie}</span>
                                         </label>
                                     ))}
@@ -288,11 +296,13 @@ export function GrapheDeConnaissance({ articles, slugCentral = "", className = "
 /**
  * Méthode de génération du graphe à partir des données entrées
  * @param articles Articles à utiliser
+ * @param couleurs Couleurs des catégories
  * @param slugCentral Slug central éventuel
  * @param categoriesFiltrees Catégories filtrées éventuelles
+ * @param lien Si le graphe doit avoir des liens ou non
  * @returns Noeuds et arêtes du graphe
  */
-function genererGraphe(articles: DonneesArticle[], slugCentral?: string, categoriesFiltrees?: Set<string>) : { nodes: Node[]; edges: Edge[] } {
+function genererGraphe(articles: DonneesArticle[], couleurs : Record<string, string>, slugCentral?: string, categoriesFiltrees?: Set<string>, lien?: boolean) : { nodes: Node[]; edges: Edge[] } {
     // Filtrage des articles
     const articlesFiltres = articles.filter( (a) => {
         // Si aucun filtre n'est actif, on garde tout
@@ -309,6 +319,8 @@ function genererGraphe(articles: DonneesArticle[], slugCentral?: string, categor
         label: article.titre,
         categorie: article.categorie,
         estCentre: article.slug === slugCentral,
+        lien: lien,
+        couleur: couleurs[article.categorie] || couleurs.Defaut,
         x: undefined,
         y: undefined
     }));
@@ -390,7 +402,9 @@ function genererGraphe(articles: DonneesArticle[], slugCentral?: string, categor
             slug: node.id,
             titre: node.label,
             categorie: node.categorie,
-            estCentre: node.estCentre
+            estCentre: node.estCentre,
+            lien: node.lien,
+            couleur: node.couleur
         }
     }));
 
@@ -427,8 +441,7 @@ function genererGraphe(articles: DonneesArticle[], slugCentral?: string, categor
  * @param data Données de l'article
  * @returns Composant NoeudArticle
  */
-function NoeudArticle({ data }: { data: { slug: string; titre: string; categorie: string; estCentre: boolean } }) {
-    const couleur = COULEURS_CATEGORIES[data.categorie] || COULEURS_CATEGORIES.Defaut;
+function NoeudArticle({ data }: { data: { slug: string; titre: string; categorie: string; estCentre: boolean; lien : boolean; couleur: string } }) {;
     const borderClass = data.estCentre ? "border-4 border-yellow-600" : "border-2 border-gray-700";
     const taille = data.estCentre ? TAILLE_NOEUD * 1.5 : TAILLE_NOEUD;
 
@@ -468,7 +481,7 @@ function NoeudArticle({ data }: { data: { slug: string; titre: string; categorie
                 style={{ opacity: 0, top: '50%', left: '50%' }} 
             />
 
-            <Link href={ `/article/${data.slug}` }
+            {data.lien ? (<Link href={ `/article/${data.slug}` }
                 className={`${borderClass} rounded-full flex items-center justify-center transition-all duration-200 cursor-pointer hover:scale-110 hover:shadow-lg bg-gray-800`}
                 style={{
                 width: taille,
@@ -477,11 +490,17 @@ function NoeudArticle({ data }: { data: { slug: string; titre: string; categorie
             >
                 <div
                 className="w-full h-full rounded-full flex items-center justify-center text-white font-bold text-xs"
-                style={{ backgroundColor: couleur }}
+                style={{ backgroundColor: data.couleur }}
                 >
                 { titreAffiche }
                 </div>
-            </Link>
+            </Link>)
+            :
+                <div className={`${borderClass} w-full h-full rounded-full flex items-center justify-center text-white font-bold text-xs hover:scale-110 hover:shadow-lg transition-all duration-200`}
+                style={{ backgroundColor: data.couleur, width: taille, height: taille, }}>
+                { titreAffiche }
+                </div>}
+            
 
             {/* Tooltip */}
             <div className="absolute hidden group-hover:flex flex-col items-center -top-16 left-1/2 -translate-x-1/2 z-50 pointer-events-none">

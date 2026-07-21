@@ -43,6 +43,6 @@ export function PageAccueil({ articles }: AccueilProps) {
     <p className="text-xl py-4">N'hésitez pas à <A href='/recherche'>faire une recherche</A> pour trouver un article qui vous intéresserait !</p>
     <p className="text-xl py-4">Trouvez ci-dessous un schéma réduit des différentes liaisons entre nos articles ! Un article aléatoire sélectionné, toutes ses connexion révélées ! Cliquez sur un article pour en savoir plus à son sujet !</p>
     <p className="text-xl my-4 text-center">Pourquoi pas découvrir... {articleCentral ? (<Link href={articleCentral ? `/article/${articleCentral.slug}` : "#"} className="font-bold text-2xl underline hover:bg-gray-400/80 p-2">{articleCentral.titre}</Link>) : "l'article qui est en cours de chargement..."} !</p>
-    <GrapheDeConnaissance articles={ articlesAffiches } slugCentral={ (articleCentral) ? articleCentral.slug : "" } avecFiltres={false} />
+    <GrapheDeConnaissance articles={ articlesAffiches } slugCentral={ (articleCentral) ? articleCentral.slug : "" } avecFiltres={false} liens={true}/>
     </>);
 }
