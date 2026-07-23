@@ -1,5 +1,5 @@
-import { MoteurResonance } from '@BlogsFront/utils/Resonances/MoteurResonances';
-import { RESONANCE_PRESETS, TypeConfigResonance } from '@BlogsFront/utils/Resonances/ResonanceConfig';
+import { MoteurResonance } from '../utils/Resonances/MoteurResonances';
+import { RESONANCE_PRESETS, TypeConfigResonance } from '../utils/Resonances/ResonanceConfig';
 import { useEffect, useRef } from 'react';
 
 /**

@@ -2,8 +2,8 @@ import {Footer} from '@BlogsFront/components/Footer';
 import {Header} from '@BlogsFront/components/Header';
 import '@BlogsFront/styles/globals.css';
 import {VariantProvider} from '@BlogsFront/contexts/VariantContext';
-import FondResonance from '@BlogsFront/components/FondResonances';
-import {TypeConfigResonance} from '@BlogsFront/utils/Resonances/ResonanceConfig';
+import FondResonance from 'lib/components/FondResonances';
+import {TypeConfigResonance} from 'lib/utils/Resonances/ResonanceConfig';
 
 /**
  * Layout racine : commun à tout le site

@@ -3,8 +3,8 @@ import {Header} from '@BlogsFront/components/Header';
 import '@BlogsFront/styles/globals.css';
 import {Metadata} from 'next';
 import {VariantProvider} from '@BlogsFront/contexts/VariantContext';
-import {TypeConfigResonance} from '@BlogsFront/utils/Resonances/ResonanceConfig';
-import FondResonance from '@BlogsFront/components/FondResonances';
+import {TypeConfigResonance} from 'lib/utils/Resonances/ResonanceConfig';
+import FondResonance from 'lib/components/FondResonances';
 
 /**
  * Composant pour gérer les balises meta du site

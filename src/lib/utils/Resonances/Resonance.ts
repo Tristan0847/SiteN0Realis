@@ -1,4 +1,4 @@
-import { ResonanceConfig } from "@BlogsFront/utils/Resonances/ResonanceConfig";
+import { ResonanceConfig } from "./ResonanceConfig";
 
 /**
  * Données concernant une résonance 

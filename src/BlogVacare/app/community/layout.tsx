@@ -2,8 +2,8 @@ import '@BlogsFront/styles/globals.css';
 import {Metadata} from 'next';
 import {AsideCommunity} from "@BlogsFront/components/community/Aside";
 import {FooterCommunity} from "@BlogsFront/components/community/Footer";
-import FondResonance from "@BlogsFront/components/FondResonances";
-import { TypeConfigResonance } from "@BlogsFront/utils/Resonances/ResonanceConfig";
+import FondResonance from "lib/components/FondResonances";
+import { TypeConfigResonance } from "lib/utils/Resonances/ResonanceConfig";
 
 /**
  * Composant pour gérer les balises meta du site

@@ -1,6 +1,6 @@
 'use client';
-import {useResonanceAnimation} from '@BlogsFront/hooks/useResonanceAnimation';
-import {TypeConfigResonance} from '@BlogsFront/utils/Resonances/ResonanceConfig';
+import {useResonanceAnimation} from '../hooks/useResonanceAnimation';
+import {TypeConfigResonance} from '../utils/Resonances/ResonanceConfig';
 
 /**
  * Interface de props passés en paramètre au fond de résonances

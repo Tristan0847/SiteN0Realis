@@ -1,5 +1,5 @@
-import { Resonance } from "@BlogsFront/utils/Resonances/Resonance";
-import { ResonanceConfig } from "@BlogsFront/utils/Resonances/ResonanceConfig";
+import { Resonance } from "./Resonance";
+import { ResonanceConfig } from "./ResonanceConfig";
 
 /**
  * Gestionnaire centralisé des résonances
