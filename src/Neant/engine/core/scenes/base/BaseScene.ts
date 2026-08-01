@@ -3,6 +3,7 @@ import {DefaultSceneEventType, GAME_CONTEXT_REGISTRY_KEY, GameContext, GameState
 import Phaser from "phaser";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import {SceneAsset} from "./SceneAsset";
+import {withAssetPrefix} from "@lib/utils/withAssetPrefix";
 
 /**
  * Base scene for the application, can implement :<br/>
@@ -39,7 +40,7 @@ export abstract class BaseScene<
 
         if (props.audioPath && props.audioPath !== "") {
             this.bgMusicKey = `bgmusic:${props.id}`;
-            this.bgMusicSource = props.audioPath;
+            this.bgMusicSource = withAssetPrefix(props.audioPath);
 
             assets = assets || [];
             assets.push({
@@ -48,6 +49,11 @@ export abstract class BaseScene<
                 src: props.audioPath
             });
         }
+
+        // Prefixes the assets
+        assets?.forEach((asset) => {
+            asset.src = withAssetPrefix(asset.src);
+        })
 
         this.assets = assets;
     }
@@ -96,6 +102,12 @@ export abstract class BaseScene<
         // No preload if no assets
         if (!this.assets || this.assets.length === 0) return;
 
+        this.load.xhr.headers = {
+            headers: {
+                "Cache-Control": "no-cache"
+            }
+        };
+
         for (const asset of this.assets) {
             switch (asset.type) {
                 case "image":
@@ -107,7 +119,6 @@ export abstract class BaseScene<
                     break;
             }
         }
-
     }
 
     /**

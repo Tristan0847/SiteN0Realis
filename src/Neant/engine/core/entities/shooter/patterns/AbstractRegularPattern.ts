@@ -20,7 +20,7 @@ export abstract class AbstractRegularPattern implements IEnemyPattern {
     protected readonly cooldownMs: number;
     protected readonly speed: number;
     protected readonly damage: number;
-    protected lastShotAt : number|null = null;
+    protected timeSinceLastShot : number = 0;
 
     constructor(props: RegularPatternProps) {
         this.poolKey = props.poolKey;
@@ -35,19 +35,16 @@ export abstract class AbstractRegularPattern implements IEnemyPattern {
         time: number,
         delta: number
     ): boolean {
-        if (this.lastShotAt === null) {
-            this.lastShotAt = time;
-            return false;
-        }
+        this.timeSinceLastShot += delta;
 
         // Only shoots if the cooldown is over
-        if (time - this.lastShotAt < this.cooldownMs) {
+        if (this.timeSinceLastShot < this.cooldownMs) {
             return false;
         }
 
         const projectilesFired = this.shoot(enemy, pools);
         if (projectilesFired) {
-            this.lastShotAt = time;
+            this.timeSinceLastShot = 0;
         }
 
         return projectilesFired;

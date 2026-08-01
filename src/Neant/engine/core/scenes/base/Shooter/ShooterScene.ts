@@ -117,6 +117,16 @@ export abstract class ShooterScene extends AbstractShooterScene {
         );
     }
 
+    protected onGameResume(): void {
+        this.boss.setPaused(false);
+        super.onGameResume();
+    }
+
+    protected onGamePause(): void {
+        this.boss.setPaused(true);
+        super.onGamePause();
+    }
+
     //#region Hit handlers
     /**
      * Handles the hit of a projectile on the boss

@@ -16,7 +16,7 @@ export class BurstTripleShootPattern extends TripleShootPattern {
     private readonly burstInterval: number;
 
     private shotsRemaining = 0;
-    private lastBurstAt : number|null = null;
+    private timeSinceLastBurst : number|null = null;
 
     constructor(props: BurstTripleShootPatternProps) {
         super(props);
@@ -30,23 +30,21 @@ export class BurstTripleShootPattern extends TripleShootPattern {
     }
 
     public override update(enemy: Enemy, pools: Readonly<Record<string, ProjectilePool>>, time: number, delta: number): boolean {
-        // Same as in triple shoot pattern
-        if (this.lastShotAt === null) {
-            this.lastShotAt = time;
-            return false;
-        }
+        this.timeSinceLastShot += delta;
+        if (this.timeSinceLastBurst !== null)
+            this.timeSinceLastBurst += delta;
 
         // Defines the current last burst at if no last burst
         if (this.shotsRemaining === 0) {
-            if (time - this.lastShotAt < this.cooldownMs) {
+            if (this.timeSinceLastShot < this.cooldownMs) {
                 return false;
             }
 
             this.shotsRemaining = this.burstCount;
-            this.lastBurstAt = null;
+            this.timeSinceLastBurst = null;
         }
 
-        if (this.lastBurstAt !== null && time - this.lastBurstAt < this.burstInterval) {
+        if (this.timeSinceLastBurst !== null && this.timeSinceLastBurst < this.burstInterval) {
             return false;
         }
 
@@ -58,11 +56,11 @@ export class BurstTripleShootPattern extends TripleShootPattern {
         }
 
         this.shotsRemaining -= 1;
-        this.lastBurstAt = time;
+        this.timeSinceLastBurst = 0;
 
         if (this.shotsRemaining === 0) {
-            this.lastShotAt = time;
-            this.lastBurstAt = null;
+            this.timeSinceLastShot = 0;
+            this.timeSinceLastBurst = null;
         }
 
         return hasFired;

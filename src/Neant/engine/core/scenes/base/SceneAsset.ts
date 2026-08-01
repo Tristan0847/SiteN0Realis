@@ -9,6 +9,6 @@ export type SceneAssetType = "image" | "audio";
 export interface SceneAsset {
     readonly key: string;
     readonly type: SceneAssetType;
-    readonly src: string;
+    src: string;
     readonly pixelArt?: boolean;
 }

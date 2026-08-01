@@ -37,7 +37,7 @@ export function ShooterGameRoot({shooterScenes} : ShooterGameRootProps) {
                 scenes={shooterScenes}
             />
         :
-            <CenteredLink href={"/memento/jp"}>
+            <CenteredLink href={process.env.NEXT_PUBLIC_ASSET_PREFIXE ? process.env.NEXT_PUBLIC_ASSET_PREFIXE + "/memento/jp" : "/memento/jp"}>
                 Les dernières résonances de JP...
             </CenteredLink>
     );

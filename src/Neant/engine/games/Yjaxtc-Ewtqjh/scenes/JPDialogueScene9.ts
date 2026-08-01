@@ -1,5 +1,5 @@
 import {JPDialogueSceneBase} from "@/engine/games/Yjaxtc-Ewtqjh/scenes/JPDialogueSceneBase";
-import {DialogueImageSlot, DialogueSection} from "../../../core/scenes/base/Shooter/DialogueScene";
+import {DialogueSection} from "../../../core/scenes/base/Shooter/DialogueScene";
 
 export class JPDialogueScene9 extends JPDialogueSceneBase {
 
@@ -17,7 +17,7 @@ export class JPDialogueScene9 extends JPDialogueSceneBase {
                         },
                         width: 192,
                         height: 192,
-                        opacity: 1
+                        opacity: 0.8
                     },
                     {
                         textureKey: "jp-dialog",
@@ -27,7 +27,7 @@ export class JPDialogueScene9 extends JPDialogueSceneBase {
                         },
                         width: 192,
                         height: 192,
-                        opacity: 1
+                        opacity: 0.8
                     },
                 ],
             },
@@ -43,7 +43,7 @@ export class JPDialogueScene9 extends JPDialogueSceneBase {
                         },
                         width: 192,
                         height: 192,
-                        opacity: 1
+                        opacity: 0.5
                     },
                     {
                         textureKey: "jp-dialog",
@@ -53,7 +53,7 @@ export class JPDialogueScene9 extends JPDialogueSceneBase {
                         },
                         width: 288,
                         height: 288,
-                        opacity: 1
+                        opacity: 0.5
                     },
                 ],
             },
@@ -69,45 +69,24 @@ export class JPDialogueScene9 extends JPDialogueSceneBase {
                         },
                         width: 192,
                         height: 192,
-                        opacity: 1
+                        opacity: 0.25
                     },
                     {
                         textureKey: "jp-dialog",
                         position: {
-                            x: 450,
+                            x: 600,
                             y: 450
                         },
                         width: 288,
                         height: 288,
-                        opacity: 1
+                        opacity: 0.25
                     },
                 ],
             },
             {
                 speakerName: "JP",
                 text: "Laisse-moi juste prévenir tonton Ed, il m'a dit qu'il attendait le signal pour que je l'invite !",
-                images: [
-                    {
-                        textureKey: "jps-kid",
-                        position: {
-                            x: 250,
-                            y: 450
-                        },
-                        width: 192,
-                        height: 192,
-                        opacity: 1
-                    },
-                    {
-                        textureKey: "jp-dialog",
-                        position: {
-                            x: 700,
-                            y: 450
-                        },
-                        width: 288,
-                        height: 288,
-                        opacity: 1
-                    },
-                ],
+                images: [],
             },
         ]
 

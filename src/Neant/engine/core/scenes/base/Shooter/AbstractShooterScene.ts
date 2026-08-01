@@ -299,8 +299,8 @@ export abstract class AbstractShooterScene extends BaseScene {
      */
     protected getPlayerProps(): Omit<PlayerProps, "minX" | "maxX"> {
         return {
-            maxHp: 78,
-            hp: 78,
+            maxHp: 50,
+            hp: 50,
             displayWidth: 40,
             displayHeight: 36,
             projectileDamage: 5,

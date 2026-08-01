@@ -28,11 +28,11 @@ export class Enemy extends HittableSprite {
     private readonly pools: Readonly<Record<string, ProjectilePool>>;
     private readonly movementController: IEnemyMovementController;
     private readonly shootPatterns: IEnemyPattern[];
-    private canShoot : boolean = true;
     private spriteKey : string;
     private spriteKeyShooting : string;
     private shootingTextureDurationMs : number = 100;
     private shootingTimer : Phaser.Time.TimerEvent | undefined;
+    private paused : boolean = false;
 
     constructor(scene: Phaser.Scene, props: EnemyProps) {
         super(scene, props.x, props.y, props.textureKey, props.maxHp, props.hp);
@@ -57,14 +57,13 @@ export class Enemy extends HittableSprite {
      */
     public override preUpdate(time: number, delta: number): void {
         super.preUpdate(time, delta);
+        if (this.paused) return;
 
         this.movementController.update(this, time, delta);
 
         let hasFired = false;
-        if (this.canShoot) {
-            for (const pattern of this.shootPatterns) {
-                hasFired ||= pattern.update(this, this.pools, time, delta);
-            }
+        for (const pattern of this.shootPatterns) {
+            hasFired ||= pattern.update(this, this.pools, time, delta);
         }
 
         if (hasFired) {
@@ -92,10 +91,10 @@ export class Enemy extends HittableSprite {
     }
 
     /**
-     * Sets if the enemy can shoot or not (pause menu, game over, etc.)
-     * @param canShoot
+     * Sets the paused state of the enemy
+     * @param paused
      */
-    public setCanShoot(canShoot: boolean): void {
-        this.canShoot = canShoot;
+    public setPaused(paused: boolean): void {
+        this.paused = paused;
     }
 }

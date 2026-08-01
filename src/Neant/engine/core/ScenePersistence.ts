@@ -6,7 +6,6 @@ import {COOKIE_GLOBAL_OPTIONS} from "@lib/storage/cookies/cookie-options";
  */
 export class ScenePersistence {
     private readonly storageKey: string;
-    private readonly path : string = "neant/";
 
     constructor(storageKey = "game.currentSceneId") {
         this.storageKey = storageKey;
