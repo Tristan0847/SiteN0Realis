@@ -9,9 +9,19 @@ export interface GameState {
  * Default scene types, can be extended depending on the game
  */
 export type DefaultSceneEventType =
+    | "SCENE_READY"
     | "LOAD_SCENE"
     | "RETURN_TO_MENU"
-    | "RELOAD_SCENE";
+    | "RELOAD_SCENE"
+    | "MENU_READY"
+    | "GAME_ENDED";
+
+/**
+ * Menu scene types
+ */
+export type MenuSceneEventTypes = | DefaultSceneEventType | "RESET_SAVE" | "LOAD_INITIAL_SCENE";
+
+export type AnySceneEventType = DefaultSceneEventType | MenuSceneEventTypes;
 
 /**
  * Base event the scenes can throw to the engine
@@ -32,7 +42,7 @@ export const GAME_CONTEXT_REGISTRY_KEY = "__game_context__";
  */
 export interface GameContext<
     S extends GameState = GameState,
-    E extends SceneEvent = SceneEvent,
+    E extends SceneEvent<string> = SceneEvent<DefaultSceneEventType>,
 > {
     emit(event: E): void;
     getState(): Readonly<S>;

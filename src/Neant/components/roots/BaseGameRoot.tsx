@@ -29,6 +29,19 @@ export function BaseGameRoot<S extends GameState, E extends SceneEvent>({ scenes
             width: WIDTH,
             height: HEIGHT,
 
+            // Arcade physics for 2D without gravity
+            physics: {
+                default: "arcade",
+                arcade: {
+                    gravity: {
+                        x: 0,
+                        y: 0,
+                    },
+//                    debug: process.env.NODE_ENV === "development",
+                    debug: false,
+                }
+            },
+
             scene: [],
             scale: {
                 mode: Phaser.Scale.FIT,

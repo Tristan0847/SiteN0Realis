@@ -15,14 +15,13 @@ export interface BaseSceneProps {
 }
 
 /**
- * Base shooter scene props, with boss data and player damage
+ * Base shooter scene props, with boss data and player damage<br/>
+ * Target HP and direction defines the end of the scene : targetHP is the amount of HP the boss must have left to continue the scene, targetDirection is the direction the HP must be calculated at (false for targetHP inferior to the entered target, true for targetHP superior to the entered target)
  */
 export interface ShooterSceneProps extends BaseSceneProps {
     type: "shooter";
-    playerDamage: number;
-    bossMaxHP : number;
-    bossHP?: number; // = bossMaxHP if not defined
-    bossThresholdHP?: number; // 0 by default
+    targetHp?: number; // 0 by default
+    targetDirection?: boolean;
 }
 
 /**

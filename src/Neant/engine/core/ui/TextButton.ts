@@ -1,8 +1,5 @@
 import Phaser from "phaser";
 
-/**
- * Text button options (hover color, font family, size, color, padding, ...)
- */
 export interface TextButtonOptions {
     readonly fontFamily?: string;
     readonly fontSize?: string;
@@ -12,79 +9,113 @@ export interface TextButtonOptions {
     readonly hoverBackgroundColor?: string;
     readonly paddingX?: number;
     readonly paddingY?: number;
+    readonly stroke?: string;
+    readonly strokeThickness?: number;
+    readonly borderWidth?: number;
+    readonly borderColor?: number;
+    readonly borderAlpha?: number;
 }
 
-/**
- * UI class to create a text button
- */
 export class TextButton {
-
-    /**
-     * Creates a text button
-     * @param scene Scene to add the button to
-     * @param x
-     * @param y
-     * @param label
-     * @param onClick
-     * @param options
-     */
-    static create(
+    public static create(
         scene: Phaser.Scene,
         x: number,
         y: number,
         label: string,
         onClick: () => void,
         options: TextButtonOptions = {},
-    ): Phaser.GameObjects.Text {
+    ): Phaser.GameObjects.Container {
         const {
             fontFamily = "Arial, sans-serif",
-            fontSize = "28px",
+            fontSize = "47px",
             defaultColor = "#f5f5f5",
             hoverColor = "#ffffff",
             backgroundColor = "#111111",
             hoverBackgroundColor = "#2a2a2a",
             paddingX = 18,
             paddingY = 10,
+            stroke = "#f5f5f5",
+            strokeThickness = 0,
+            borderWidth = 1,
+            borderColor = 0xbbbbbb,
+            borderAlpha = 0.74,
         } = options;
 
-        const button = scene.add
-            .text(x, y, label, {
-                color: defaultColor,
-                fontFamily,
-                fontSize,
-                backgroundColor,
-                padding: {
-                    x: paddingX,
-                    y: paddingY,
-                },
-            })
+        const container = new Phaser.GameObjects.Container(scene, x, y);
+
+        const text = new Phaser.GameObjects.Text(scene, 0, 0, label, {
+            color: defaultColor,
+            fontFamily,
+            fontSize,
+            padding: {
+                x: paddingX,
+                y: paddingY,
+            },
+            stroke,
+            strokeThickness,
+        }).setOrigin(0.5);
+
+        const width = text.width;
+        const height = text.height;
+
+        const background = new Phaser.GameObjects.Rectangle(
+            scene,
+            0,
+            0,
+            width,
+            height,
+            Phaser.Display.Color.HexStringToColor(backgroundColor).color,
+            1,
+        )
+            .setOrigin(0.5)
+            .setStrokeStyle(borderWidth, borderColor, borderAlpha);
+
+        const hitArea = new Phaser.GameObjects.Rectangle(
+            scene,
+            0,
+            0,
+            width,
+            height,
+            0x000000,
+            0.001,
+        )
             .setOrigin(0.5)
             .setInteractive({ useHandCursor: true });
 
-        button.on(Phaser.Input.Events.POINTER_OVER, () => {
-            button.setStyle({
-                color: hoverColor,
-                backgroundColor: hoverBackgroundColor,
-            });
+        hitArea.on(Phaser.Input.Events.POINTER_OVER, () => {
+            text.setColor(hoverColor);
+            background.setFillStyle(
+                Phaser.Display.Color.HexStringToColor(hoverBackgroundColor).color,
+                1,
+            );
         });
 
-        button.on(Phaser.Input.Events.POINTER_OUT, () => {
-            button.setScale(1);
-            button.setStyle({
-                color: defaultColor,
-                backgroundColor,
-            });
+        hitArea.on(Phaser.Input.Events.POINTER_OUT, () => {
+            container.setScale(1);
+            text.setColor(defaultColor);
+            background.setFillStyle(
+                Phaser.Display.Color.HexStringToColor(backgroundColor).color,
+                1,
+            );
         });
 
-        button.on(Phaser.Input.Events.POINTER_DOWN, () => {
-            button.setScale(0.97);
+        hitArea.on(Phaser.Input.Events.POINTER_DOWN, () => {
+            container.setScale(0.97);
         });
 
-        button.on(Phaser.Input.Events.POINTER_UP, () => {
-            button.setScale(1);
+        hitArea.on(Phaser.Input.Events.POINTER_UP, () => {
+            container.setScale(1);
             onClick();
         });
 
-        return button;
+        container.add([
+            background,
+            text,
+            hitArea,
+        ]);
+
+        scene.add.existing(container);
+
+        return container;
     }
 }

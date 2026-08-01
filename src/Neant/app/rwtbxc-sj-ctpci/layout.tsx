@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
-import FondResonance from "@lib/components/FondResonances";
-import {TypeConfigResonance} from "@lib/utils/Resonances/ResonanceConfig";
+import FondResonance from "lib/components/FondResonances";
+import {TypeConfigResonance} from "lib/utils/Resonances/ResonanceConfig";
 
 export const metadata = {
     title: 'Néant',

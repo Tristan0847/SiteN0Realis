@@ -1,8 +1,12 @@
+import {deleteCookie, getCookie, setCookie} from "cookies-next";
+import {COOKIE_GLOBAL_OPTIONS} from "@lib/storage/cookies/cookie-options";
+
 /**
  * Scene persistence, uses local storage and fallback cookie
  */
 export class ScenePersistence {
     private readonly storageKey: string;
+    private readonly path : string = "neant/";
 
     constructor(storageKey = "game.currentSceneId") {
         this.storageKey = storageKey;
@@ -12,25 +16,9 @@ export class ScenePersistence {
      * Load current scene id from storage
      */
     load(): string | null {
-        // Local storage if available
-        if (typeof window !== "undefined" && window.localStorage) {
-            const value = window.localStorage.getItem(this.storageKey);
-            return value || null;
-        }
+        const value = getCookie(this.storageKey);
 
-        // Fallback cookies
-        if (typeof document !== "undefined") {
-            const match = document.cookie
-                .split(";")
-                .map((c) => c.trim())
-                .find((c) => c.startsWith(this.storageKey + "="));
-            if (!match) return null;
-            const [, raw] = match.split("=");
-            return raw || null;
-        }
-
-        // Else, returns nothing
-        return null;
+        return typeof value === "string" && value.length > 0 ? value : null;
     }
 
     /**
@@ -38,25 +26,13 @@ export class ScenePersistence {
      * @param sceneId Scene id to save
      */
     save(sceneId: string): void {
-        if (typeof window !== "undefined" && window.localStorage) {
-            window.localStorage.setItem(this.storageKey, sceneId);
-        }
-
-        if (typeof document !== "undefined") {
-            document.cookie = `${this.storageKey}=${sceneId};path=/;SameSite=Lax`;
-        }
+        setCookie(this.storageKey, sceneId, COOKIE_GLOBAL_OPTIONS);
     }
 
     /**
      * Clear current scene id from storage
      */
     clear(): void {
-        if (typeof window !== "undefined" && window.localStorage) {
-            window.localStorage.removeItem(this.storageKey);
-        }
-
-        if (typeof document !== "undefined") {
-            document.cookie = `${this.storageKey}=;path=/;SameSite=Lax;max-age=0`;
-        }
+        deleteCookie(this.storageKey, COOKIE_GLOBAL_OPTIONS);
     }
 }

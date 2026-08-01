@@ -2,6 +2,9 @@
 import { BaseGameRoot } from "./BaseGameRoot";
 import { ShooterGameEngine, ShooterGameState, ShooterSceneEvent } from "@/engine/core/ShooterGameEngine";
 import Phaser from "phaser";
+import {NeantCookies} from "@lib/storage/cookies/neant";
+import {useState} from "react";
+import {CenteredLink} from "@/components/CenteredLink";
 
 interface ShooterGameRootProps {
     readonly shooterScenes: readonly (new () => Phaser.Scene)[];
@@ -13,19 +16,29 @@ interface ShooterGameRootProps {
  * @constructor
  */
 export function ShooterGameRoot({shooterScenes} : ShooterGameRootProps) {
+    const [gameEnded, setGameEnded] = useState<boolean>(false);
+
+
     const createEngine = (game : Phaser.Game) =>
         new ShooterGameEngine(
             game,
             {
-                initialSceneId: 'root', // scène initiale de ce shooter
+                initialSceneId: 'jp-dialog-0', // scène initiale de ce shooter
                 mainMenuId: "root", // menu principal
-            }
+            },
+            () => setGameEnded(true),
+            NeantCookies.jp.currentScene,
         );
 
     return (
-        <BaseGameRoot<ShooterGameState, ShooterSceneEvent>
-            createEngine={createEngine}
-            scenes={shooterScenes}
-        />
+        !gameEnded ?
+            <BaseGameRoot<ShooterGameState, ShooterSceneEvent>
+                createEngine={createEngine}
+                scenes={shooterScenes}
+            />
+        :
+            <CenteredLink href={"/memento/jp"}>
+                Les dernières résonances de JP...
+            </CenteredLink>
     );
 }

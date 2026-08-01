@@ -1,5 +1,5 @@
 import {AnySceneProps} from "./props";
-import {GAME_CONTEXT_REGISTRY_KEY, GameContext, GameState, SceneEvent} from "../../types";
+import {DefaultSceneEventType, GAME_CONTEXT_REGISTRY_KEY, GameContext, GameState, SceneEvent} from "../../types";
 import Phaser from "phaser";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import {SceneAsset} from "./SceneAsset";
@@ -13,13 +13,15 @@ import {SceneAsset} from "./SceneAsset";
  */
 export abstract class BaseScene<
     S extends GameState = GameState,
-    E extends SceneEvent = SceneEvent
+    E extends SceneEvent<string> = SceneEvent<DefaultSceneEventType>
 > extends Phaser.Scene {
+    //#region Attributes/properties
     readonly props: AnySceneProps;
     protected gameContext!: GameContext<S, E>;
     protected readonly assets?: SceneAsset[];
-    private backgroundMusic?: Phaser.Sound.BaseSound;
-    protected readonly bgMusicKey = "background-music";
+
+    protected readonly bgMusicKey?: string;
+    protected readonly bgMusicSource?: string;
 
     /**
      * Constructor
@@ -36,6 +38,9 @@ export abstract class BaseScene<
         this.props = props;
 
         if (props.audioPath && props.audioPath !== "") {
+            this.bgMusicKey = `bgmusic:${props.id}`;
+            this.bgMusicSource = props.audioPath;
+
             assets = assets || [];
             assets.push({
                 type: "audio",
@@ -47,7 +52,30 @@ export abstract class BaseScene<
         this.assets = assets;
     }
 
-    // #region Scene lifecycle
+    /**
+     * Returns the background music source
+     */
+    public getBackgroundMusicSource(): string | undefined {
+        return this.props.audioPath || undefined;
+    }
+
+    /**
+     * Returns the background music key
+     */
+    public getBackgroundMusicKey(): string | undefined {
+        return this.bgMusicKey;
+    }
+
+    /**
+     * Returns true if the scene must be saved
+     */
+    public getSave(): boolean {
+        return this.props.save;
+    }
+
+    //#endregion
+
+    //#region Scene lifecycle
     /**
      * Called when the scene is created
      */
@@ -87,7 +115,6 @@ export abstract class BaseScene<
      */
     create(): void {
         this.applyBackgroundColor();
-        this.playBackgroundMusic();
 
         // Creates the shutdown event listener
         this.events.once(
@@ -95,19 +122,36 @@ export abstract class BaseScene<
             this.shutdown,
             this,
         );
+
+        this.emitSceneEvent("SCENE_READY");
     }
 
     /**
      * Shutdown function, called when the scene gets removed from the process
      */
     shutdown(): void {
-        this.stopBackgroundMusic();
         this.clearWorld();
     }
     // #endregion
 
     // #region Scene configuration
+    /**
+     * Sets the pixel art filter for the scene
+     * @protected
+     */
+    protected setPixelArtFilter(): void {
+        if (this.assets) {
+            for (const asset of this.assets) {
+                if (asset.type !== "image" || !asset.pixelArt) {
+                    continue;
+                }
 
+                this.textures
+                    .get(asset.key)
+                    .setFilter(Phaser.Textures.FilterMode.NEAREST);
+            }
+        }
+    }
     /**
      * Applies the base background color
      * @protected
@@ -115,33 +159,6 @@ export abstract class BaseScene<
     protected applyBackgroundColor(): void {
         const color = this.props.bgColor || "000000";
         this.cameras.main.setBackgroundColor(`#${color}`);
-    }
-
-    /**
-     * Plays the background music
-     * @protected
-     */
-    protected playBackgroundMusic(): void {
-        if (!this.props.audioPath) return;
-
-        // Stops the current music before playing a new one
-        this.stopBackgroundMusic();
-
-        this.backgroundMusic = this.sound.add(this.bgMusicKey, {
-            loop: true,
-        });
-
-        this.backgroundMusic.play();
-    }
-
-    /**
-     * Stops the background music
-     * @protected
-     */
-    protected stopBackgroundMusic(): void {
-        this.backgroundMusic?.stop();
-        this.backgroundMusic?.destroy();
-        this.backgroundMusic = undefined;
     }
 
     /**
@@ -164,6 +181,10 @@ export abstract class BaseScene<
         if (this.gameContext) {
             this.gameContext.emit({ type, sceneId, data } as E);
         }
+    }
+
+    protected endGame(): void {
+        this.emitSceneEvent("GAME_ENDED");
     }
 
     /**

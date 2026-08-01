@@ -22,14 +22,18 @@ export class ShooterGameEngine extends AbstractGameEngine<
      * Constructor
      * @param game
      * @param config
+     * @param onGameEnded
+     * @param persistenceKey
      */
     constructor(
         game: Phaser.Game,
         config: GameEngineConfig,
+        onGameEnded : () => void,
+        persistenceKey : string|undefined = undefined
     ) {
         const initialState: ShooterGameState = {};
 
-        super(game, config, initialState);
+        super(game, config, initialState, onGameEnded, persistenceKey);
     }
 
     protected handleSceneEvent(

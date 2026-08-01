@@ -1,6 +1,9 @@
-import {GameState, SceneEvent, GameContext, GAME_CONTEXT_REGISTRY_KEY} from "./types";
+import {GameState, SceneEvent, GameContext, GAME_CONTEXT_REGISTRY_KEY, AnySceneEventType} from "./types";
 import {ScenePersistence} from "./ScenePersistence";
 import {Game} from "phaser";
+import {BaseScene} from "@/engine/core/scenes/base/BaseScene";
+import {MenuScene} from "@/engine/core/scenes/base/MenuScene";
+import {BackgroundMusicManager} from "@/engine/core/BackgroundMusicManager";
 
 /**
  * Game engine configuration
@@ -15,7 +18,7 @@ export interface GameEngineConfig {
  */
 export abstract class AbstractGameEngine<
     S extends GameState,
-    E extends SceneEvent
+    E extends SceneEvent<string> = SceneEvent<AnySceneEventType>
 > {
     // #region Properties/Constructor
     protected readonly game: Game;
@@ -24,9 +27,16 @@ export abstract class AbstractGameEngine<
 
     private readonly context : GameContext<S, E>;
     private readonly persistence : ScenePersistence;
+    private readonly backgroundMusicManager : BackgroundMusicManager;
 
     private currentSceneId : string|null = null;
     private started : boolean = false;
+
+    /**
+     * Callback to call when the game is over
+     * @private
+     */
+    private onGameEnded : () => void;
 
     /**
      * Returns the game state in readonly (no way to modify it from a scene, needs an emitEvent call)
@@ -48,19 +58,25 @@ export abstract class AbstractGameEngine<
      * @param game Game instance
      * @param config Game configuration
      * @param initialState Initial state of the game, with default values (default player HP, boss HP, ...)
-     * @param persistence Scene persistence manager
+     * @param onGameEnded
+     * @param persistenceKey
      * @protected
      */
     protected constructor(
         game: Game,
         config: GameEngineConfig,
         initialState: S,
-        persistence: ScenePersistence = new ScenePersistence(),
+        onGameEnded : () => void,
+        persistenceKey : string|undefined = undefined,
     ) {
         this.game = game;
         this.config = config;
         this.state = initialState;
-        this.persistence = persistence;
+        this.persistence = new ScenePersistence(persistenceKey);
+        this.backgroundMusicManager = new BackgroundMusicManager(
+            game.sound
+        );
+        this.onGameEnded = onGameEnded;
 
         this.assertSceneExists(config.initialSceneId);
         if (config.mainMenuId) {
@@ -107,12 +123,32 @@ export abstract class AbstractGameEngine<
                 this.loadScene(event.sceneId, event.data);
                 break;
 
+            case "LOAD_INITIAL_SCENE":
+                this.loadInitialScene();
+                break;
+
+            case "RESET_SAVE":
+                this.resetSave();
+                break;
+
+            case "MENU_READY":
+                this.setCanResetSave();
+                break;
+
+            case "SCENE_READY":
+                this.onSceneReady();
+                break;
+
             case "RETURN_TO_MENU":
                 this.returnToMenu();
                 break;
 
             case "RELOAD_SCENE":
                 this.reloadCurrentScene();
+                break;
+
+            case "GAME_ENDED":
+                this.onGameEnded();
                 break;
 
             default:
@@ -148,6 +184,7 @@ export abstract class AbstractGameEngine<
      */
     protected loadInitialScene(): void {
         const savedSceneId = this.persistence.load();
+
         const sceneId = (savedSceneId && this.game.scene.keys[savedSceneId]) ? savedSceneId : this.config.initialSceneId;
 
         this.loadScene(sceneId);
@@ -162,15 +199,38 @@ export abstract class AbstractGameEngine<
     protected loadScene(sceneId: string, data?: unknown): void {
         this.assertSceneExists(sceneId);
 
-        const scene = this.game.scene.getScene(sceneId);
-
         // If the scene is already active, do nothing
-        if (scene.sys.isActive()) {
+        if (this.currentSceneId === sceneId) {
             return;
+        }
+
+        const previousSceneId = this.currentSceneId;
+        this.currentSceneId = sceneId;
+
+        if (previousSceneId) {
+            this.game.scene.stop(previousSceneId);
         }
 
         this.game.scene.start(sceneId, data as object);
         this.currentSceneId = sceneId;
+
+        // Checks if the current scene must be saved or not
+        const scene = this.game.scene.getScene(sceneId) as BaseScene;
+
+        if (scene && scene.getSave()) {
+            this.persistence.save(sceneId);
+        }
+    }
+
+    protected onSceneReady(): void {
+        if (!this.currentSceneId) return;
+
+        const scene = this.game.scene.getScene(this.currentSceneId) as BaseScene;
+        this.backgroundMusicManager.play(
+            scene.getBackgroundMusicSource(),
+            scene.getBackgroundMusicKey(),
+            scene.tweens,
+        );
     }
 
     /**
@@ -192,7 +252,45 @@ export abstract class AbstractGameEngine<
             return;
         }
 
+        this.game.scene.stop(this.currentSceneId);
         this.game.scene.start(this.currentSceneId);
     }
-    // #endregion
+    //#endregion
+
+    //#region Save management
+
+    /**
+     * Sets the save reset button visibility
+     * @protected
+     */
+    protected setCanResetSave(): void {
+        if (!this.currentSceneId || this.currentSceneId !== this.config.mainMenuId) {
+            return;
+        }
+
+        const savedSceneId = this.persistence.load();
+        const canReset = (savedSceneId !== null) && savedSceneId !== this.config.initialSceneId;
+
+        const scene = this.game.scene.getScene(this.currentSceneId) as MenuScene;
+        scene.setCanResetSave(canReset);
+    }
+
+    /**
+     * Resets the save
+     * @protected
+     */
+    protected resetSave(): void {
+        if (!this.currentSceneId) {
+            return;
+        }
+
+        this.persistence.clear();
+
+        // Makes the button hidden after reset
+        const scene = this.game.scene.getScene(this.currentSceneId) as MenuScene;
+        scene.setCanResetSave(false);
+    }
+
+
+    //#endregion
 }

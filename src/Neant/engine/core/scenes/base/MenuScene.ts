@@ -2,12 +2,18 @@ import {BaseScene} from "./BaseScene";
 import {MenuSceneProps} from "./props";
 import {SceneAsset} from "./SceneAsset";
 import {TextButton} from "@/engine/core/ui/TextButton";
+import Phaser from "phaser";
+import {GameState, MenuSceneEventTypes, SceneEvent} from "@/engine/core/types";
 
 /**
  * Menu scene
  */
-export abstract class MenuScene extends BaseScene {
+export abstract class MenuScene extends BaseScene<GameState, SceneEvent<MenuSceneEventTypes>> {
     readonly props: MenuSceneProps;
+    private canResetSave : boolean = false;
+
+    private joinBtn!: Phaser.GameObjects.Container;
+    private resetBtn!: Phaser.GameObjects.Container;
 
     static readonly baseProps: Omit<MenuSceneProps, "id" | "nextSceneId" | "title" | "description" | "bgColor" | "audioPath"> = {
         type: "menu",
@@ -40,7 +46,7 @@ export abstract class MenuScene extends BaseScene {
     override create(): void {
         super.create();
 
-        const {width, height} = this.scale;
+        const {width} = this.scale;
 
         let currentY = 128;
 
@@ -74,17 +80,54 @@ export abstract class MenuScene extends BaseScene {
             descriptionText.setOrigin(0.5, 0.5);
 
             // Moves the current Y depending on the description height
-            currentY += descriptionText.height + 32;
+            currentY += descriptionText.height + 48;
         }
 
-        TextButton.create(
+        this.joinBtn = TextButton.create(
             this,
             width / 2,
             currentY,
             "Rejoindre",
             () => {
-                this.emitSceneEvent("LOAD_SCENE", this.props.nextSceneId);
+                this.emitSceneEvent("LOAD_INITIAL_SCENE");
             },
         )
+
+        this.resetBtn = TextButton.create(
+            this,
+            width / 2,
+            currentY + 128,
+            "Réinitialiser votre\nprogression.",
+            () => {
+                this.canResetSave && this.emitSceneEvent("RESET_SAVE");
+            },
+            {
+                defaultColor: "#aa0000",
+                hoverColor: "#ff6666",
+                backgroundColor: "#111111",
+                hoverBackgroundColor: "#1a1a1a",
+                borderColor: 0x878787,
+                borderAlpha: 0.47,
+                fontSize: "24px",
+            }
+        );
+        this.setCanResetSave(false);
+        this.emitSceneEvent("MENU_READY");
+    }
+
+    override shutdown() {
+        this.joinBtn?.destroy();
+        this.resetBtn?.destroy();
+        super.shutdown();
+    }
+
+    /**
+     * Set if the reset save button should be visible and active
+     * @param canResetSave
+     */
+    public setCanResetSave(canResetSave: boolean) {
+        this.canResetSave = canResetSave;
+        this.resetBtn?.setVisible(canResetSave);
+        this.resetBtn?.setActive(canResetSave);
     }
 }
