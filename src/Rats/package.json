@@ -9,9 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@tailwindcss/typography": "*",
     "bcryptjs" : "*",
     "react": "*",
     "react-dom": "*",
+    "lib": "*",
     "next": "*"
   },
   "devDependencies": {

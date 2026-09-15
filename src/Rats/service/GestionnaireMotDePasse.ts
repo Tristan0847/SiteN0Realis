@@ -40,7 +40,7 @@ export class GestionnaireMotDePasse {
 
         let estValide : boolean = false;
         const mdpTrim = mdp.trim();
-        const mdpMinuscule = mdp.toLowerCase();
+        const mdpMinuscule = mdpTrim.toLowerCase();
 
         // Vérification que le mot de passe correspond à l'un de ceux stockés : si c'est le cas, on brise la boucle
         for (const mdpStocke of this.motsDePasse) {

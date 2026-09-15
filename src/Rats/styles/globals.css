@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+@source "../app/**/*.tsx";
+@source "../contenuPages/**/*.tsx";
+
 @font-face {
     font-family: "Source Sans 3";
     src: url("/rats/assets/SourceSans3-Regular.ttf");
@@ -9,4 +12,16 @@
 
 @theme {
     --font-sourcesans: "Source Sans 3"
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }

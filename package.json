@@ -3,6 +3,8 @@
     "version": "0.1.0",
     "private": true,
     "workspaces": [
+        "src/Rats",
+        "src/Neant",
         "src/BlogVacare",
         "src/CR",
         "src/Wiki",
