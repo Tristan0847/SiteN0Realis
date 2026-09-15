@@ -136,7 +136,7 @@ class BlogController
             $element = ElementSupprime::query()
                 ->create([
                     "nom_utilisateur" => $nomUtilisateur,
-                    "raison_suppression" => $params["raison"],
+                    "raison_suppression" => $params["raison"] ?? "",
                     "cache" => $params["cache"],
                     "date_suppression" => now()
                 ]);
@@ -149,7 +149,7 @@ class BlogController
             ]);
         } catch (Exception) {
             return response()->json([
-                'message' => "Erreur lors de la suppression du blog, veuillez renseigner au moins un titre à celui-ci",
+                'message' => "Erreur lors de la suppression du blog",
             ], 500);
         }
     }

@@ -7,7 +7,8 @@ import {useMutation, useQuery, useQueryClient} from "@tanstack/react-query";
 import {blogGetters} from "@BlogsFront/service/ServiceFactory";
 import {BlogGettersInterface} from "@BlogsFront/service/interface/BlogGettersInterface";
 
-const queryKey = (id_dossier: string) => ['blogs', id_dossier] as const;
+const queryBaseKey = (id_dossier: string) => ['blogs', id_dossier] as const;
+const queryKey = (id_dossier: string, variant : SiteVariant) => [...queryBaseKey(id_dossier), variant] as const;
 
 
 /**
@@ -21,7 +22,7 @@ export function useBlogs(slug_dossier: string, variant: SiteVariant, blogsPrecha
     const getter: BlogGettersInterface = blogGetters();
 
     const {data, isLoading, error} = useQuery({
-        queryKey: queryKey(slug_dossier),
+        queryKey: queryKey(slug_dossier, variant),
         queryFn: () => getter.getBlogs(slug_dossier, variant),
         enabled: !!variant && !!slug_dossier,
         initialData: blogsPrecharges.length > 0 ? blogsPrecharges : undefined,
@@ -64,7 +65,7 @@ export function useCreerBlog() {
             contenuPremierMessage
         }),
         onSuccess: async (_data, {slug_dossier}) => {
-            await queryClient.invalidateQueries({queryKey: queryKey(slug_dossier)});
+            await queryClient.invalidateQueries({queryKey: queryBaseKey(slug_dossier)});
         }
     });
 
@@ -105,7 +106,7 @@ export function useSupprimerBlog() {
             cache
         }),
         onSuccess: async (_data, {slug_dossier}) => {
-            slug_dossier && await queryClient.invalidateQueries({queryKey: queryKey(slug_dossier)});
+            slug_dossier && await queryClient.invalidateQueries({queryKey: queryBaseKey(slug_dossier)});
         }
     });
 

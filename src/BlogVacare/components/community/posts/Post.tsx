@@ -28,7 +28,7 @@ export function Post({blog, lien = true, lienMedias = ""} : PostProps) {
     const message : Message = blog.message_post;
 
     return (
-        <article className="border-4 border-stone-900 bg-stone-200 p-4 w-5xl text-stone-900 shadow-[6px_6px_0_0_#1c1917]">
+        <article className="border-4 border-stone-900 bg-stone-200 p-4 max-w-5xl w-full text-stone-900 shadow-[6px_6px_0_0_#1c1917]">
             <PostHead nomUtilisateur={message.nom_utilisateur} datePublication={message.date_publication} supprime={blog.id_suppression !== null && blog.id_suppression !== undefined}/>
             {lien ?
                 <Link href={"/community/post/" + blog.slug} className="">
