@@ -6,8 +6,8 @@ export class JPDialogueScene8 extends JPDialogueSceneBase {
     constructor() {
         const sections : DialogueSection[] = [
             {
-                speakerName: "JP",
-                text: "Vas-y, la caméra est lancée ! Il est enfin grand temps pour toi de le faire ! ",
+                speakerName: "speaker.jp",
+                text: "8.jp1",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -32,8 +32,8 @@ export class JPDialogueScene8 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "J'ai foi en toi, Bauk, je sais que tu l'auras !",
+                speakerName: "speaker.jp",
+                text: "8.jp2",
                 images: null,
             },
         ]

@@ -10,17 +10,17 @@ export class JPDialogueScene10 extends JPDialogueSceneBase {
         const sections : DialogueSection[] = [
             {
                 speakerName: "",
-                text: "Vous avez atteint la fin de ce Memento.",
+                text: "10.1",
                 images: null,
             },
             {
                 speakerName: "",
-                text: "Sa fin est différente. Vous l'avez changé en découvrant une voie connue d'aucun.",
+                text: "10.2",
                 images: null,
             },
             {
                 speakerName: "",
-                text: "Briser le cycle ne tenait hypothétiquement qu'à ce simple choix ?",
+                text: "10.3",
                 images: null,
             },
         ]

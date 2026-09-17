@@ -1,9 +1,15 @@
-import {GameState, SceneEvent, GameContext, GAME_CONTEXT_REGISTRY_KEY, AnySceneEventType} from "./types";
+import {AnySceneEventType, GAME_CONTEXT_REGISTRY_KEY, GameContext, GameState, SceneEvent} from "./types";
 import {ScenePersistence} from "./ScenePersistence";
 import {Game} from "phaser";
 import {BaseScene} from "@/engine/core/scenes/base/BaseScene";
 import {MenuScene} from "@/engine/core/scenes/base/MenuScene";
-import {BackgroundMusicManager} from "@/engine/core/BackgroundMusicManager";
+import {BackgroundMusicManager} from "./audio/BackgroundMusicManager";
+import {AudioManager} from "@/engine/core/audio/AudioManager";
+import {AudioBus} from "@/engine/core/audio/AudioBusEnum";
+import {gameSettingsStore} from "@/engine/core/settings/GameSettingsStore";
+import {translationStore} from "@/engine/core/translations/TranslationStore";
+import frMessages from "@/lib/translations/common/fr.json";
+import enMessages from "@/lib/translations/common/en.json";
 
 /**
  * Game engine configuration
@@ -27,6 +33,7 @@ export abstract class AbstractGameEngine<
 
     private readonly context : GameContext<S, E>;
     private readonly persistence : ScenePersistence;
+    private readonly audioManager : AudioManager;
     private readonly backgroundMusicManager : BackgroundMusicManager;
 
     private currentSceneId : string|null = null;
@@ -73,10 +80,14 @@ export abstract class AbstractGameEngine<
         this.config = config;
         this.state = initialState;
         this.persistence = new ScenePersistence(persistenceKey);
+        this.audioManager = new AudioManager(game.sound);
         this.backgroundMusicManager = new BackgroundMusicManager(
-            game.sound
+            game.sound,
+            this.audioManager
         );
         this.onGameEnded = onGameEnded;
+
+        this.initTranslations();
 
         this.assertSceneExists(config.initialSceneId);
         if (config.mainMenuId) {
@@ -87,6 +98,20 @@ export abstract class AbstractGameEngine<
             emit: (event : E): void => this.dispatchSceneEvent(event),
             getState: () => this.state,
         }
+    }
+
+    protected initTranslations(): void {
+        translationStore.registerResources("fr", frMessages, "common");
+        translationStore.registerResources("en", enMessages, "common");
+    }
+
+    public destroy(): void {
+        this.backgroundMusicManager.destroy();
+
+        this.currentSceneId = null;
+        this.started = false;
+
+        this.game.registry.remove(GAME_CONTEXT_REGISTRY_KEY);
     }
     // #endregion
 
@@ -116,6 +141,14 @@ export abstract class AbstractGameEngine<
      */
     dispatchSceneEvent(event: E): void {
         switch (event.type) {
+            case "PLAY_EFFECT":
+                this.playEffect(event.data as any);
+                break;
+
+            case "STOP_EFFECT":
+                this.stopEffect(event.data as any);
+                break;
+
             case "LOAD_SCENE":
                 if (!event.sceneId) {
                     throw new Error("Missing parameter 'sceneId' to the 'LOAD_SCENE' call");
@@ -186,6 +219,9 @@ export abstract class AbstractGameEngine<
         const savedSceneId = this.persistence.load();
 
         const sceneId = (savedSceneId && this.game.scene.keys[savedSceneId]) ? savedSceneId : this.config.initialSceneId;
+
+        // Applies only at start, not on scene change
+        this.applyFullscreenPreference();
 
         this.loadScene(sceneId);
     }
@@ -291,6 +327,27 @@ export abstract class AbstractGameEngine<
         scene.setCanResetSave(false);
     }
 
+    private playEffect(data?: { key: string; config?: Phaser.Types.Sound.SoundConfig; id?: string }): void {
+        if (!data?.key) return;
+
+        const sound = this.audioManager.createSound(data.key, AudioBus.EFFECTS, data.config ?? {}, data.id);
+        sound.play();
+    }
+
+    private stopEffect(data?: { id?: string }): void {
+        if (!data?.id) return;
+
+        this.audioManager.stopTracked(data.id);
+    }
+
+    private applyFullscreenPreference(): void {
+        const wantFullscreen = gameSettingsStore.getFullscreenPreference();
+        const isFullscreen = this.game.scale.isFullscreen;
+
+        if (!isFullscreen && wantFullscreen) {
+            this.game.scale.startFullscreen();
+        }
+    }
 
     //#endregion
 }

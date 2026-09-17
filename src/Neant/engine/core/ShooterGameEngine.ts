@@ -5,7 +5,6 @@ import {
 import type { GameState, SceneEvent } from "./types";
 
 export interface ShooterGameState extends GameState {
-    // à compléter plus tard (score, vies, etc.)
 }
 
 export type ShooterSceneEvent = SceneEvent;

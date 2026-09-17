@@ -1,5 +1,6 @@
 import Phaser from "phaser";
-import {TextButton} from "./TextButton";
+import {TextButton} from "../TextButton";
+import {t} from "@/engine/core/translations/TranslationStore";
 
 export interface GameOverOverlayProps {
     readonly x: number;
@@ -24,7 +25,7 @@ export class GameOverOverlay extends Phaser.GameObjects.Container {
         const backdrop = new Phaser.GameObjects.Rectangle(scene, 0, 0, scene.scale.width, scene.scale.height, 0x000000, 0.72)
             .setOrigin(0.5);
 
-        const title = new Phaser.GameObjects.Text(scene,0, -100, "GAME OVER", {
+        const title = new Phaser.GameObjects.Text(scene,0, -100, t("common.game_over"), {
             fontSize: "96px",
             fontStyle: "normal",
             color: "#ffffff",
@@ -37,7 +38,7 @@ export class GameOverOverlay extends Phaser.GameObjects.Container {
             scene,
             0,
             50,
-            "Recommencer",
+            "common.restart",
             props.onRestart
         );
 
@@ -45,7 +46,7 @@ export class GameOverOverlay extends Phaser.GameObjects.Container {
             scene,
             0,
             150,
-            "Quitter",
+            "common.quit",
             props.onQuit
         );
 

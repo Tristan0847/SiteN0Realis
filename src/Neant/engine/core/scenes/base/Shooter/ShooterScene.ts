@@ -136,6 +136,12 @@ export abstract class ShooterScene extends AbstractShooterScene {
      */
     protected handleEnemyHit(projectile: Projectile, boss: Enemy): void {
         boss.takeDamage(projectile.getDamage());
+
+        this.playHitEffect(
+            projectile.x,
+            projectile.y,
+            this.getProjectileImpactEffectConfig(projectile.getProjectileType()),
+        );
         projectile.deactivate();
 
         this.bossHealthbar?.refresh();
@@ -155,13 +161,28 @@ export abstract class ShooterScene extends AbstractShooterScene {
      */
     protected handlePlayerHit(projectile: Projectile, player: JPlayer): void {
         player.takeDamage(projectile.getDamage());
+
+        this.playHitEffect(
+            projectile.x,
+            projectile.y,
+            this.getProjectileImpactEffectConfig(projectile.getProjectileType()),
+        );
         projectile.deactivate()
 
         this.playerHealthbar?.refresh();
 
-        if (player.isDead()) {
-            this.onPlayerKilled();
-        }
+        if (!player.isDead()) return;
+        this.freezeGameplay();
+
+        this.playHitEffect(
+            player.x,
+            player.y - 15,
+            this.getPlayerDeathEffectConfig(),
+            () => {
+                this.player.setVisible(false);
+                this.onPlayerKilled();
+            }
+        );
     }
 
     protected onBossKilled(): void {
@@ -170,6 +191,11 @@ export abstract class ShooterScene extends AbstractShooterScene {
 
     protected onPlayerKilled(): void {
         this.setGameState("gameOver");
+    }
+
+    protected freezeGameplay() {
+        super.freezeGameplay();
+        this.boss.setActive(false);
     }
 
     // #endregion

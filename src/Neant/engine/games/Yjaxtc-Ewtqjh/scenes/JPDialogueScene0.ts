@@ -7,17 +7,17 @@ export class JPDialogueScene0 extends JPDialogueSceneBase {
         const sections : DialogueSection[] = [
             {
                 speakerName: "",
-                text: "Immanquablement, nous étions condamnés à nous retrouver.",
+                text: "0.1",
                 images: null,
             },
             {
                 speakerName: "",
-                text: "Nous souhaitons vous présenter un Memento.",
+                text: "0.2",
                 images: null,
             },
             {
                 speakerName: "",
-                text: "Saurez-vous le lire jusqu'au bout ?",
+                text: "0.3",
                 images: null,
             },
         ]

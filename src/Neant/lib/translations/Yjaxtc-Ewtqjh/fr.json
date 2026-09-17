@@ -1,0 +1,113 @@
+{
+    "title": "\"JP, est-ce que tout va bien ?\"",
+    "description": "Diable, Diable, sera-t-elle ta routine ?\nTa sinistre rivière, tu feras enterrer.\nLe Diable, Diable provoqua la ruine\nDes perçantes ténèbres, il voulut les briser.",
+    "end": "Comment ce souvenir se termine-t-il ?",
+    "dialog": {
+        "speaker": {
+            "jp": "JP",
+            "v": "#####",
+            "bauk": "Kangou-Man",
+            "ant": "la fourmi",
+            "s": "????",
+            "m": "?",
+            "danger": "!",
+            "jpjr": "???"
+        },
+        "0": {
+            "1": "Immanquablement, nous étions condamnés à nous retrouver.",
+            "2": "Nous souhaitons vous présenter un Memento.",
+            "3": "Saurez-vous le lire jusqu'au bout ?"
+        },
+        "1": {
+            "jp1": "#####, pourquoi tu m'as amené ici ?",
+            "v2": "Pour que tu rencontres mon ami !",
+            "b3": "Hey JP ! On m'a beaucoup parlé de toi, j'ai cru comprendre qu'on devrait s'entendre comme cul et chemise !",
+            "jp4": "#####, je veux pas..."
+        },
+        "2": {
+            "b1": "Imaginez un peu l'idée ! Le voyage d'une vie, de la France à l'Australie !",
+            "2": "...",
+            "v3": "Tu y crois toi ? Sacré garnement ce bon vieux Bauk !",
+            "jp4": "#####, stop, arrête, putain, tu crois que je vois pas clair dans ton jeu ?!",
+            "v5": "Du calme, du calme, qu'est-ce qui me vaut donc une telle agression ?",
+            "v6": "On ne fait que passer du bon temps ensemble, pas vrai ?",
+            "jp7": "OUVRE LES YEUX, ##### ! BAUK N'EST PAS ET NE SERA JAMAIS-",
+            "v8": "Ne t'avise même pas de prononcer son nom."
+        },
+        "3": {
+            "1": "...",
+            "v2": "Hey ! Tu savais que les kang-",
+            "jp3": "On croirait rêver ! Tu cherches quoi au juste ?",
+            "jp4": "Je parle, je parle et je parle, j'ai même initié une ou deux conversations, tout ça pour quoi ?",
+            "jp5": "On le retrouvera jamais, c'est fini #####, tourne la page putain",
+            "v6": "Aucun rapport, je vois même pas de quoi tu parles tellement ça doit remonter à loiiin tout ça",
+            "jp7": "Ah ouais ? Totalement oublié, plus rien ?",
+            "v8": "Nada, finito pipo, vive l'avenir, que le passé repose en paix !",
+            "jp9": "Ah ouais, alors ça veut dire quoi le \"S\" dans AVOS ?"
+        },
+        "4": {
+            "b1": "Si j'ai une population de 2 300 kangourous différents dans un terrain donné et coupé du monde, alors quelle probabilité que je trouve adversaire à ma hauteur ?",
+            "b2": "Une idée, JP ?",
+            "jp3": "Non, aucune idée putain, arrête ça toi aussi !",
+            "b4": "Arrêter quoi ? Tout va bien ?",
+            "jp5": "Précisément ! ça ! Tu te crois mieux que nous ?",
+            "jp6": "Je sais pas comment tu peux aussi bien l'imiter, je suis sûr que tu le fais exprès, y a pas moyen",
+            "jp7": "T'es trop enjoué, trop convivial, t'es parfait hein c'est ça ?",
+            "jp8": "Faut vraiment être un MOINS QUE RIEN pour se moquer de lui de cette manière, il a jamais demandé à partir, il a pas eu le choix",
+            "b9": "Mais de quoi tu parles enfin ?! C'est sûrement qu'un gros malentendu, je vois pas où tu veux en venir !",
+            "a10": "On va s'arrêter là pour ce soir, tout le monde a des sales journées j'imagine mais c'est pas une raison pour reporter ça à son prochain",
+            "a11": "Je bloque le blog, passez une douce et agréable nuit les enfants, et demain vous irez vous excuser"
+        },
+        "5": {
+            "v1": "Ecoute, je suis vraiment désolé mais je vois où tu voulais en venir...",
+            "jp2": "Ah ouais, et tu vas me baratiner quoi cette fois ? Qu'il y a aucune ressemblance entre eux ?",
+            "v3": "Non justement ! Je le comprends aussi maintenant et ça me trouble d'autant plus... Tu crois qu'il le fait exprès ?",
+            "jp4": "Mais tu te fous de moi ou quoi, bien sûr qu'il le fait exprès après que tu lui ai sûrement montré toute sa vie pour forcer la ressemblance !",
+            "v5": "Et puis quoi encore ! C'est plutôt à toi que je devrais faire ces accusations !",
+            "jp6": "Donc... aucun de nous 2 ne l'a tenu au jus? C'est qui au juste ? Une coïncidence pareille, c'est pas possible",
+            "v7": "Il est venu me voir à l'ouverture du site pour y être inscrit... Tu crois qu'il savait depuis le début ?"
+        },
+        "6": {
+            "b1": "Quel match hein ? Le mec avait AUCUNE chance face au futur vainqueur du combat d'une vie !",
+            "jp2": "Ahahah ouais, il avait l'air heureux de se savoir contre un débutant jusqu'à ce qu'il t'ait vu débarquer",
+            "jp3": "LÀ il a commencé à voir flou",
+            "b4": "Dis, JP, j'aurais une question à te poser... L'autre fois, quand tu m'avais dit des choses bizarres au sujet d'être monsieur parfait...",
+            "b5": "J'ai beaucoup réfléchi et je m'excuse si ça t'a mis mal à l'aise comme ça, je voulais pas.",
+            "b6": "Je sais que j'adore être au centre de l'attention, c'est plus fort que moi, j'y prends des fois un peu trop goût, ça me monte à la tête et je fais plus gaffe à ce qui m'entoure.",
+            "b7": "Mais là encore je m'emporte un peu trop ! J'aurais juste une question à te poser",
+            "b8": "JP, est-ce que tout va bien ? Si t'as besoin de qui que ce soit à qui parler, sache que je suis là.",
+            "9": "JP, est-ce que tout va bien ?",
+            "s10": "JP, t'es sûr ça va mec ? Si t'as besoin je bouge pas, je suis toujours là pour aider !",
+            "11": "JP, t'es sûr ça va mec ?",
+            "m12": "Tout se passe bien à la maison ? Ici, tu as le droit d'en parler, peu importe ce qu'on te dit là-bas.",
+            "13": "Tout se passe bien à la maison ?",
+            "d14": "Tu veux m'attirer des EMMERDES ? C'est ça ?",
+            "d15": "Tu crois qu'ils savent déjà pas ? T'as besoin d'en rajouter UNE COUCHE à t'apitoyer sur ton sort !",
+            "b16": "JP ? T'es toujours avec moi ?",
+            "d17": "La prochaine fois que tu me fais un coup comme ça à la jouer sentimentaliste, je te le jure",
+            "jp18": "Je t'éventre par moi-même."
+        },
+        "7": {
+            "jp1": "Dégage, #####, je sais ce que tu voulais, je l'ai pas fait",
+            "v2": "Pas fait ? Pas fait quoi ? Tu es bien allé au match de Bauk non ?",
+            "jp3": "Ouais et je sais quels sentiments tu voulais que ça me provoque, ça a pas pris, ça prendra jamais !",
+            "jp4": "J'aimerais te dire que je te souhaite une bonne continuation...",
+            "jp5": "Mais je pense que je te souhaite surtout de trouver l'aide qu'il te faut pour surmonter son départ."
+        },
+        "8": {
+            "jp1": "Vas-y, la caméra est lancée ! Il est enfin grand temps pour toi de le faire !",
+            "jp2": "J'ai foi en toi, Bauk, je sais que tu l'auras !"
+        },
+        "9": {
+            "jpjr1": "Papa, papa, la fête de l'école, on peut y aller, on peut ?!",
+            "jp2": "Parce que c'est une question ?",
+            "jp3": "Un peu qu'on y va !",
+            "jp4": "Laisse-moi juste prévenir tonton Ed, il m'a dit qu'il attendait le signal pour que je l'invite !"
+        },
+        "10": {
+            "1": "Vous avez atteint la fin de ce Memento.",
+            "2": "Sa fin est différente. Vous l'avez changé en découvrant une voie connue d'aucun.",
+            "3": "Briser le cycle ne tenait hypothétiquement qu'à ce simple choix ?"
+        }
+    }
+}

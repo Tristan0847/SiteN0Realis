@@ -16,12 +16,11 @@ interface BaseGameRootProps<S extends GameState, E extends SceneEvent> {
 export function BaseGameRoot<S extends GameState, E extends SceneEvent>({ scenes, createEngine }: BaseGameRootProps<S, E>) {
     const containerRef = useRef<HTMLDivElement>(null);
     const gameRef = useRef<Phaser.Game | null>(null);
-    const initializedRef = useRef(false);
+    const engineRef = useRef<AbstractGameEngine<S, E> | null>(null);
 
     useEffect(() => {
         const container = containerRef.current;
-        if (!container || initializedRef.current) return;
-        initializedRef.current = true;
+        if (!container) return;
 
         const game = new Phaser.Game({
             parent: container,
@@ -48,6 +47,7 @@ export function BaseGameRoot<S extends GameState, E extends SceneEvent>({ scenes
                 autoCenter: Phaser.Scale.CENTER_BOTH,
                 width: WIDTH,
                 height: HEIGHT,
+                fullscreenTarget: container,
             },
             render: {
                 antialias: true,
@@ -75,13 +75,16 @@ export function BaseGameRoot<S extends GameState, E extends SceneEvent>({ scenes
             }
 
             const engine = createEngine(game);
+            engineRef.current = engine;
             engine.start();
         })
 
         return () => {
+            engineRef.current?.destroy();
+            engineRef.current = null;
+
             game.destroy(true);
             gameRef.current = null;
-            initializedRef.current = false;
         };
     }, [createEngine, scenes]);
 
@@ -91,7 +94,7 @@ export function BaseGameRoot<S extends GameState, E extends SceneEvent>({ scenes
                 className="h-[66.666dvh] w-[66.666vw] min-h-56 min-w-72 overflow-hidden rounded-xl border border-white/15 bg-black shadow-2xl"
                 aria-label="Game"
             >
-                <div ref={containerRef} className="h-full w-full" />
+                <div ref={containerRef} className="h-full w-full relative" />
             </section>
         </main>
     );

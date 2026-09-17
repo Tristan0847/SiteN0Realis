@@ -1,4 +1,6 @@
 import Phaser from "phaser";
+import {AudioManager} from "@/engine/core/audio/AudioManager";
+import {AudioBus} from "@/engine/core/audio/AudioBusEnum";
 
 /**
  * Global background music manager, for tween transitions and same source management
@@ -12,7 +14,7 @@ export class BackgroundMusicManager {
 
     public constructor(
         private readonly sound: Phaser.Sound.BaseSoundManager,
-        private readonly volume = 0.5,
+        private readonly audioManager : AudioManager,
         private readonly fadeDuration = 200,
     ) {
     }
@@ -45,7 +47,7 @@ export class BackgroundMusicManager {
         const previousMusic = this.currentMusic;
 
 
-        const nextMusic = this.sound.add(key, {
+        const nextMusic = this.audioManager.createSound(key, AudioBus.MUSIC, {
             loop: true,
             volume: 0,
         });
@@ -57,7 +59,7 @@ export class BackgroundMusicManager {
 
         this.fadeInTween = tweens.add({
             targets: nextMusic,
-            volume: this.volume,
+            volume: this.audioManager.getBusVolume(AudioBus.MUSIC),
             duration: this.fadeDuration,
             ease: "Sine.easeOut",
             onComplete: () => {

@@ -6,8 +6,8 @@ export class JPDialogueScene9 extends JPDialogueSceneBase {
     constructor() {
         const sections : DialogueSection[] = [
             {
-                speakerName: "???",
-                text: "Papa, papa, la fête de l'école, on peut y aller, on peut ?!",
+                speakerName: "speaker.jpjr",
+                text: "9.jpjr1",
                 images: [
                     {
                         textureKey: "jps-kid",
@@ -32,8 +32,8 @@ export class JPDialogueScene9 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Parce que c'est une question ?",
+                speakerName: "speaker.jp",
+                text: "9.jp2",
                 images: [
                     {
                         textureKey: "jps-kid",
@@ -58,8 +58,8 @@ export class JPDialogueScene9 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Un peu qu'on y va !",
+                speakerName: "speaker.jp",
+                text: "9.jp3",
                 images: [
                     {
                         textureKey: "jps-kid",
@@ -84,8 +84,8 @@ export class JPDialogueScene9 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Laisse-moi juste prévenir tonton Ed, il m'a dit qu'il attendait le signal pour que je l'invite !",
+                speakerName: "speaker.jp",
+                text: "9.jp4",
                 images: [],
             },
         ]

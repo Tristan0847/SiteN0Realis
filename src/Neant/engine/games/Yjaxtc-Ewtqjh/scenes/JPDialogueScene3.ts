@@ -1,13 +1,13 @@
 import {JPDialogueSceneBase} from "@/engine/games/Yjaxtc-Ewtqjh/scenes/JPDialogueSceneBase";
-import {DialogueImageSlot, DialogueSection} from "../../../core/scenes/base/Shooter/DialogueScene";
+import {DialogueSection} from "../../../core/scenes/base/Shooter/DialogueScene";
 
 class JPDialogueScene3 extends JPDialogueSceneBase {
 
     constructor() {
         const sections : DialogueSection[] = [
             {
-                speakerName: "#####",
-                text: "...",
+                speakerName: "speaker.v",
+                text: "3.1",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -32,13 +32,13 @@ class JPDialogueScene3 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "...",
+                speakerName: "speaker.jp",
+                text: "3.1",
                 images: null,
             },
             {
-                speakerName: "#####",
-                text: "Hey ! Tu savais que les kang-",
+                speakerName: "speaker.v",
+                text: "3.v2",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -63,8 +63,8 @@ class JPDialogueScene3 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "On croirait rêver ! Tu cherches quoi au juste ?",
+                speakerName: "speaker.jp",
+                text: "3.jp3",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -89,8 +89,8 @@ class JPDialogueScene3 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Je parle, je parle et je parle, j'ai même initié une ou deux conversations, tout ça pour quoi ?",
+                speakerName: "speaker.jp",
+                text: "3.jp4",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -115,8 +115,8 @@ class JPDialogueScene3 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "On le retrouvera jamais, c'est fini #####, tourne la page putain",
+                speakerName: "speaker.jp",
+                text: "3.jp5",
                 images: [
                     {
                         textureKey: "Kxcrt",
@@ -141,8 +141,8 @@ class JPDialogueScene3 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "#####",
-                text: "Aucun rapport, je vois même pas de quoi tu parles tellement ça doit remonter à loiiin tout ça",
+                speakerName: "speaker.v",
+                text: "3.v6",
                 images: [
                     {
                         textureKey: "Kxcrt",
@@ -167,8 +167,8 @@ class JPDialogueScene3 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Ah ouais ? Totalement oublié, plus rien ?",
+                speakerName: "speaker.jp",
+                text: "3.jp7",
                 images: [
                     {
                         textureKey: "Kxcrt",
@@ -193,8 +193,8 @@ class JPDialogueScene3 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "#####",
-                text: "Nada, finito pipo, vive l'avenir, que le passé repose en paix !",
+                speakerName: "speaker.v",
+                text: "3.v8",
                 images: [
                     {
                         textureKey: "Kxcrt",
@@ -219,8 +219,8 @@ class JPDialogueScene3 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Ah ouais, alors ça veut dire quoi le \"S\" dans AVOS ?",
+                speakerName: "speaker.jp",
+                text: "3.jp9",
                 images: [
                     {
                         textureKey: "Kxcrt",

@@ -1,13 +1,13 @@
 import {JPDialogueSceneBase} from "@/engine/games/Yjaxtc-Ewtqjh/scenes/JPDialogueSceneBase";
-import {DialogueImageSlot, DialogueSection} from "../../../core/scenes/base/Shooter/DialogueScene";
+import {DialogueSection} from "../../../core/scenes/base/Shooter/DialogueScene";
 
 export class JPDialogueScene5 extends JPDialogueSceneBase {
 
     constructor() {
         const sections : DialogueSection[] = [
             {
-                speakerName: "#####",
-                text: "Ecoute, je suis vraiment désolé mais je vois où tu voulais en venir...",
+                speakerName: "speaker.v",
+                text: "5.v1",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -32,8 +32,8 @@ export class JPDialogueScene5 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Ah ouais, et tu vas me baratiner quoi cette fois ? Qu'il y a aucune ressemblance entre eux ?",
+                speakerName: "speaker.jp",
+                text: "5.jp2",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -58,8 +58,8 @@ export class JPDialogueScene5 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "#####",
-                text: "Non justement ! Je le comprends aussi maintenant et ça me trouble d'autant plus... Tu crois qu'il le fait exprès ?",
+                speakerName: "speaker.v",
+                text: "5.v3",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -84,8 +84,8 @@ export class JPDialogueScene5 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Mais tu te fous de moi ou quoi, bien sûr qu'il le fait exprès après que tu lui ai sûrement montré toute sa vie pour forcer la ressemblance !",
+                speakerName: "speaker.jp",
+                text: "5.jp4",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -110,8 +110,8 @@ export class JPDialogueScene5 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "#####",
-                text: "Et puis quoi encore ! C'est plutôt à toi que je devrais faire ces accusations !",
+                speakerName: "speaker.v",
+                text: "5.v5",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -136,8 +136,8 @@ export class JPDialogueScene5 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Donc... aucun de nous 2 ne l'a tenu au jus? C'est qui au juste ? Une coïncidence pareille, c'est pas possible",
+                speakerName: "speaker.jp",
+                text: "5.jp6",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -162,8 +162,8 @@ export class JPDialogueScene5 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "#####",
-                text: "Il est venu me voir à l'ouverture du site pour y être inscrit... Tu crois qu'il savait depuis le début ?",
+                speakerName: "speaker.v",
+                text: "5.v7",
                 images: [
                     {
                         textureKey: "jp-dialog",

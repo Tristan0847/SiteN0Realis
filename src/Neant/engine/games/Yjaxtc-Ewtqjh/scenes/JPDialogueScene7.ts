@@ -6,8 +6,8 @@ export class JPDialogueScene7 extends JPDialogueSceneBase {
     constructor() {
         const sections : DialogueSection[] = [
             {
-                speakerName: "JP",
-                text: "Dégage, #####, je sais ce que tu voulais, je l'ai pas fait",
+                speakerName: "speaker.jp",
+                text: "7.jp1",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -32,8 +32,8 @@ export class JPDialogueScene7 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "#####",
-                text: "Pas fait ? Pas fait quoi ? Tu es bien allé au match de Bauk non ?",
+                speakerName: "speaker.v",
+                text: "7.v2",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -58,8 +58,8 @@ export class JPDialogueScene7 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Ouais et je sais quels sentiments tu voulais que ça me provoque, ça a pas pris, ça prendra jamais !",
+                speakerName: "speaker.jp",
+                text: "7.jp3",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -84,8 +84,8 @@ export class JPDialogueScene7 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "J'aimerais te dire que je te souhaite une bonne continuation...",
+                speakerName: "speaker.jp",
+                text: "7.jp4",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -110,8 +110,8 @@ export class JPDialogueScene7 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Mais je pense que je te souhaite surtout de trouver l'aide qu'il te faut pour surmonter son départ.",
+                speakerName: "speaker.jp",
+                text: "7.jp5",
                 images: [
                     {
                         textureKey: "Kxcrt",

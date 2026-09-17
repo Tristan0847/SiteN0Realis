@@ -4,6 +4,7 @@ import Phaser from "phaser";
 import SettingsConfig = Phaser.Types.Scenes.SettingsConfig;
 import {SceneAsset} from "./SceneAsset";
 import {withAssetPrefix} from "@lib/utils/withAssetPrefix";
+import {HitEffect, HitEffectConfig} from "@/engine/core/entities/effects/HitEffect";
 
 /**
  * Base scene for the application, can implement :<br/>
@@ -207,5 +208,27 @@ export abstract class BaseScene<
         if (this.props.nextSceneId) {
             this.emitSceneEvent("LOAD_SCENE" as E['type'], this.props.nextSceneId, data);
         }
+    }
+
+    protected playHitEffect(
+        x: number,
+        y: number,
+        config: HitEffectConfig | undefined,
+        onComplete?: () => void,
+    ): void {
+        if (!config) {
+            onComplete?.();
+            return;
+        }
+
+        if (config.soundKey) {
+            this.emitSceneEvent(
+                "PLAY_EFFECT" as E['type'],
+                undefined,
+                { key: config.soundKey, config: config.soundConfig },
+            );
+        }
+
+        new HitEffect(this, x, y, config, onComplete);
     }
 }

@@ -1,13 +1,13 @@
 import {JPDialogueSceneBase} from "@/engine/games/Yjaxtc-Ewtqjh/scenes/JPDialogueSceneBase";
-import {DialogueImageSlot, DialogueSection} from "../../../core/scenes/base/Shooter/DialogueScene";
+import {DialogueSection} from "../../../core/scenes/base/Shooter/DialogueScene";
 
 export class JPDialogueScene4 extends JPDialogueSceneBase {
 
     constructor() {
         const sections : DialogueSection[] = [
             {
-                speakerName: "Kangou-Man",
-                text: "Si j'ai une population de 2 300 kangourous différents dans un terrain donné et coupé du monde, alors quelle probabilité que je trouve adversaire à ma hauteur ?",
+                speakerName: "speaker.bauk",
+                text: "4.b1",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -32,8 +32,8 @@ export class JPDialogueScene4 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "Kangou-Man",
-                text: "Une idée, JP ?",
+                speakerName: "speaker.bauk",
+                text: "4.b2",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -58,8 +58,8 @@ export class JPDialogueScene4 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Non, aucune idée putain, arrête ça toi aussi !",
+                speakerName: "speaker.jp",
+                text: "4.jp3",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -84,8 +84,8 @@ export class JPDialogueScene4 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "Kangou-Man",
-                text: "Arrêter quoi ? Tout va bien ?",
+                speakerName: "speaker.bauk",
+                text: "4.b4",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -110,8 +110,8 @@ export class JPDialogueScene4 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Précisément ! ça ! Tu te crois mieux que nous ?",
+                speakerName: "speaker.jp",
+                text: "4.jp5",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -136,8 +136,8 @@ export class JPDialogueScene4 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Je sais pas comment tu peux aussi bien l'imiter, je suis sûr que tu le fais exprès, y a pas moyen",
+                speakerName: "speaker.jp",
+                text: "4.jp6",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -162,8 +162,8 @@ export class JPDialogueScene4 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "T'es trop enjoué, trop convivial, t'es parfait hein c'est ça ?",
+                speakerName: "speaker.jp",
+                text: "4.jp7",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -188,8 +188,8 @@ export class JPDialogueScene4 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Faut vraiment être un MOINS QUE RIEN pour se moquer de lui de cette manière, il a jamais demandé à partir, il a pas eu le choix",
+                speakerName: "speaker.jp",
+                text: "4.jp8",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -214,8 +214,8 @@ export class JPDialogueScene4 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "Kangou-Man",
-                text: "Mais de quoi tu parles enfin ?! C'est sûrement qu'un gros malentendu, je vois pas où tu veux en venir !",
+                speakerName: "speaker.bauk",
+                text: "4.b9",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -240,8 +240,8 @@ export class JPDialogueScene4 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "la fourmi",
-                text: "On va s'arrêter là pour ce soir, tout le monde a des sales journées j'imagine mais c'est pas une raison pour reporter ça à son prochain",
+                speakerName: "speaker.ant",
+                text: "4.a10",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -276,8 +276,8 @@ export class JPDialogueScene4 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "la fourmi",
-                text: "Je bloque le blog, passez une douce et agréable nuit les enfants, et demain vous irez vous excuser",
+                speakerName: "speaker.ant",
+                text: "4.a11",
                 images: [
                     {
                         textureKey: "kangouman",

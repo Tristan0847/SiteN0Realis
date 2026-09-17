@@ -6,8 +6,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
     constructor() {
         const sections : DialogueSection[] = [
             {
-                speakerName: "Kangou-Man",
-                text: "Quel match hein ? Le mec avait AUCUNE chance face au futur vainqueur du combat d'une vie !",
+                speakerName: "speaker.bauk",
+                text: "6.b1",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -32,8 +32,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "Ahahah ouais, il avait l'air heureux de se savoir contre un débutant jusqu'à ce qu'il t'ait vu débarquer",
+                speakerName: "speaker.jp",
+                text: "6.jp2",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -58,8 +58,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "LÀ il a commencé à voir flou",
+                speakerName: "speaker.jp",
+                text: "6.jp3",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -84,8 +84,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "Kangou-Man",
-                text: "Dis, JP, j'aurais une question à te poser... L'autre fois, quand tu m'avais dit des choses bizarres au sujet d'être monsieur parfait...",
+                speakerName: "speaker.bauk",
+                text: "6.b4",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -110,8 +110,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "Kangou-Man",
-                text: "J'ai beaucoup réfléchi et je m'excuse si ça t'a mis mal à l'aise comme ça, je voulais pas.",
+                speakerName: "speaker.bauk",
+                text: "6.b5",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -136,8 +136,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "Kangou-Man",
-                text: "Je sais que j'adore être au centre de l'attention, c'est plus fort que moi, j'y prends des fois un peu trop goût, ça me monte à la tête et je fais plus gaffe à ce qui m'entoure.",
+                speakerName: "speaker.bauk",
+                text: "6.b6",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -162,8 +162,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "Kangou-Man",
-                text: "Mais là encore je m'emporte un peu trop ! J'aurais juste une question à te poser",
+                speakerName: "speaker.bauk",
+                text: "6.b7",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -188,8 +188,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "Kangou-Man",
-                text: "JP, est-ce que tout va bien ? Si t'as besoin de qui que ce soit à qui parler, sache que je suis là.",
+                speakerName: "speaker.bauk",
+                text: "6.b8",
                 images: [
                     {
                         textureKey: "kangouman",
@@ -215,8 +215,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 transition: true,
             },
             {
-                speakerName: "Kangou-Man",
-                text: "JP, est-ce que tout va bien ? Si t'as besoin de qui que ce soit à qui parler, sache que je suis là.",
+                speakerName: "speaker.bauk",
+                text: "6.b8",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -233,7 +233,7 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
             },
             {
                 speakerName: "",
-                text: "JP, est-ce que tout va bien ?",
+                text: "6.9",
                 images: [
                     {
                         textureKey: "glitch",
@@ -249,8 +249,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 transition: true,
             },
             {
-                speakerName: "????",
-                text: "JP, t'es sûr ça va mec ? Si t'as besoin je bouge pas, je suis toujours là pour aider !",
+                speakerName: "speaker.s",
+                text: "6.s10",
                 images: [
                     {
                         textureKey: "ami",
@@ -286,8 +286,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 transition: true,
             },
             {
-                speakerName: "????",
-                text: "JP, t'es sûr ça va mec ? Si t'as besoin je bouge pas, je suis toujours là pour aider !",
+                speakerName: "speaker.s",
+                text: "6.s10",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -304,7 +304,7 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
             },
             {
                 speakerName: "",
-                text: "JP, t'es sûr ça va mec ?",
+                text: "6.11",
                 images: [
                     {
                         textureKey: "glitch",
@@ -320,8 +320,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 transition: true,
             },
             {
-                speakerName: "?",
-                text: "Tout se passe bien à la maison ? Ici, tu as le droit d'en parler, peu importe ce qu'on te dit là-bas.",
+                speakerName: "speaker.m",
+                text: "6.m12",
                 images: [
                     {
                         textureKey: "prof",
@@ -358,7 +358,7 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
             },
             {
                 speakerName: "",
-                text: "Tout se passe bien à la maison ?",
+                text: "6.13",
                 images: [
                     {
                         textureKey: "glitch",
@@ -374,8 +374,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 transition: true,
             },
             {
-                speakerName: "!",
-                text: "Tu veux m'attirer des EMMERDES ? C'est ça ?",
+                speakerName: "speaker.danger",
+                text: "6.d14",
                 images: [
                     {
                         textureKey: "jp-kid",
@@ -410,8 +410,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "!",
-                text: "Tu crois qu'ils savent déjà pas ? T'as besoin d'en rajouter UNE COUCHE à t'apitoyer sur ton sort !",
+                speakerName: "speaker.danger",
+                text: "6.d15",
                 images: [
                     {
                         textureKey: "jp-kid",
@@ -447,8 +447,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 transition: true,
             },
             {
-                speakerName: "Kangou-Man",
-                text: "JP ? T'es toujours avec moi ?",
+                speakerName: "speaker.bauk",
+                text: "6.b16",
                 images: [
                     {
                         textureKey: "jp-kid",
@@ -494,8 +494,8 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
                 transition: true,
             },
             {
-                speakerName: "!",
-                text: "La prochaine fois que tu me fais un coup comme ça à la jouer sentimentaliste, je te le jure",
+                speakerName: "speaker.danger",
+                text: "6.d17",
                 images: [
                     {
                         textureKey: "jp-kid",
@@ -532,7 +532,7 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
             },
             {
                 speakerName: "",
-                text: "La prochaine fois que tu me fais un coup comme ça à la jouer sentimentaliste, je te le jure",
+                text: "6.d17",
                 images: [
                     {
                         textureKey: "glitch",
@@ -549,7 +549,7 @@ export class JPDialogueScene6 extends JPDialogueSceneBase {
             },
             {
                 speakerName: "",
-                text: "Je t'éventre par moi-même.",
+                text: "6.jp18",
                 images: [
                     {
                         textureKey: "kangouman",

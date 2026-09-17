@@ -4,14 +4,17 @@ import {ProjectilePool, ProjectilePoolProps} from "@/engine/core/entities/shoote
 import {ShooterPlayerBar} from "@/engine/core/ui/shooter/ShooterPlayerBar";
 import {AnySceneProps} from "@/engine/core/scenes/base/props";
 import {SceneAsset} from "@/engine/core/scenes/base/SceneAsset";
-import {Projectile} from "@/engine/core/entities/shooter/Projectile";
-import {PauseOverlay} from "@/engine/core/ui/PauseOverlay";
-import {GameOverOverlay} from "@/engine/core/ui/GameOverOverlay";
+import {Projectile, ProjectileType} from "@/engine/core/entities/shooter/Projectile";
+import {PauseOverlay} from "../../../ui/overlay/PauseOverlay";
+import {GameOverOverlay} from "../../../ui/overlay/GameOverOverlay";
 import {IconButton} from "@/engine/core/ui/IconButton";
 import {Coordinates} from "@/engine/types/coordinates";
 import Phaser from "phaser";
+import { HitEffectConfig } from "@/engine/core/entities/effects/HitEffect";
+import {HittableSprite} from "@/engine/core/entities/HittableSprite";
 
 type GameState = "playing" | "pause" | "gameOver";
+const PLAYER_DEATH_ANIM_KEY = "jplayer-death-explosion";
 
 /**
  * Abstract class for shooter scenes
@@ -39,7 +42,7 @@ export abstract class AbstractShooterScene extends BaseScene {
             y: 64
         }
     ) {
-        const baseAssetPath = "/assets/games/shooter/Yjaxtc-Ewtqjh/";
+        const baseAssetPath = "/assets/games/shooter/J/";
         assets = assets || [];
         assets.push({
                 key: "JBullet",
@@ -58,6 +61,34 @@ export abstract class AbstractShooterScene extends BaseScene {
                 key: "exit-icon",
                 src: "/assets/games/menus/Exit logo.png",
                 pixelArt: true
+            },
+            {
+                type: "image",
+                key: "jship-explosion-1",
+                src: baseAssetPath + "JPlayerExplosion1.png",
+                pixelArt: true
+            },
+            {
+                type: "image",
+                key: "jship-explosion-2",
+                src: baseAssetPath + "JPlayerExplosion2.png",
+                pixelArt: true
+            },
+            {
+                type: "image",
+                key: "jship-explosion-3",
+                src: baseAssetPath + "JPlayerExplosion3.png",
+                pixelArt: true
+            },
+            {
+                type: 'audio',
+                key: "jship-death-sound",
+                src: baseAssetPath + "JShip-death-sound.mp3",
+            },
+            {
+                type: 'audio',
+                key: 'jship-hit-sound',
+                src: baseAssetPath + "JPlayer_hit.mp3",
             })
         ;
 
@@ -69,6 +100,21 @@ export abstract class AbstractShooterScene extends BaseScene {
     override create(): void {
         super.create();
         this.setPixelArtFilter();
+
+        if (!this.anims.exists(PLAYER_DEATH_ANIM_KEY)) {
+            this.anims.create({
+                key: PLAYER_DEATH_ANIM_KEY,
+                frames: [
+                    {key: "jship-explosion-1"},
+                    {key: "jship-explosion-2"},
+                    {key: "jship-explosion-3"},
+                    {key: "jship-explosion-2"},
+                    {key: "jship-explosion-1"},
+                ],
+                frameRate: 10,
+                repeat: 0
+            });
+        }
 
         this.playerProjectilePool = new ProjectilePool(this, this.getPlayerProjectilePoolProps());
 
@@ -108,10 +154,11 @@ export abstract class AbstractShooterScene extends BaseScene {
             x: this.scale.width / 2,
             y: this.scale.height / 2,
             width: 400,
-            height: 460,
+            height: 550,
             onResume: () => this.setGameState("playing"),
             onRestart: () => this.emitSceneEvent("RELOAD_SCENE"),
             onQuit: () => this.emitSceneEvent("RETURN_TO_MENU"),
+            onRequestReloadScene: () => this.emitSceneEvent("RELOAD_SCENE"),
         });
         this.pauseOverlay.setVisible(false);
         this.pauseOverlay.setActive(false);
@@ -207,6 +254,44 @@ export abstract class AbstractShooterScene extends BaseScene {
 
         return collider;
     }
+
+    /**
+     * Method handling the effects associated to a projectile hi
+     * @param projectile
+     * @param target
+     * @param onTargetDeath
+     * @protected
+     */
+    protected handleProjectileHit<T extends HittableSprite>(
+        projectile: Projectile,
+        target: T,
+        onTargetDeath: (target: T) => void,
+    ): void {
+        target.takeDamage(projectile.getDamage());
+
+        // Visual/Sound effect where the bullet touched the target
+        this.playHitEffect(
+            projectile.x,
+            projectile.y,
+            this.getProjectileImpactEffectConfig(projectile.getProjectileType()),
+        );
+        projectile.deactivate();
+
+        if (!target.isDead()) return;
+
+        // The target doesn't move anymore
+        target.setActive(false);
+        if (target.body) {
+            (target.body as Phaser.Physics.Arcade.Body).enable = false;
+        }
+
+        const deathConfig = target instanceof JPlayer
+            ? this.getPlayerDeathEffectConfig() : null;
+
+        deathConfig && this.playHitEffect(target.x, target.y, deathConfig, () => {
+            onTargetDeath(target);
+        });
+    }
     //#endregion
 
     //#region Game state management
@@ -246,10 +331,23 @@ export abstract class AbstractShooterScene extends BaseScene {
     }
 
     protected onGameOver(): void {
-        this.player.setFiring(false);
-        this.physics.pause();
-        this.playerProjectilePool.deactivateAll();
+        this.freezeGameplay();
         this.setGameOverOverlay(true);
+    }
+
+    protected freezeGameplay(): void {
+        this.physics.pause();
+
+        this.player.setFiring(false);
+        this.player.setActive(false);
+
+        const playerBody = this.player.body as Phaser.Physics.Arcade.Body | null;
+        if (playerBody) playerBody.enable = false;
+
+        this.playerHud.setActive(false);
+        this.playerHud.setVisible(false);
+
+        this.playerProjectilePool.deactivateAll();
     }
 
     /**
@@ -311,6 +409,30 @@ export abstract class AbstractShooterScene extends BaseScene {
             textureKey: "JShip",
             x: this.scale.width / 2,
             y: this.scale.height - 90,
+        };
+    }
+
+    // Methods to override to use different effects
+
+    protected getProjectileImpactEffectConfig(type: ProjectileType): HitEffectConfig | undefined {
+        switch (type) {
+            case "player":
+                return {
+                    animationKey: "",
+                    soundKey: "jship-hit-sound"
+                };
+
+            default:
+                return undefined;
+        }
+    }
+
+    protected getPlayerDeathEffectConfig(): HitEffectConfig | undefined {
+        return {
+            animationKey: PLAYER_DEATH_ANIM_KEY,
+            soundKey: "jship-death-sound",
+            displayWidth: 80,
+            displayHeight: 80,
         };
     }
 

@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import {t} from "@/engine/core/translations/TranslationStore";
 
 /**
  * Dialogue box for shooters
@@ -83,7 +84,7 @@ export class DialogueBox extends Phaser.GameObjects.Container {
      * @param text
      */
     public setDialogue(speakerName: string, text: string): void {
-        this.speakerNameText.setText(speakerName);
-        this.dialogueText.setText(text);
+        this.speakerNameText.setText(t(speakerName));
+        this.dialogueText.setText(t(text));
     }
 }

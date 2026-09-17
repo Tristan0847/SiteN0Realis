@@ -6,6 +6,9 @@ import {Projectile} from "@/engine/core/entities/shooter/Projectile";
 import Phaser from "phaser";
 import {AbstractShooterScene} from "@/engine/core/scenes/base/Shooter/AbstractShooterScene";
 
+const NEXT_DIALOG_ANIMATION = "next-dialog-animate";
+const HINT_DELAY_MS = 5000;
+
 /**
  * Image slot for a dialogue (shows an image with a position and optional opacity)
  */
@@ -45,6 +48,7 @@ interface DialogueImage {
  */
 export abstract class DialogueScene extends AbstractShooterScene {
     readonly props: DialogueSceneProps;
+    private readonly dialogBaseKey: string;
     protected readonly sections: DialogueSection[] = [];
     protected currentSectionIndex: number = 0;
 
@@ -61,9 +65,16 @@ export abstract class DialogueScene extends AbstractShooterScene {
     protected transitionDialogueBox!: DialogueBox;
     private transitionKeepsCurrentImages = false;
 
+    // Shows the hint to the dialog hittable target
+    private hintSprite!: Phaser.GameObjects.Sprite;
+    private hintIdleMs: number = 0;
+    private hintPlayed: boolean = false;
+    private firstHitLanded: boolean = false;
+
     protected constructor(
         props: AnySceneProps,
         sections: DialogueSection[] = [],
+        dialogBaseKey: string,
         assets?: SceneAsset[]
     ) {
         if (props.type !== "dialogue") {
@@ -76,10 +87,26 @@ export abstract class DialogueScene extends AbstractShooterScene {
             key: "next-dialogue",
             type: "image",
             pixelArt: true
+        },{
+            src: "/assets/games/shooter/next1.png",
+            key: "next-dialogue1",
+            type: "image",
+            pixelArt: true
+        },{
+            src: "/assets/games/shooter/next2.png",
+            key: "next-dialogue2",
+            type: "image",
+            pixelArt: true
+        },{
+            src: "/assets/games/shooter/next3.png",
+            key: "next-dialogue3",
+            type: "image",
+            pixelArt: true
         });
 
         super(props, assets, {x: 36, y: 670});
         this.props = props as DialogueSceneProps;
+        this.dialogBaseKey = dialogBaseKey;
         this.sections = sections;
         this.currentSectionIndex = 0;
     }
@@ -107,6 +134,36 @@ export abstract class DialogueScene extends AbstractShooterScene {
         this.playerProjectilePool.setDepth(403);
         this.playerHud.setDepth(403);
 
+        this.hintIdleMs = 0;
+        this.hintPlayed = false;
+        this.firstHitLanded = false;
+
+        this.hintSprite = this.add.sprite(this.dialogueTarget.x, this.dialogueTarget.y, "next-dialogue");
+        this.hintSprite.setDepth(401);
+        this.hintSprite.setAlpha(0);
+        this.hintSprite.setDisplaySize(this.dialogueTarget.displayWidth, this.dialogueTarget.displayHeight);
+
+        if (!this.anims.exists(NEXT_DIALOG_ANIMATION)) {
+            this.anims.create({
+                key: NEXT_DIALOG_ANIMATION,
+                frames: [
+                    {key: "next-dialogue"},
+                    {key: "next-dialogue"},
+                    {key: "next-dialogue"},
+                    {key: "next-dialogue"},
+                    {key: "next-dialogue1"},
+                    {key: "next-dialogue2"},
+                    {key: "next-dialogue3"},
+                    {key: "next-dialogue2"},
+                    {key: "next-dialogue1"},
+                    {key: "next-dialogue"},
+                ],
+                frameRate: 7,
+                repeat: -1, // Repeats
+                skipMissedFrames: false,
+            });
+        }
+
         // Adds collision masks (between the dialogue target and the player's projectiles)
         this.addCollisionMask(
             this.playerProjectilePool,
@@ -131,7 +188,29 @@ export abstract class DialogueScene extends AbstractShooterScene {
         this.currentSectionIndex = 0;
         this.transitionKeepsCurrentImages = false;
 
+        this.hintIdleMs = 0;
+        this.hintPlayed = false;
+        this.firstHitLanded = false;
+        this.hintSprite?.destroy();
+
         super.shutdown();
+    }
+
+    override update(time: number, delta: number): void {
+        super.update(time, delta);
+
+        if (this.hintSprite.visible) {
+            this.hintSprite.setPosition(this.dialogueTarget.x, this.dialogueTarget.y);
+        }
+
+        if (this.gameState !== "playing") return;
+        if (this.currentSectionIndex !== 0 || this.firstHitLanded || this.hintPlayed) return;
+
+        this.hintIdleMs += delta;
+
+        if (this.hintIdleMs >= HINT_DELAY_MS) {
+            this.showHint();
+        }
     }
 
     //#region Handle target hit
@@ -148,6 +227,11 @@ export abstract class DialogueScene extends AbstractShooterScene {
             return;
         }
 
+        if (!this.firstHitLanded) {
+            this.firstHitLanded = true;
+            this.hideHint();
+        }
+
         target.takeDamage(projectile.getDamage());
         projectile.deactivate();
 
@@ -161,6 +245,17 @@ export abstract class DialogueScene extends AbstractShooterScene {
 
             this.advanceSection();
         }
+    }
+
+    private showHint(): void {
+        this.hintPlayed = true;
+        this.hintSprite.setAlpha(1);
+        this.hintSprite.play(NEXT_DIALOG_ANIMATION);
+    }
+
+    private hideHint(): void {
+        this.hintSprite.stop();
+        this.hintSprite.setVisible(false);
     }
 
     /**
@@ -224,8 +319,8 @@ export abstract class DialogueScene extends AbstractShooterScene {
         this.transitionDialogueBox.setAlpha(0);
 
         this.dialogueBox.setDialogue(
-            section.speakerName,
-            section.text,
+            section.speakerName !== "" ? this.dialogBaseKey + section.speakerName : "",
+            section.text !== "" ? this.dialogBaseKey + section.text : "",
         );
 
         this.transitioning = section.transition === true
@@ -250,8 +345,8 @@ export abstract class DialogueScene extends AbstractShooterScene {
 
         if (this.transitioning) {
             this.transitionDialogueBox.setDialogue(
-                nextSection.speakerName,
-                nextSection.text,
+                nextSection.speakerName !== "" ? this.dialogBaseKey + nextSection.speakerName : "",
+                nextSection.text !== "" ? this.dialogBaseKey + nextSection.text : "",
             );
 
             if (nextSection.images !== null) {

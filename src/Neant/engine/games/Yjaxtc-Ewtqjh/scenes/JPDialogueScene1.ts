@@ -1,13 +1,13 @@
 import {JPDialogueSceneBase} from "@/engine/games/Yjaxtc-Ewtqjh/scenes/JPDialogueSceneBase";
-import {DialogueImageSlot, DialogueSection} from "../../../core/scenes/base/Shooter/DialogueScene";
+import {DialogueSection} from "../../../core/scenes/base/Shooter/DialogueScene";
 
 export class JPDialogueScene1 extends JPDialogueSceneBase {
 
     constructor() {
         const sections : DialogueSection[] = [
             {
-                speakerName: "JP",
-                text: "#####, pourquoi tu m'as amené ici ?",
+                speakerName: "speaker.jp",
+                text: "1.jp1",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -32,8 +32,8 @@ export class JPDialogueScene1 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "#####",
-                text: "Pour que tu rencontres mon ami !",
+                speakerName: "speaker.v",
+                text: "1.v2",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -58,8 +58,8 @@ export class JPDialogueScene1 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "Kangou-Man",
-                text: "Hey JP ! On m'a beaucoup parlé de toi, j'ai cru comprendre qu'on devrait s'entendre comme cul et chemise !",
+                speakerName: "speaker.bauk",
+                text: "1.b3",
                 images: [
                     {
                         textureKey: "Kxcrt",
@@ -94,8 +94,8 @@ export class JPDialogueScene1 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "#####, je veux pas...",
+                speakerName: "speaker.jp",
+                text: "1.jp4",
                 images: [
                     {
                         textureKey: "jp-dialog",

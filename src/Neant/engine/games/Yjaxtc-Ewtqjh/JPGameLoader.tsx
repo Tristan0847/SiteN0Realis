@@ -1,8 +1,8 @@
 "use client";
 
-import {ShooterGameRoot} from "@/components/roots/ShooterGameRoot";
+import {JPShooterGameRoot} from "@/components/roots/JPShooterGameRoot";
 import {jpScenes} from "./JPSceneRegistry";
 
 export default function JPGameLoader() {
-    return <ShooterGameRoot shooterScenes={jpScenes} />
+    return <JPShooterGameRoot shooterScenes={jpScenes} />
 }

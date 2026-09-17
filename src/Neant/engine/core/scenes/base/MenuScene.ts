@@ -4,6 +4,8 @@ import {SceneAsset} from "./SceneAsset";
 import {TextButton} from "@/engine/core/ui/TextButton";
 import Phaser from "phaser";
 import {GameState, MenuSceneEventTypes, SceneEvent} from "@/engine/core/types";
+import {SettingsOverlay} from "@/engine/core/ui/overlay/SettingsOverlay";
+import {t} from "@/engine/core/translations/TranslationStore";
 
 /**
  * Menu scene
@@ -12,7 +14,9 @@ export abstract class MenuScene extends BaseScene<GameState, SceneEvent<MenuScen
     readonly props: MenuSceneProps;
     private canResetSave : boolean = false;
 
+    private settingsOverlay!: SettingsOverlay;
     private joinBtn!: Phaser.GameObjects.Container;
+    private settingsBtn!: Phaser.GameObjects.Container;
     private resetBtn!: Phaser.GameObjects.Container;
 
     static readonly baseProps: Omit<MenuSceneProps, "id" | "nextSceneId" | "title" | "description" | "bgColor" | "audioPath"> = {
@@ -54,7 +58,7 @@ export abstract class MenuScene extends BaseScene<GameState, SceneEvent<MenuScen
         const titleText = this.add.text(
             width / 2,
             currentY,
-            this.props.title,
+            t(this.props.title),
             {
                 align: "center",
                 color: "#ffffff",
@@ -69,7 +73,7 @@ export abstract class MenuScene extends BaseScene<GameState, SceneEvent<MenuScen
             const descriptionText = this.add.text(
                 width / 2,
                 currentY,
-                this.props.description,
+                t(this.props.description),
                 {
                     align: "center",
                     color: "#ffffff",
@@ -87,17 +91,38 @@ export abstract class MenuScene extends BaseScene<GameState, SceneEvent<MenuScen
             this,
             width / 2,
             currentY,
-            "Rejoindre",
+            "common.join",
             () => {
                 this.emitSceneEvent("LOAD_INITIAL_SCENE");
             },
         )
 
-        this.resetBtn = TextButton.create(
+        this.settingsOverlay = new SettingsOverlay(this, {
+            x: this.scale.width / 2,
+            y: this.scale.height / 2,
+            width: 960,
+            height: 620,
+            defaultReloadScene: true,
+            onSave: () => this.onSettingsChange(false),
+            onCancel: () => this.onSettingsChange(false),
+            onRequestReloadScene: () => this.emitSceneEvent("RELOAD_SCENE")
+        });
+        this.settingsOverlay.setVisible(false);
+        this.settingsOverlay.setActive(false);
+
+        this.settingsBtn = TextButton.create(
             this,
             width / 2,
             currentY + 128,
-            "Réinitialiser votre\nprogression.",
+            "common.settings.title",
+            () => this.onSettingsChange(true)
+        );
+
+        this.resetBtn = TextButton.create(
+            this,
+            width / 2,
+            currentY + 256,
+            "common.reset_progress",
             () => {
                 this.canResetSave && this.emitSceneEvent("RESET_SAVE");
             },
@@ -113,6 +138,13 @@ export abstract class MenuScene extends BaseScene<GameState, SceneEvent<MenuScen
         );
         this.setCanResetSave(false);
         this.emitSceneEvent("MENU_READY");
+    }
+
+    protected onSettingsChange(value: boolean): void {
+        this.settingsOverlay.setVisible(value);
+        this.settingsOverlay.setActive(value);
+        this.settingsBtn?.setVisible(!value);
+        this.settingsBtn?.setActive(!value);
     }
 
     override shutdown() {

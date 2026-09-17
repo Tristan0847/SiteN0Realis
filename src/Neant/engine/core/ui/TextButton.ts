@@ -1,4 +1,5 @@
 import Phaser from "phaser";
+import {t} from "@/engine/core/translations/TranslationStore";
 
 export interface TextButtonOptions {
     readonly fontFamily?: string;
@@ -43,7 +44,7 @@ export class TextButton {
 
         const container = new Phaser.GameObjects.Container(scene, x, y);
 
-        const text = new Phaser.GameObjects.Text(scene, 0, 0, label, {
+        const text = new Phaser.GameObjects.Text(scene, 0, 0, t(label), {
             color: defaultColor,
             fontFamily,
             fontSize,

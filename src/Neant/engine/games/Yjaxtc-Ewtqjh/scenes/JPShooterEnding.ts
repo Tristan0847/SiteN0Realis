@@ -6,6 +6,7 @@ import {NeantCookies} from "@lib/storage/cookies/neant";
 import Phaser from "phaser";
 import {Projectile} from "@/engine/core/entities/shooter/Projectile";
 import {COOKIE_GLOBAL_OPTIONS} from "@lib/storage/cookies/cookie-options";
+import {t} from "@/engine/core/translations/TranslationStore";
 
 /**
  * Shooter ending class
@@ -61,12 +62,10 @@ export class JPShooterEnding extends AbstractShooterScene {
             100
         ).setDisplaySize(288, 288);
 
-        const label = "Comment ce souvenir se termine-t-il ?";
-
         this.text = this.add.text(
             this.scale.width / 2,
             40,
-            label,
+            t("jp.end"),
             {
                 fontFamily: "Georgia, 'Times New Roman', serif",
                 fontSize: "28px",

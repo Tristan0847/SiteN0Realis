@@ -9,6 +9,8 @@ export interface GameState {
  * Default scene types, can be extended depending on the game
  */
 export type DefaultSceneEventType =
+    | "PLAY_EFFECT"
+    | "STOP_EFFECT"
     | "SCENE_READY"
     | "LOAD_SCENE"
     | "RETURN_TO_MENU"

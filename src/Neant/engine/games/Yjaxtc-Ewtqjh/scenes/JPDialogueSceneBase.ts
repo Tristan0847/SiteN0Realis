@@ -28,7 +28,7 @@ export abstract class JPDialogueSceneBase extends DialogueScene {
                 pixelArt: true
             },
             {
-                src: baseAssetPath + "Dialogue/JP_enfant.png",
+                src: baseAssetPath + "Dialogue/JP_Enfant.png",
                 key: "jp-kid",
                 type: "image",
                 pixelArt: true
@@ -83,6 +83,6 @@ export abstract class JPDialogueSceneBase extends DialogueScene {
             type: "dialogue",
             save,
             audioPath: (audioRelativePath) ? baseAssetPath + audioRelativePath : undefined,
-        }, sections, assets);
+        }, sections, "jp.dialog.", assets);
     }
 }

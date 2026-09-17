@@ -6,8 +6,8 @@ export class JPDialogueScene2 extends JPDialogueSceneBase {
     constructor() {
         const sections : DialogueSection[] = [
             {
-                speakerName: "Kangou-Man",
-                text: "Imaginez un peu l'idée ! Le voyage d'une vie, de la France à l'Australie ! ",
+                speakerName: "speaker.bauk",
+                text: "2.b1",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -43,8 +43,8 @@ export class JPDialogueScene2 extends JPDialogueSceneBase {
                 transition: true,
             },
             {
-                speakerName: "Kangou-Man",
-                text: "...",
+                speakerName: "speaker.bauk",
+                text: "2.2",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -81,7 +81,7 @@ export class JPDialogueScene2 extends JPDialogueSceneBase {
             },
             {
                 speakerName: "",
-                text: "...",
+                text: "2.2",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -106,8 +106,8 @@ export class JPDialogueScene2 extends JPDialogueSceneBase {
                 ]
             },
             {
-                speakerName: "#####",
-                text: "Tu y crois toi ? Sacré garnement ce bon vieux Bauk !",
+                speakerName: "speaker.v",
+                text: "2.v3",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -132,8 +132,8 @@ export class JPDialogueScene2 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "JP",
-                text: "#####, stop, arrête, putain, tu crois que je vois pas clair dans ton jeu ?!",
+                speakerName: "speaker.jp",
+                text: "2.jp4",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -158,8 +158,8 @@ export class JPDialogueScene2 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "#####",
-                text: "Du calme, du calme, qu'est-ce qui me vaut donc une telle agression ?",
+                speakerName: "speaker.v",
+                text: "2.v5",
                 images: [
                     {
                         textureKey: "jp-dialog",
@@ -184,13 +184,13 @@ export class JPDialogueScene2 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "#####",
-                text: "On ne fait que passer du bon temps ensemble, pas vrai ?",
+                speakerName: "speaker.v",
+                text: "2.v6",
                 images: null,
             },
             {
-                speakerName: "JP",
-                text: "OUVRE LES YEUX, ##### ! BAUK N'EST PAS ET NE SERA JAMAIS-",
+                speakerName: "speaker.jp",
+                text: "2.jp7",
                 images: [
                     {
                         textureKey: "Kxcrt",
@@ -215,8 +215,8 @@ export class JPDialogueScene2 extends JPDialogueSceneBase {
                 ],
             },
             {
-                speakerName: "#####",
-                text: "Ne t'avise même pas de prononcer son nom.",
+                speakerName: "speaker.v",
+                text: "2.v8",
                 images: [],
             },
         ]
