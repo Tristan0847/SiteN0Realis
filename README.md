@@ -16,22 +16,14 @@ Le dernier pardon, le renoncement originel.
 ## Description du Projet
 
 Ce projet Next.js en comprend 3 différents regroupés sous le même nom de domaine (https://BlogVacare.com) : 
-* [Blog Vacare](./Documentation/BlogVacare/Architecture.md) : Page de blogs multi-utilisateurs, divisée en un [projet back-end](./src/BlogVacare/backend/), un [projet front-end](./src/BlogVacare/frontend/) et un [projet partagé](./src/BlogVacare/shared/)
-* [Wiki / Oeil de l'Occulte](./Documentation/Wiki/Architecture.md) : Site de lecture d'articles rédigés au format MDX au préalable
-* [Rats](./Documentation/Rats/Architecture.md) : Site des Rats de N0Realis
+* [Blog Vacare](./Documentation/BlogVacare.md) : Page de blogs multi-utilisateurs, divisée en un [projet back-end](./src-back/) et un [projet front-end](./src/BlogVacare/)
+* [Wiki / Oeil de l'Occulte](./Documentation/OeilDeLocculte.md) : Site de lecture d'articles rédigés au format MDX au préalable
+* [Rats](./Documentation/Rats.md) : Site des Rats de N0Realis
+* [Neant](./Documentation/0.md) : Site hébergeant un moteur de jeux et différentes implémentations
 * CR : À venir
 
-# Index de documentation
 
-[Guide d'installation du projet entier et index des commandes](./Documentation/GuideInstallation.md)
+## Documentation
 
-Documentation et guides des projets :
-- **Documentation Blog de Vacare** :
-  * [Architecture Blog Vacare](./Documentation/BlogVacare/Architecture.md)
-  * [Guide d'installation du Blog de Vacare](./Documentation/BlogVacare/GuideInstallation.md)
-  * [Guide d'utilisation du Blog de Vacare](./Documentation/BlogVacare/GuideUtilisation.md)
-  * [Guide d'utilisation de l'API du Blog de Vacare](./Documentation/BlogVacare/GuideAPI.md)
-  * [Configuration MySQL](./Documentation/BlogVacare/BDD/MySQL.md) ~ [Tests unitaires MySQL](./Documentation/BlogVacare/BDD/TestsUnitairesMySQL.md)
-- **Documentation Oeil de l'Occulte** :
-  * [Architecture du Wiki](./Documentation/Wiki/Architecture.md)
-  * [Guide d'utilisation](./Documentation/Wiki/GuideUtilisation.md)
+* [Architecture Globale du Monorepo](./Documentation/ArchitectureGlobale.md) : structure de la racine, configuration partagée, panorama des sous-projets et du back-end
+* [Guide d'installation du projet](Documentation/ArchitectureGlobale.md) : lancement individuel de chaque projet et export global (`npm run export:all`)

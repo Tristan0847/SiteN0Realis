@@ -1,15 +1,31 @@
+# Architecture de l'Oeil de l'Occulte
+
+__**Site 100% Front-End, utilisant du contenu MDX généré automatiquement**__
+- **[app](../src/Wiki/app/)** : Pages et routes Next.js (assemblage UI à partir des components)
+- **[components](../src/Wiki/components/)** : Composants UI visuels de mise en forme des données d'articles importés
+- **[contenu/articles](../src/Wiki/contenu/articles)** : Articles MDX importés par le site
+- **[contenuPages](../src/Wiki/contenuPages/)** : Contenu visuel des pages (composants client gérant l'affichage et l'assemblage de composants)
+- **[model](../src/Wiki/model/)** : Couche de classes logiques de l'application
+- **[utils](../src/Wiki/utils/)** : Helpers réutilisables (recherche et récupération d'articles par filtrage)
+- **[scripts](../src/Wiki/scripts/)** : Script d'initialisation de l'application (génération de l'index de recherche, ...)
+- **[contentlayer.config.ts](../src/Wiki/contentlayer.config.ts)** : Script de récupération des données récupérées dans les fichiers MDX
+-
+- **[public/assets](../src/Wiki/public/assets/)** : Images, sons, vidéos, ... contenu statique du site
+- **[public/data](../src/Wiki/public/data/)** : Données utilisées par le site (index de recherche, ...)
+- **[styles](../src/Wiki/styles/)** : CSS, XCSS, ...
+
 # Initialisation du projet
 
-Le projet "Oeil de l'Occulte" est purement statique et n'utilise que des données enregistrées localement dans des fichiers MDX, il ne nécessite donc aucune configuration préalable. 
+Le projet "Oeil de l'Occulte" est purement statique et n'utilise que des données enregistrées localement dans des fichiers MDX, il ne nécessite donc aucune configuration préalable.
 
 [Pour en savoir plus de l'architecture du projet](./Architecture.md)
 
 # Création d'articles
 
-Les articles sont à créer sous forme de fichiers MDX (format Markdown avec possibilité d'inclure des balises JSX) dans le dossier [contenu/articles](../../src/Wiki/contenu/articles) (créez-le s'il n'existe pas déjà). Ces derniers sont automatiquement récupérés par l'application à son lancement et affichés dans la liste des articles du Wiki.
+Les articles sont à créer sous forme de fichiers MDX (format Markdown avec possibilité d'inclure des balises JSX) dans le dossier [contenu/articles](../src/Wiki/contenu/articles) (créez-le s'il n'existe pas déjà). Ces derniers sont automatiquement récupérés par l'application à son lancement et affichés dans la liste des articles du Wiki.
 
 **Attention à bien définir les fins de ligne des fichiers en LF (Unix) et non en CRLF (Windows), sous peine de rencontrer des erreurs lors de la lecture des fichiers.**
-L'erreur suivante pourrait apparaître si cela n'est pas respecté, même si le reste de la syntaxe du document est valide : 
+L'erreur suivante pourrait apparaître si cela n'est pas respecté, même si le reste de la syntaxe du document est valide :
 ```
 Warning: Found 1 problems in 1 documents.
 
@@ -22,7 +38,7 @@ Warning: Found 1 problems in 1 documents.
 
 ## Frontmapper YAML
 
-Chaque article doit commencer par un "frontmatter" YAML, permettant de définir des métadonnées sur l'article. Voici un exemple de frontmatter minimal : 
+Chaque article doit commencer par un "frontmatter" YAML, permettant de définir des métadonnées sur l'article. Voici un exemple de frontmatter minimal :
 
 ```yaml
 ---
@@ -64,7 +80,7 @@ infobox:
 
 Chacun des champs remplis sert à être réutilisé dans l'affichage de l'article (l'infobox, ses relations, son slug pour définir l'URL, etc.) et d'autres serviront également à classer l'article selon une recherche, ou à lier des articles entre eux sur les graphes de connaissances.
 
-Pour expliquer chacun des champs de cet article utilisé à titre d'exemple : 
+Pour expliquer chacun des champs de cet article utilisé à titre d'exemple :
 * 'titre' : Le titre complet de l'article.
 * 'slug' : Le slug (identifiant unique) de l'article, utilisé pour générer son URL (ici, le slug "tour-d-aggee" génèrera l'URL "/article/tour-d-aggee").
 * 'dateCreation' : La date de création de l'article (format YYYY-MM-DD).
@@ -75,21 +91,21 @@ Pour expliquer chacun des champs de cet article utilisé à titre d'exemple :
 * 'slugSousCategorie' (facultatif) : Le slug de la sous-catégorie, utilisé pour générer l'URL de la sous-catégorie.
 * **'cache' (facultatif, false par défaut) : Permet de définir si un article doit être caché ou non sur le site (il peut apparaître dans les articles aléatoires, peut être l'un de ceux affiché sur la page d'accueil, mais n'est pas disponible à la recherche, à la navigation par catégorie, ou par le graphe de connaissances global de l'application).**
 * 'tags' : Une liste de tags associés à l'article, utilisés pour une recherche par mots clefs.
-* 'relations' : Une liste de relations explicites entre cet article et d'autres articles du Wiki, permettant de créer des liens entre eux. Chaque relation contient : 
-  * 'slug' : Le slug de l'article lié.
-  * 'type' : Le type de relation (ex: "Se situe à", "Créé par", etc.).
-  * 'force' : Un entier représentant la force de la relation (plus le nombre est élevé, plus la relation est forte, ce qui se traduit sur le graphe de connaissance par une flèche plus ou moins épaisse).
-  * 'bidirectionel' : Un booléen indiquant si la relation est bidirectionnelle ou non.
-  * 'description' : Une description textuelle de la relation (affichée en bas de page si la section "Voir aussi" est renseignée).
-* 'infobox' : Un objet contenant les informations à afficher dans l'infobox de l'article. Contient : 
-  * 'type' (facultatif) : Le type d'infobox (ex: "Lieu", "Personnage", etc.), utilisé pour déterminer le style de l'infobox.
-  * 'image' (facultatif) : Le chemin vers une image à afficher dans l'infobox.
-  * 'soustitreImage' (facultatif) : Un sous-titre à afficher sous l'image.
-  * 'champs' : Une liste de champs personnalisés à afficher dans l'infobox, chaque champ contenant : 
-    * 'label' : Le label du champ (ex: "Nom complet", "Date de naissance", etc.).
-    * 'valeur' : La valeur associée au label. Peut être une liste dont les éléments sont des objets (voir exemple ci-dessous).
+* 'relations' : Une liste de relations explicites entre cet article et d'autres articles du Wiki, permettant de créer des liens entre eux. Chaque relation contient :
+    * 'slug' : Le slug de l'article lié.
+    * 'type' : Le type de relation (ex: "Se situe à", "Créé par", etc.).
+    * 'force' : Un entier représentant la force de la relation (plus le nombre est élevé, plus la relation est forte, ce qui se traduit sur le graphe de connaissance par une flèche plus ou moins épaisse).
+    * 'bidirectionel' : Un booléen indiquant si la relation est bidirectionnelle ou non.
+    * 'description' : Une description textuelle de la relation (affichée en bas de page si la section "Voir aussi" est renseignée).
+* 'infobox' : Un objet contenant les informations à afficher dans l'infobox de l'article. Contient :
+    * 'type' (facultatif) : Le type d'infobox (ex: "Lieu", "Personnage", etc.), utilisé pour déterminer le style de l'infobox.
+    * 'image' (facultatif) : Le chemin vers une image à afficher dans l'infobox.
+    * 'soustitreImage' (facultatif) : Un sous-titre à afficher sous l'image.
+    * 'champs' : Une liste de champs personnalisés à afficher dans l'infobox, chaque champ contenant :
+        * 'label' : Le label du champ (ex: "Nom complet", "Date de naissance", etc.).
+        * 'valeur' : La valeur associée au label. Peut être une liste dont les éléments sont des objets (voir exemple ci-dessous).
 
-Pour mieux saisir certaines particularités des fichiers YAML, voici un second exemple autrement plus complet : 
+Pour mieux saisir certaines particularités des fichiers YAML, voici un second exemple autrement plus complet :
 
 ```yaml
 ---
@@ -167,7 +183,7 @@ Cette structure permet de représenter les relations familiales entre différent
 
 ## Contenu de l'article
 
-L'article en lui-même s'écrit donc sous forme de Markdown classique, avec la possibilité d'inclure des balises JSX si nécessaire. Voici un exemple simple de contenu d'article : 
+L'article en lui-même s'écrit donc sous forme de Markdown classique, avec la possibilité d'inclure des balises JSX si nécessaire. Voici un exemple simple de contenu d'article :
 
 ```mdx
 
@@ -212,7 +228,7 @@ La particularité du format MDX réside donc dans l'ajout de balises JSX permett
 * `<Center>...</Center>` : Permet de centrer le contenu à l'intérieur.
 * `<ArticlesLies relations={...} />` : Permet d'afficher une section "Voir aussi" avec les articles liés, en utilisant les relations définies dans le frontmatter.
 
-Vous retrouverez tous les composants disponibles dans le script [MDXContent](../../src/Wiki/components/mdx/MDXContent.tsx) les important.
+Vous retrouverez tous les composants disponibles dans le script [MDXContent](../src/Wiki/components/mdx/MDXContent.tsx) les important.
 
 # Utilisation du site
 
