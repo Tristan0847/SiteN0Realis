@@ -14,7 +14,13 @@ export default function ArticleAleatoire() {
 
     useEffect(() => {
         const randomIndex = Math.floor(Math.random() * allArticles.length);
-        router.replace(`/article/${allArticles[randomIndex].slug}`);
+        const slug = allArticles[randomIndex].slug;
+
+        const timer = setTimeout(() => {
+            router.replace(`/article/${slug}`);
+        }, 847);
+
+        return () => clearTimeout(timer);
     }, []);
 
     return (<PageOeilOcculte />);

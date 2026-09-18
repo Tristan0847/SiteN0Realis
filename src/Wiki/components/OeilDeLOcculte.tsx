@@ -55,6 +55,9 @@ export default function OeilDeLOcculte({ mode = "normal", couleur = "rouge", tai
 
     // Calcul de la taille du cotneneur pour les déplacements de l'iris
     useEffect(() => {
+        const el = containerRef.current;
+        if (!el) return;
+
         const updateTaille = () => {
             if (containerRef.current) {
                 const rect = containerRef.current.getBoundingClientRect();
@@ -63,8 +66,12 @@ export default function OeilDeLOcculte({ mode = "normal", couleur = "rouge", tai
         }
 
         updateTaille();
-        window.addEventListener("resize", updateTaille);
-        return () => window.removeEventListener("resize", updateTaille);
+        const observer = new ResizeObserver(() => {
+            updateTaille();
+        });
+        observer.observe(el);
+
+        return () => observer.disconnect();
     }, []);
     
     // Calcul de l'espace de déplacement en fonction de la taille de l'iris

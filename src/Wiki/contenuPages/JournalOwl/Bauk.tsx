@@ -1,4 +1,5 @@
 import {BaseJournalOwl} from "@Wiki/contenuPages/JournalOwl/JournalBase";
+import Link from "next/link";
 
 
 /**
@@ -18,6 +19,11 @@ export function JournalBauk() {
             <p>Je ne veux pas croire qu'il ait pu orchestrer une telle rencontre depuis plusieurs mois... Qu'en penses-tu, de ton côté, Ant ?</p>
             <br/><br/>
             <p className="text-right">Owl, 09/08/2009</p>
+
+            <Link href="../../journal-d-anti-r/bauk/" className="text-gray-200 hover:text-gray-400 text-lg mt-4 inline-block">
+                ▶ Réponse d'AntiR
+            </Link>
+            <br/>
         </>}
         />
     );

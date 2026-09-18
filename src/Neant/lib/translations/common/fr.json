@@ -1,0 +1,27 @@
+{
+    "join": "Rejoindre",
+    "settings": {
+        "title": "Paramètres",
+        "lang_selection": "Sélection",
+        "fr": "Français",
+        "en": "English",
+        "fullscreen": "Plein écran",
+        "restart_on_save": "Redémarrer la scène courante pour charger les nouvelles traductions",
+        "audio": {
+            "music": "Musiques",
+            "voices": "Voix",
+            "sfx": "Effets",
+            "void": "Vide"
+        }
+    },
+    "reset_progress": "Réinitialiser votre\nprogression",
+    "pause": {
+        "title": "Pause",
+        "resume": "Reprendre"
+    },
+    "game_over": "GAME OVER",
+    "restart": "Recommencer",
+    "quit": "Quitter",
+    "save_and_quit": "Sauvegarder et quitter",
+    "cancel": "Annuler"
+}

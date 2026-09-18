@@ -1,3 +1,24 @@
+# [4.0.0] Moteur de Jeux du Néant - 18/09/2026
+
+## Nouveau projet 
+
+* Ajout du sous-projet Front-end **Néant**
+* Implémentation du moteur de jeu Phaser 
+  * Système de templates de scènes
+  * Paramétrages du jeu (bus audio, langages, plein écran)
+  * Sauvegardes en cookies
+* Mode Shooter ajouté
+
+## Fixs et améliorations
+
+* Mise à jour visuelle d'AVOS Community
+* Fix Oeil de l'Occulte parfois figé
+
+## Documentation
+
+* Mise à jour de la documentation du projet global
+* Ajout d'un script d'export du site entier ```npm run export:all```
+
 # [3.1.0] AVOS Community - 21/07/2026
 
 ## Ajouté au Blog de Vacare

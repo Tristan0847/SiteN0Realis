@@ -9,6 +9,7 @@
         "build:export": "npm run export:data && node scripts/setBuildMode.js export && next build",
         "start": "next start -p 3002",
         "export": "next export",
+
         "lint": "eslint"
     },
     "dependencies": {

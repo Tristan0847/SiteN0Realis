@@ -1,0 +1,29 @@
+{
+    "name": "neant",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start -p 3847",
+        "export": "next export",
+        "lint": "eslint"
+    },
+    "dependencies": {
+        "cookies-next": "*",
+        "phaser": "*",
+        "react": "*",
+        "react-dom": "*",
+        "next": "*",
+        "lib": "*"
+    },
+    "devDependencies": {
+        "typescript": "*",
+        "@types/react": "*",
+        "@types/react-dom": "*",
+        "@types/node": "*",
+        "@tailwindcss/postcss": "*",
+        "tailwindcss": "*",
+        "autoprefixer": "*"
+    }
+}

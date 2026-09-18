@@ -1,7 +1,7 @@
 "use client";
 
-import FondResonance from "@BlogsFront/components/FondResonances";
-import {TypeConfigResonance} from "@BlogsFront/utils/Resonances/ResonanceConfig";
+import FondResonance from "lib/components/FondResonances";
+import {TypeConfigResonance} from "lib/utils/Resonances/ResonanceConfig";
 import {useEffect, useState} from "react";
 
 

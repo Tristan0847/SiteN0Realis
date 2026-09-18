@@ -26,14 +26,14 @@ interface PostListProps {
  */
 export function PostList({blogs, fetchNextPage, hasNextPage, loading, titre, messageChargement = "Chargement des blogs", lienMedias = ""} : PostListProps) {
 
-    return (<div className="flex flex-col border-2 border-double border-yellow-700 shadow-lg bg-yellow-200/70 rounded-xl p-4 min-w-full">
-        <h2 className="text-2xl font-bold mb-4">
+    return (<div className="flex flex-col border-2 border-double border-yellow-700 shadow-lg bg-yellow-200/70 rounded-xl p-4 min-w-0 w-full">
+        <h2 className="text-2xl font-bold mb-4 break-words">
             {titre || "Liste de blogs"}
         </h2>
-        <div className="mx-auto">
-            {blogs && blogs.map((blog) => {
-                return <Post key={blog.id} blog={blog} lienMedias={lienMedias} />
-            })}
+        <div className="flex flex-col items-center w-full min-w-0 gap-4">
+            {blogs && blogs.map((blog) => (
+                <Post key={blog.id} blog={blog} lienMedias={lienMedias} />
+            ))}
         </div>
         {hasNextPage && fetchNextPage && (loading !== undefined) && (
             <BoutonCommunaute onClick={fetchNextPage} disabled={loading} />

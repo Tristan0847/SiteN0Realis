@@ -1,0 +1,113 @@
+{
+    "title": "\"JP, is everything alright ?\"",
+    "description": "Devil, Devil, will this be your routine ?\nYour wicked river, you shall burry.\nThe Devil, Devil, brought about ruin\nFrom the piercing darkness, he sought to shatter.",
+    "end": "How does this memory end ?",
+    "dialog": {
+        "speaker": {
+            "jp": "JP",
+            "v": "#####",
+            "bauk": "Kangou-Man",
+            "ant": "the ant",
+            "s": "????",
+            "m": "?",
+            "danger": "!",
+            "jpjr": "???"
+        },
+        "0": {
+            "1": "Inevitably, we were bound to meet again.",
+            "2": "We would like to present a Memento to you.",
+            "3": "Shall you be able to read it through to the end?"
+        },
+        "1": {
+            "jp1": "#####, why did you bring me here?",
+            "v2": "So you could meet my friend!",
+            "b3": "Hey JP! I've heard a lot about you, apparently, we're gonna be thick as thieves!",
+            "jp4": "#####, I don't want to..."
+        },
+        "2": {
+            "b1": "Just imagine that! The trip of a lifetime, from France to Australia!",
+            "2": "...",
+            "v3": "Can you believe it? That good old Bauk is quite the rascal!",
+            "jp4": "#####, stop, cut it out, damn it, don't you think I see right through your game?!",
+            "v5": "Easy, easy, what could I possibly have done to deserve such an outburst?",
+            "v6": "We're just having a good time together, right?",
+            "jp7": "OPEN YOUR EYES, ##### ! BAUK IS NOT AND WILL NEVER BE-",
+            "v8": "Don't you even dare say his name."
+        },
+        "3": {
+            "1": "...",
+            "v2": "Hey ! Did you know that kang-",
+            "jp3": "You've got to be kidding me! What exactly are you after?",
+            "jp4": "I talk and talk and talk, I even started a conversation or two, and all for what?",
+            "jp5": "We'll never get him back, it's over #####, just move on already.",
+            "v6": "That's totally unrelated, I have no idea what you're talking about - whatever it was, it must have happened a loooong time ago.",
+            "jp7": "Oh yeah? Totally forgotten, nothing left?",
+            "v8": "Nothing, nada, finito! Onward to the future, let the past rest in peace!",
+            "jp9": "Oh really? So what does the \"S\" in AVOS stand for?"
+        },
+        "4": {
+            "b1": "If I have a population of 2,300 different kangaroos in a given, isolated area, what's the probability that I'll find an opponent who's my equal?",
+            "b2": "Any ideas, JP?",
+            "jp3": "No, I have no fucking idea, you stop that too!",
+            "b4": "Stop what? Is everything okay?",
+            "jp5": "Exactly! That! Do you think you're better than us?",
+            "jp6": "I don't know how you can mimic him that well, you're definitely doing it on purpose, no way",
+            "jp7": "You're too cheerful, too friendly, you're perfect, huh? Is that right?",
+            "jp8": "You've gotta be a real LOWLIFE to make fun of him that way. He never asked to leave, he didn't have a choice.",
+            "b9": "What on earth are you talking about?! It's probably just a huge misunderstanding, I can't see where you're going with this!",
+            "a10": "Let's call it a night. I guess everyone has bad days, but that's no reason to take it out on others",
+            "a11": "I'm locking the blog. Have a nice and peaceful night, kids, and tomorrow you'll go apologize"
+        },
+        "5": {
+            "v1": "Listen, I'm really sorry but I see what you were getting at...",
+            "jp2": "Right, and what kind of line are you going to pull on me this time? That there's no resemblance between them?",
+            "v3": "No, that's exactly it! I get it now, and that bothers me even more... Do you think he's doing it on purpose?",
+            "jp4": "Are you shitting me? Of course he's doing it on purpose, after you've probably been showing him his whole life to make the resemblance stand out!",
+            "v5": "Come on! I should be the one making those accusations!",
+            "jp6": "So... neither of us filled him in? Who is it, exactly? A coincidence that big can't be real",
+            "v7": "He came to me when the site first launched to sign up... Do you think he knew from the start?"
+        },
+        "6": {
+            "b1": "What a fight, huh? That guy didn't stand a chance against the upcoming winner of a once-in-a-lifetime fight!",
+            "jp2": "Hahaha, yeah, he seemed happy to know he was up against a beginner until he saw you show up.",
+            "jp3": "THAT'S when reality hit him!",
+            "b4": "Hey, JP, can I ask you something...? The other day, when you said some weird things about being Mister Perfect...",
+            "b5": "I've been thinking about it a lot, and I'm sorry if it made you feel uncomfortable like that, I didn't mean to",
+            "b6": "I know I love being the center of attention, I can't help it. Sometimes I get a little too carried away with it, it goes to my head, and I stop paying attention to what's going on around me.",
+            "b7": "But then again, I'm getting a little carried away! I just have one question for you.",
+            "b8": "JP, is everything alright? If you need someone to talk to, know that I'm here",
+            "9": "JP, is everything alright?",
+            "s10": "JP, sure you're okay, man? If you need me, I'm not going anywhere, always here to help!",
+            "11": "JP, sure you're okay, man?",
+            "m12": "Is everything going well at home? Here, you can talk about it, no matter what they tell you back there.",
+            "13": "Is everything going well at home?",
+            "d14": "'You trying to land me in DEEP SHIT? Is that it?",
+            "d15": "Don't you think they already know? As if you needed to pile on ANOTHER LAYER of self-pity!",
+            "b16": "JP ? Are you still with me?",
+            "d17": "Next time you pull a stunt like that and start getting all sentimental, I swear...",
+            "jp18": "I'll gut you myself."
+        },
+        "7": {
+            "jp1": "Get lost, #####, I know what you wanted, I didn't do it",
+            "v2": "Didn't do it? Didn't do what? You did go to Bauk's game, right?",
+            "jp3": "Yeah, and I know what feelings you wanted that to bring out in me, it didn't work, and it never will!",
+            "jp4": "I'd like to wish you all the best...",
+            "jp5": "But I think, above all, I hope you find the help you need to get over his departure."
+        },
+        "8": {
+            "jp1": "Go for it, the camera's rolling! It's finally time for you to do it!",
+            "jp2": "I believe in you, Bauk, I know you've got this!"
+        },
+        "9": {
+            "jpjr1": "Dad, Dad, the school party, can we go, can we?!",
+            "jp2": "Is that even a question?",
+            "jp3": "Of course we're going!",
+            "jp4": "Lemme just let Uncle Ed know, he told me he was waiting for the go-ahead so I could invite him!"
+        },
+        "10": {
+            "1": "You have reached the end of this Memento.",
+            "2": "Its ending is different. You changed it by discovering a path known to none.",
+            "3": "Was breaking the cycle, hypothetically, dependent on nothing more than this simple choice?"
+        }
+    }
+}

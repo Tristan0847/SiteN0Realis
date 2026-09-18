@@ -43,7 +43,7 @@ export function ComposantFichier({ fichier }: { fichier: FichierAbstract }) {
                                     <br />
                                     <p className="text-center">-----------------------------</p>
                                     <br />
-                                    <p>{fichier.getDescription()}</p>
+                                    <span>{fichier.getDescription()}</span>
                                 </>
                             )}
                         </div>

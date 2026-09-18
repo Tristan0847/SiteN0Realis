@@ -3,18 +3,15 @@
     "version": "0.1.0",
     "private": true,
     "workspaces": [
+        "src/Rats",
+        "src/Neant",
         "src/BlogVacare",
         "src/CR",
         "src/Wiki",
         "src/lib"
     ],
     "scripts": {
-        "build:BlogVacare": "npm run build --workspace src/BlogVacare/backend && npm run build --workspace src/BlogVacare/frontend",
-        "start:BlogVacare": "concurrently \"npm run start --workspace src/BlogVacare/backend\" \"npm run start --workspace src/BlogVacare/frontend\"",
-        "dev:BlogVacare": "concurrently \"npm run dev --workspace src/BlogVacare/backend\" \"npm run dev --workspace src/BlogVacare/frontend\"",
-        "build:all": "npm run build --workspace src/BlogVacare/backend && npm run build --workspace src/BlogVacare/frontend && npm run build --workspace src/Wiki",
-        "start:all": "concurrently \"npm run start --workspace src/BlogVacare/backend\" \"npm run start --workspace src/BlogVacare/frontend\" \"npm run start --workspace src/Wiki\"",
-        "dev:all": "concurrently \"npm run dev --workspace src/BlogVacare/backend\" \"npm run dev --workspace src/BlogVacare/frontend\" \"npm run dev --workspace src/Wiki\""
+        "export:all": "node scripts/exportAll.js"
     },
     "dependencies": {
         "@dagrejs/dagre": "^1.1.8",
@@ -38,6 +35,7 @@
         "mysql2": "^3.15.1",
         "next": "15.5.3",
         "next-contentlayer2": "^0.5.8",
+        "phaser": "^4.2.1",
         "react": "19.1.0",
         "react-dom": "19.1.0",
         "react-markdown": "^10.1.0",

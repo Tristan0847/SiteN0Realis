@@ -18,7 +18,7 @@ interface ReponseProps {
 export function Reponse({message, lienMedias = ""} : ReponseProps) {
 
     return (
-        <article className="w-5xl border-4 border-stone-900 bg-stone-200 p-4 text-stone-900 shadow-[6px_6px_0_0_#1c1917]">
+        <article className="max-w-5xl border-4 border-stone-900 bg-stone-200 p-4 text-stone-900 shadow-[6px_6px_0_0_#1c1917]">
             <PostHead nomUtilisateur={message.nom_utilisateur} datePublication={message.date_publication}/>
 
             <ReactMarkdownElement className="mt-4 border-2 border-stone-400 bg-stone-100 px-3 py-3 text-sm leading-6 shadow-inner">
