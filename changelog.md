@@ -1,82 +1,82 @@
-# [4.0.0] Moteur de Jeux du Néant - 18/09/2026
+# [0.6] Moteur de Jeux du Néant - 18/09/2026
 
 ## Nouveau projet 
 
 * Ajout du sous-projet Front-end **Néant**
-* Implémentation du moteur de jeu Phaser 
-  * Système de templates de scènes
-  * Paramétrages du jeu (bus audio, langages, plein écran)
-  * Sauvegardes en cookies
-* Mode Shooter ajouté
+  * Implémentation du moteur de jeu Phaser 
+    * Système de templates de scènes
+    * Paramétrages du jeu (bus audio, langages, plein écran)
+    * Sauvegardes en cookies
+  * Mode Shooter ajouté
 
 ## Fixs et améliorations
 
 * Mise à jour visuelle d'AVOS Community
-* Fix Oeil de l'Occulte parfois figé
+  * Fix Oeil de l'Occulte parfois figé
 
 ## Documentation
 
 * Mise à jour de la documentation du projet global
-* Ajout d'un script d'export du site entier ```npm run export:all```
+  * Ajout d'un script d'export du site entier ```npm run export:all```
 
-# [3.1.0] AVOS Community - 21/07/2026
+# [0.5] AVOS Community - 21/07/2026
 
 ## Ajouté au Blog de Vacare
 
 * AVOS Community 
-* Base de données restructurée
-* Ajout de médias aux posts
+  * Base de données restructurée
+  * Ajout de médias aux posts
 
 ## Refactoring
 
 * Back-end du blog passé sous Laravel
 
-# [3.0] Le Trou à Rats - 26/03/2026
+# [0.4] Le Trou à Rats - 26/03/2026
 
 ## Ajout du Site des Rats
 
 * Dossiers des Rats
 
-# [2.1.0] Gke8j4ln A4phf4p - 08/01/2026
+# [0.3] Gke8j4ln A4phf4p - 08/01/2026
 
 ## Ajouté au Blog de Vacare
 
 * Message de la part de Vacare
-* Décompte du Gke8j4ln A4phf4p
+  * Décompte du Gke8j4ln A4phf4p
 
-# [2.0.0] L'Oeil de l'Occulte - 28/12/2025
+# [0.2] L'Oeil de l'Occulte - 28/12/2025
 
 ## Ajouté
 
 * Projet Oeil de l'Occulte sous le dossier "src/Wiki"
-* Articles MDX :
-  * Lecture et écriture des fichiers
-  * Utilisation du frontmapper pour une recherche optimisée d'articles
-* Graphe de connaissance (React Flow)
-* Recherche optimisée (Fuse.js)
-* Animation d'oeil de l'Occulte
+  * Articles MDX :
+    * Lecture et écriture des fichiers
+    * Utilisation du frontmapper pour une recherche optimisée d'articles
+  * Graphe de connaissance (React Flow)
+  * Recherche optimisée (Fuse.js)
+  * Animation d'oeil de l'Occulte
 
 ## Optimisations Blog de Vacare
 
 * Ajout de la page du Nouvel An
-* Correction du statut de connexion en mode export
+  * Correction du statut de connexion en mode export
 
-# [1.0.0] Le Blog de Vacare - 03/11/2025
+# [0.1] Le Blog de Vacare - 03/11/2025
 
 ## Ajouté
 - Blog de Vacare (3 projets en un : backend, frontend, shared)
-- Connexion et interactions avec une Base De Données MySQL
-- Système d'authentification JWT sécurisée
-- Gestion de dossiers, blogs, messages
-  - Suppression de ces derniers avec raisons
-  - Affichage selon le rôle ou le mode de vue du site
-- Mode rétro (/old) et moderne avec code partagé
-- Animation de résonances
-- Export HTML statique
-- Tests unitaires vitest
+  - Connexion et interactions avec une Base De Données MySQL
+  - Système d'authentification JWT sécurisée
+  - Gestion de dossiers, blogs, messages
+    - Suppression de ces derniers avec raisons
+    - Affichage selon le rôle ou le mode de vue du site
+  - Mode rétro (/old) et moderne avec code partagé
+  - Animation de résonances
+  - Export HTML statique
+  - Tests unitaires vitest
   
 ## Sécurité
 - Cookies httpOnly
-- Hachage bcrypt
-- Middleware d'authentification
-- Validation des entrées
+  - Hachage bcrypt
+  - Middleware d'authentification
+  - Validation des entrées
